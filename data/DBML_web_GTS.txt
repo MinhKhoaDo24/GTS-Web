@@ -1,0 +1,489 @@
+// ==========================================
+// I. PRODUCT CATALOG (19 BẢNG)
+// ==========================================
+
+Table brands {
+  id varchar [pk]
+  name varchar
+  slug varchar
+  logo varchar
+  website varchar
+  description text
+  country varchar
+  is_active boolean
+  sort_order int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table domains {
+  id varchar [pk]
+  name varchar
+  slug varchar
+  description text
+  image varchar
+  icon varchar
+  sort_order int
+  is_active boolean
+}
+
+Table product_families {
+  id varchar [pk]
+  brand_id varchar
+  domain_id varchar
+  name varchar
+  slug varchar
+  description text
+  image varchar
+  sort_order int
+  is_active boolean
+}
+
+Table categories {
+  id varchar [pk]
+  domain_id varchar
+  parent_id varchar
+  name varchar
+  slug varchar
+  description text
+  sort_order int
+  is_active boolean
+}
+
+Table products {
+  id varchar [pk]
+  brand_id varchar
+  domain_id varchar
+  family_id varchar
+  category_id varchar
+  name varchar
+  slug varchar
+  model varchar
+  short_description text
+  description text
+  product_type varchar
+  status varchar
+  release_date date
+  eol_date date
+  thumbnail varchar
+  is_featured boolean
+  is_active boolean
+  seo_title varchar
+  seo_description varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table product_variants {
+  id varchar [pk]
+  product_id varchar
+  sku varchar
+  pid varchar
+  model_number varchar
+  part_number varchar
+  variant_name varchar
+  region varchar
+  color varchar
+  bundle varchar
+  specifications_summary text
+  status varchar
+  notes text
+  is_active boolean
+}
+
+Table specification_groups {
+  id varchar [pk]
+  name varchar
+  slug varchar
+  description text
+  sort_order int
+  is_active boolean
+}
+
+Table specifications {
+  id varchar [pk]
+  group_id varchar
+  name varchar
+  slug varchar
+  data_type varchar
+  unit varchar
+  description text
+  is_filterable boolean
+  is_searchable boolean
+  sort_order int
+  is_active boolean
+}
+
+Table specification_options {
+  id varchar [pk]
+  specification_id varchar
+  value varchar
+  label varchar
+  sort_order int
+  is_active boolean
+}
+
+Table product_specifications {
+  id varchar [pk]
+  product_id varchar
+  specification_id varchar
+  value_number decimal
+  value_text text
+  value_boolean boolean
+  value_json json
+  min_value decimal
+  max_value decimal
+  unit_override varchar
+  notes text
+}
+
+Table specification_aliases {
+  id varchar [pk]
+  specification_id varchar
+  brand_id varchar
+  alias varchar
+  notes text
+}
+
+Table platforms {
+  id varchar [pk]
+  name varchar
+  slug varchar
+  type varchar
+  description text
+  logo varchar
+  website varchar
+  is_active boolean
+}
+
+Table product_platforms {
+  id varchar [pk]
+  product_id varchar
+  platform_id varchar
+  support_type varchar
+  version varchar
+  notes text
+}
+
+Table use_cases {
+  id varchar [pk]
+  domain_id varchar
+  parent_id varchar
+  name varchar
+  slug varchar
+  description text
+  sort_order int
+  is_active boolean
+}
+
+Table product_use_cases {
+  id varchar [pk]
+  product_id varchar
+  use_case_id varchar
+  suitability varchar
+  notes text
+}
+
+Table product_relationships {
+  id varchar [pk]
+  product_id varchar
+  related_product_id varchar
+  relationship_type varchar
+  notes text
+}
+
+Table documents {
+  id varchar [pk]
+  product_id varchar [null]
+  title varchar
+  document_type varchar
+  url varchar
+  file_path varchar
+  version varchar
+  language varchar
+  description text
+  published_date date
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table product_images {
+  id varchar [pk]
+  product_id varchar
+  image_url varchar
+  image_path varchar
+  image_type varchar
+  alt_text varchar
+  sort_order int
+  is_primary boolean
+}
+
+Table product_lifecycle {
+  id varchar [pk]
+  product_id varchar
+  status varchar
+  announcement_date date
+  end_of_sale_date date
+  last_ship_date date
+  end_of_support_date date
+  replacement_product_id varchar
+  notes text
+}
+
+
+// ==========================================
+// II. WEBSITE / CMS (13 BẢNG)
+// ==========================================
+
+Table admin_users {
+  id varchar [pk]
+  name varchar
+  email varchar
+  password_hash varchar
+  is_active boolean
+  last_login_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pages {
+  id varchar [pk]
+  parent_id varchar [null]
+  title varchar
+  slug varchar
+  page_type varchar
+  content text
+  thumbnail varchar
+  banner varchar
+  seo_title varchar
+  seo_description varchar
+  sort_order int
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table site_settings {
+  id varchar [pk]
+  key varchar
+  value text
+  type varchar
+  description text
+  is_active boolean
+  updated_at timestamp
+}
+
+Table contents {
+  id varchar [pk]
+  type varchar
+  category varchar
+  title varchar
+  slug varchar
+  summary text
+  content text
+  thumbnail varchar
+  banner varchar
+  mobile_image varchar
+  link_url varchar
+  button_text varchar
+  author varchar
+  published_at timestamp
+  start_at timestamp
+  end_at timestamp
+  sort_order int
+  is_featured boolean
+  is_active boolean
+  seo_title varchar
+  seo_description varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table solutions {
+  id varchar [pk]
+  domain_id varchar
+  name varchar
+  slug varchar
+  short_description text
+  description text
+  thumbnail varchar
+  banner varchar
+  sort_order int
+  is_featured boolean
+  is_active boolean
+  seo_title varchar
+  seo_description varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table solution_products {
+  id varchar [pk]
+  solution_id varchar
+  product_id varchar
+  role varchar
+  notes text
+  sort_order int
+}
+
+Table services {
+  id varchar [pk]
+  name varchar
+  slug varchar
+  short_description text
+  description text
+  thumbnail varchar
+  banner varchar
+  icon varchar
+  sort_order int
+  is_featured boolean
+  is_active boolean
+  seo_title varchar
+  seo_description varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table customers {
+  id varchar [pk]
+  name varchar
+  slug varchar
+  logo varchar
+  website varchar
+  industry varchar
+  description text
+  address varchar
+  is_featured boolean
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table partners {
+  id varchar [pk]
+  brand_id varchar [null]
+  name varchar
+  slug varchar
+  logo varchar
+  website varchar
+  description text
+  partner_type varchar
+  is_featured boolean
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table projects {
+  id varchar [pk]
+  customer_id varchar [null]
+  name varchar
+  slug varchar
+  project_type varchar
+  short_description text
+  description text
+  location varchar
+  completion_date date
+  thumbnail varchar
+  banner varchar
+  challenge text
+  solution text
+  result text
+  is_featured boolean
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table project_products {
+  id varchar [pk]
+  project_id varchar
+  product_id varchar
+  role varchar
+  notes text
+}
+
+Table support_contents {
+  id varchar [pk]
+  type varchar
+  product_id varchar [null]
+  title varchar
+  slug varchar
+  summary text
+  content text
+  file_url varchar
+  thumbnail varchar
+  sort_order int
+  is_featured boolean
+  is_active boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_requests {
+  id varchar [pk]
+  request_type varchar
+  name varchar
+  company varchar
+  email varchar
+  phone varchar
+  product_id varchar [null]
+  solution_id varchar [null]
+  project_type varchar
+  budget_range varchar
+  location varchar
+  message text
+  status varchar
+  assigned_to varchar [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+
+// ==========================================
+// RELATIONSHIPS (LIÊN KẾT KHÓA NGOẠI)
+// ==========================================
+
+// Product Catalog
+Ref: product_families.brand_id > brands.id
+Ref: product_families.domain_id > domains.id
+Ref: categories.domain_id > domains.id
+Ref: categories.parent_id > categories.id
+Ref: products.brand_id > brands.id
+Ref: products.domain_id > domains.id
+Ref: products.family_id > product_families.id
+Ref: products.category_id > categories.id
+Ref: product_variants.product_id > products.id
+Ref: specifications.group_id > specification_groups.id
+Ref: specification_options.specification_id > specifications.id
+Ref: product_specifications.product_id > products.id
+Ref: product_specifications.specification_id > specifications.id
+Ref: specification_aliases.specification_id > specifications.id
+Ref: specification_aliases.brand_id > brands.id
+Ref: product_platforms.product_id > products.id
+Ref: product_platforms.platform_id > platforms.id
+Ref: use_cases.domain_id > domains.id
+Ref: use_cases.parent_id > use_cases.id
+Ref: product_use_cases.product_id > products.id
+Ref: product_use_cases.use_case_id > use_cases.id
+Ref: product_relationships.product_id > products.id
+Ref: product_relationships.related_product_id > products.id
+Ref: documents.product_id > products.id
+Ref: product_images.product_id > products.id
+Ref: product_lifecycle.product_id > products.id
+Ref: product_lifecycle.replacement_product_id > products.id
+
+// Website & CMS
+Ref: pages.parent_id > pages.id
+Ref: solutions.domain_id > domains.id
+Ref: solution_products.solution_id > solutions.id
+Ref: solution_products.product_id > products.id
+Ref: partners.brand_id > brands.id
+Ref: projects.customer_id > customers.id
+Ref: project_products.project_id > projects.id
+Ref: project_products.product_id > products.id
+Ref: support_contents.product_id > products.id
+Ref: contact_requests.product_id > products.id
+Ref: contact_requests.solution_id > solutions.id
+Ref: contact_requests.assigned_to > admin_users.id
