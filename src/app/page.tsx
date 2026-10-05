@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { query } from '@/lib/db'
 import type { Brand, SiteSetting, Customer, Partner } from '@/types/database'
 import { ProductCard, type ProductItem } from '@/components/ProductCard'
+import { ProjectsCarousel, type ProjectItem } from '@/components/ProjectsCarousel'
 import {
   ArrowRight,
   Headphones,
@@ -220,6 +221,52 @@ async function getHomeData() {
     }
   }
 }
+
+/** Dự án tiêu biểu (nguồn: HSNL GTS 2026, ảnh: public/pic/Project) */
+const featuredProjects: ProjectItem[] = [
+  {
+    client: 'CÔNG TY TNHH PIAGGIO VIỆT NAM',
+    sector: 'Sản xuất',
+    service:
+      'Cung cấp và triển khai lắp đặt hạ tầng, cấu hình hệ thống thiết bị mạng cho nhà máy qua 3 dự án liên tiếp — đảm bảo mạng sản xuất vận hành ổn định, liên tục.',
+    image: '/pic/Project/CÔNG TY TNHH PIAGGIO VIỆT NAM.jpg',
+  },
+  {
+    client: 'NGÂN HÀNG THƯƠNG MẠI CỔ PHẦN TIÊN PHONG',
+    sector: 'Tài chính',
+    service:
+      'Cung cấp phần mềm và dịch vụ đánh giá an ninh bảo mật, rà soát lỗ hổng và tăng cường phòng thủ cho hệ thống CNTT ngân hàng số.',
+    image: '/pic/Project/NGÂN HÀNG THƯƠNG MẠI CỔ PHẦN TIÊN PHONG.jpg',
+  },
+  {
+    client: 'NGÂN HÀNG NCB',
+    sector: 'Tài chính',
+    service:
+      'Tư vấn và triển khai giải pháp hệ thống mạng ngân hàng, tối ưu hạ tầng truyền dẫn cho giao dịch liên tục và an toàn giữa các chi nhánh.',
+    image: '/pic/Project/NGÂN HÀNG NCB.jpg',
+  },
+  {
+    client: 'TẬP ĐOÀN BẢO VIỆT',
+    sector: 'Bảo hiểm',
+    service:
+      'Dịch vụ bảo hành, giám sát và duy trì hệ thống thiết bị mạng, đảm bảo khả năng sẵn sàng cao cho hạ tầng CNTT toàn tập đoàn.',
+    image: '/pic/Project/TẬP ĐOÀN BẢO VIỆT.jpg',
+  },
+  {
+    client: 'CÔNG TY TNHH LG DISPLAY VIỆT NAM HẢI PHÒNG',
+    sector: 'FDI / Nhà máy',
+    service:
+      'Cung cấp và bảo hành hệ thống thiết bị mạng cho tổ hợp nhà máy, đáp ứng yêu cầu vận hành khắt khe của môi trường sản xuất công nghệ cao.',
+    image: '/pic/Project/CÔNG TY TNHH LG DISPLAY VIỆT NAM HẢI PHÒNG.jpg',
+  },
+  {
+    client: 'TẬP ĐOÀN ĐIỆN LỰC VIỆT NAM',
+    sector: 'Năng lượng',
+    service:
+      'Tích hợp hệ thống Switch và Wi-Fi, mở rộng vùng phủ sóng và nâng cấp mạng lõi phục vụ công tác quản lý, vận hành nội bộ.',
+    image: '/pic/Project/TẬP ĐOÀN ĐIỆN LỰC VIỆT NAM.jpg',
+  },
+]
 
 export default async function HomePage() {
   const { featuredProducts, partners, customers, settings } = await getHomeData()
@@ -515,46 +562,47 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. KHỐI CHỈ SỐ NĂNG LỰC (IMS-RESOURCES SOTATEK STYLE: HOVER ĐỔI NỀN XANH) ─── */}
-      <section className="py-20 sm:py-24 bg-[#f6f7fc] border-y border-slate-200/80">
-        <div className="layout-container">
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2">
-              NĂNG LỰC THỰC CHIẾN
-            </p>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Những Con Số Khẳng Định Năng Lực
-            </h2>
-          </div>
-
-          {/* Lưới 6 ô số liệu phong cách SotaTek: Hover đổi nền xanh #036ae5 chữ trắng */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
-            {[
-              { num: '100%', label: 'CO/CQ CHÍNH HÃNG', sub: 'Cam kết xuất xứ rõ ràng' },
-              { num: '200+', label: 'DỰ ÁN DOANH NGHIỆP', sub: 'Triển khai thành công' },
-              { num: '15+', label: 'HÃNG ĐỐI TÁC', sub: 'Thương hiệu toàn cầu' },
-              { num: '1,500+', label: 'THIẾT BỊ SẴN KHO', sub: 'Tại Hà Nội & TP.HCM' },
-              { num: '24/7', label: 'CAM KẾT SLA', sub: 'Ứng cứu sự cố khẩn' },
-              { num: '12 - 36', label: 'THÁNG BẢO HÀNH', sub: 'Chính hãng & 1-đổi-1' },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="group relative bg-white hover:bg-[#036ae5] rounded-2xl p-6 border border-slate-200/90 hover:border-[#036ae5] shadow-sm hover:shadow-xl transition-all duration-300 text-center flex flex-col justify-center min-h-[160px]"
-              >
-                <div className="text-3xl sm:text-4xl font-black text-slate-900 group-hover:text-white transition-colors tracking-tight mb-2">
-                  {stat.num}
-                </div>
-                <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-600 group-hover:text-blue-100 transition-colors">
-                  {stat.label}
-                </div>
-                <div className="text-[10px] text-slate-400 group-hover:text-blue-200 mt-1 transition-colors">
-                  {stat.sub}
-                </div>
+      {/* ── 5. KHỐI SẢN PHẨM NỔI BẬT (lấy từ DB: is_featured = true) ─── */}
+      {featuredProducts.length > 0 && (
+        <section className="py-20 sm:py-24 bg-[#f6f7fc] border-y border-slate-200/80">
+          <div className="layout-container">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16">
+              <div className="max-w-2xl">
+                <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2">
+                  SẢN PHẨM NỔI BẬT
+                </p>
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  Thiết Bị Hạ Tầng Mạng & Phần Cứng Tiêu Biểu
+                </h2>
+                <p className="text-slate-600 mt-2 text-sm sm:text-base">
+                  Switch Core/Access, Firewall NGFW, WiFi 6/7 và Server được doanh nghiệp lựa chọn nhiều nhất.
+                </p>
               </div>
-            ))}
+              <Link
+                href="/san-pham"
+                className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sm text-[#036ae5] font-bold hover:gap-3 transition-all"
+              >
+                Xem toàn bộ catalogue <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            <div className="text-center mt-12 sm:hidden">
+              <Link
+                href="/san-pham"
+                className="inline-flex items-center gap-2 bg-[#036ae5] text-white px-7 py-3.5 rounded-2xl font-bold text-sm"
+              >
+                Xem tất cả thiết bị <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── 6. KHỐI DỊCH VỤ DOANH NGHIỆP (HOMENEW-SERVICE SOTATEK STYLE) ───────── */}
       <section className="py-20 sm:py-28 bg-white">
@@ -622,118 +670,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. KHỐI SẢN PHẨM PHẦN CỨNG TIÊU BIỂU (SHOWCASE B2B KHÔNG CÓ GIÁ) ─── */}
-      {featuredProducts.length > 0 && (
-        <section className="py-20 sm:py-28 bg-[#f6f7fc] border-t border-slate-200/80">
-          <div className="layout-container">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
-              <div>
-                <p className="text-xs sm:text-sm font-bold text-[#036ae5] uppercase tracking-wider mb-1">
-                  Thiết Bị Phần Cứng Doanh Nghiệp
-                </p>
-                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-                  Sản Phẩm & Dòng Thiết Bị Nổi Bật
-                </h2>
-                <p className="text-slate-600 mt-2 text-sm sm:text-base">
-                  Switch Core/Access, Firewall NGFW, WiFi 6/7 và Server được lựa chọn nhiều nhất
-                </p>
-              </div>
-              <Link
-                href="/san-pham"
-                className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sm text-[#036ae5] font-bold hover:gap-3 transition-all"
-              >
-                Xem toàn bộ catalogue <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-
-            <div className="text-center mt-12 sm:hidden">
-              <Link
-                href="/san-pham"
-                className="inline-flex items-center gap-2 bg-[#036ae5] text-white px-7 py-3.5 rounded-2xl font-bold text-sm"
-              >
-                Xem tất cả thiết bị <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── 8. KHỐI THÔNG TIN DỰ ÁN CASE STUDY (SOTATEK DARK THEME #061e52) ──── */}
-      <section className="py-20 sm:py-28 bg-[#061e52] text-white">
+      {/* ── 8. KHỐI DỰ ÁN TIÊU BIỂU (nguồn: HSNL GTS 2026) ──── */}
+      <section className="py-16 sm:py-20 bg-[#061e52] text-white">
         <div className="layout-container">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#38bdf8] mb-2.5">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#38bdf8] mb-2">
               DỰ ÁN TIÊU BIỂU
             </p>
-            <h2 className="text-2xl sm:text-4xl font-black tracking-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight mb-3">
               Từ Bài Toán Doanh Nghiệp Đến Triển Khai Thực Tế
             </h2>
-            <p className="text-blue-100/80 text-sm sm:text-base">
-              Kinh nghiệm triển khai hệ thống mạng hạ tầng chịu tải cao cho các tập đoàn và đơn vị đầu ngành.
+            <p className="text-blue-100/80 text-sm">
+              Kinh nghiệm cung cấp, triển khai và bảo hành hệ thống hạ tầng mạng cho các tập đoàn, ngân hàng và nhà máy đầu ngành.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                num: '01',
-                client: 'LG Innotek Hải Phòng',
-                sub: 'Hạ Tầng Mạng Nhà Máy Thông Minh',
-                desc: 'Thiết kế và triển khai cụm Switch Core 10GbE dự phòng kép, hệ thống Firewall Fortinet NGFW phân vùng mạng sản xuất và văn phòng nghiêm ngặt.',
-                tags: ['10GbE Network', 'FortiGate NGFW', 'Industrial'],
-                result: '99.99% Uptime',
-              },
-              {
-                num: '02',
-                client: 'Bệnh Viện Đa Khoa Quốc Tế',
-                sub: 'Mạng Truyền Tải Ảnh Y Tế PACS & WiFi',
-                desc: 'Nâng cấp mạng lõi băng thông lớn, tối ưu hóa tốc độ tải phim DICOM và phủ sóng WiFi 6 mật độ cao cho toàn bộ khu khám chữa bệnh.',
-                tags: ['PACS Network', 'WiFi 6 Aruba', 'Healthcare'],
-                result: '< 50ms Độ trễ',
-              },
-              {
-                num: '03',
-                client: 'Tập Đoàn Bán Lẻ Decathlon',
-                sub: 'Hạ Tầng Chuỗi Chi Nhánh & Kho Vận',
-                desc: 'Triển khai giải pháp SD-WAN kết nối liên chi nhánh và kho trung tâm, quản lý tập trung trên Cloud đảm bảo kiểm kê hàng hóa theo thời gian thực.',
-                tags: ['SD-WAN', 'Cloud Managed', 'Multi-Site'],
-                result: '100% Đồng bộ',
-              },
-            ].map((proj, idx) => (
-              <div
-                key={idx}
-                className="bg-[#0b2875]/80 hover:bg-[#0b2875] rounded-3xl p-8 border border-white/10 hover:border-[#38bdf8]/50 transition-all duration-300 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-3xl font-black text-blue-300/40">{proj.num}</span>
-                    <span className="text-xs font-mono font-bold text-emerald-300 bg-emerald-950/80 px-2.5 py-1 rounded-full border border-emerald-800/80">
-                      {proj.result}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-1">{proj.client}</h3>
-                  <div className="text-xs text-blue-300 font-semibold mb-3">{proj.sub}</div>
-                  <p className="text-xs text-slate-300 leading-relaxed mb-6">{proj.desc}</p>
-                </div>
-
-                <div>
-                  <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
-                    {proj.tags.map((t, i) => (
-                      <span key={i} className="text-[10px] bg-white/10 text-blue-100 px-2.5 py-0.5 rounded-full">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ProjectsCarousel projects={featuredProjects} />
         </div>
       </section>
 
