@@ -6,7 +6,6 @@ import type { Brand, SiteSetting, Customer, Partner } from '@/types/database'
 import { ProductCard, type ProductItem } from '@/components/ProductCard'
 import {
   ArrowRight,
-  ShieldCheck,
   Headphones,
   Truck,
   Award,
@@ -14,11 +13,6 @@ import {
   PhoneCall,
   Server,
   Building2,
-  Network,
-  Cpu,
-  Wifi,
-  HardDrive,
-  Radio,
   Layers,
   ChevronRight,
   Sparkles
@@ -37,80 +31,56 @@ const hardwareCategories = [
   {
     id: 'switch',
     title: 'Switch',
-    subtitle: 'Core · Distribution · Access · PoE+',
-    desc: 'Switch L2/L3 hiệu năng cao, hỗ trợ PoE 30W-90W, cổng quang uplink 10G/40G/100G cho mạng lõi và chi nhánh.',
-    brands: ['Cisco Catalyst', 'Aruba CX', 'Ruijie Reyee'],
-    icon: Network,
+    image: '/pic/Categories/c9200l-48t-4x-e.jpg',
     href: '/san-pham?search=Switch',
     badge: 'Switching',
   },
   {
     id: 'router',
     title: 'Router',
-    subtitle: 'Edge Gateway · SD-WAN · Multi-WAN',
-    desc: 'Bộ định tuyến doanh nghiệp chịu tải cao, hỗ trợ định tuyến BGP/OSPF, cân bằng tải băng thông và VPN Site-to-Site.',
-    brands: ['Cisco ISR', 'MikroTik CCR', 'DrayTek Vigor'],
-    icon: Cpu,
+    image: '/pic/Categories/ccr2116-12g-4s.jpg',
     href: '/san-pham?search=Router',
     badge: 'Routing',
   },
   {
     id: 'firewall',
     title: 'Firewall',
-    subtitle: 'Next-Gen Firewall (NGFW) · IPS · SSL-VPN',
-    desc: 'Tường lửa thế hệ mới kiểm soát lưu lượng ứng dụng L7, phòng chống xâm nhập IPS/IDS, lọc web và Zero-Trust.',
-    brands: ['Fortinet FortiGate', 'Sophos XGS', 'Palo Alto'],
-    icon: ShieldCheck,
+    image: '/pic/Categories/fg-90g.jpg',
     href: '/san-pham?search=Firewall',
     badge: 'Security',
   },
   {
     id: 'wifi',
     title: 'WiFi & Access Point',
-    subtitle: 'WiFi 6 / 6E / 7 · Cloud Managed · Roaming',
-    desc: 'Điểm truy cập không dây chuyên dụng chuẩn Enterprise, chịu tải 200+ clients đồng thời và chuyển vùng roaming dưới 10ms.',
-    brands: ['Aruba Instant On', 'UniFi Enterprise', 'Ruijie'],
-    icon: Wifi,
+    image: '/pic/Categories/access-point-aruba-instant-on-ap22-r4w02a-2x2-wi-fi-6-indoor.jpg',
     href: '/san-pham?search=WiFi',
     badge: 'Wireless',
   },
   {
     id: 'server',
     title: 'Máy Chủ (Server)',
-    subtitle: 'Rack 1U/2U/4U · Tower · GPU Compute',
-    desc: 'Máy chủ doanh nghiệp cấu hình cao phục vụ ảo hóa VMware, cơ sở dữ liệu SQL, hệ thống ERP và tính toán chuyên sâu.',
-    brands: ['Dell PowerEdge', 'HPE ProLiant', 'Lenovo'],
-    icon: Server,
+    image: '/pic/Categories/dell-PowerEdge-R350.jpg',
     href: '/san-pham?search=Server',
     badge: 'Compute',
   },
   {
     id: 'storage',
     title: 'Hệ Thống Lưu Trữ (SAN/NAS)',
-    subtitle: 'All-Flash · Hybrid · RAID Backup',
-    desc: 'Thiết bị lưu trữ tập trung dữ liệu dung lượng lớn, giải pháp sao lưu dự phòng chống Ransomware và chia sẻ tệp 10GbE.',
-    brands: ['Synology', 'QNAP Enterprise', 'Dell PowerStore'],
-    icon: HardDrive,
+    image: '/pic/Categories/Synology%20DiskStation%20DS423+.jpg',
     href: '/san-pham?search=Storage',
     badge: 'Storage',
   },
   {
     id: 'transceiver',
     title: 'Module Quang & Phụ Kiện',
-    subtitle: 'SFP / SFP+ / QSFP+ · Cáp DAC · Patch Panel',
-    desc: 'Module quang 1G/10G/25G/40G/100G chuẩn tương thích Cisco/Aruba, cáp nhảy quang Singlemode/Multimode và phụ kiện tủ Rack.',
-    brands: ['Cisco SFP', 'Finisar', 'HPE Compatible'],
-    icon: Radio,
+    image: '/pic/Categories/1788971321module-quang-cisco-glc-sx-mmd.jpg',
     href: '/san-pham?search=Module',
     badge: 'Cabling & Optics',
   },
   {
     id: 'voip',
     title: 'Tổng Đài IP & Hội Nghị',
-    subtitle: 'IP PBX · SIP Phone · Video Conference 4K',
-    desc: 'Hệ thống tổng đài thoại IP cho doanh nghiệp, điện thoại bàn SIP Phone và thiết bị phòng họp trực tuyến truyền hình.',
-    brands: ['Grandstream', 'Yealink', 'Cisco IP Phone'],
-    icon: PhoneCall,
+    image: '/pic/Categories/Dien-thoai-khong-day-DECT-Yealink-W73P-2.png',
     href: '/san-pham?search=VoIP',
     badge: 'Unified Comms',
   },
@@ -324,78 +294,56 @@ export default async function HomePage() {
       </section>
 
       {/* ── 2. DANH MỤC THIẾT BỊ PHẦN CỨNG CHỦ LỰC (SWITCH, ROUTER, FIREWALL, WIFI...) ── */}
-      <section className="py-16 sm:py-20 bg-white border-b border-slate-200/80">
+      <section className="py-12 sm:py-16 bg-white border-b border-slate-200/80">
         <div className="layout-container">
           {/* Header căn giữa chuẩn SotaTek */}
-          <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2.5">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2">
               DANH MỤC SẢN PHẨM
             </p>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-2">
               Hệ Thống Thiết Bị Hạ Tầng Mạng & Phần Cứng Doanh Nghiệp
             </h2>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Cung cấp đầy đủ các nhóm thiết bị chính hãng đầy đủ, đáp ứng mọi tiêu chuẩn kỹ thuật từ hệ thống mạng văn phòng đến trung tâm dữ liệu Enterprise.
+            <p className="text-slate-600 text-sm leading-relaxed">
+              Thiết bị chính hãng đáp ứng mọi tiêu chuẩn kỹ thuật, từ mạng văn phòng đến trung tâm dữ liệu Enterprise.
             </p>
           </div>
 
-          {/* Lưới 8 Card Danh Mục Thiết Bị */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {hardwareCategories.map((item) => {
-              const IconComp = item.icon
-              return (
-                <div
-                  key={item.id}
-                  className="group relative bg-[#f6f7fc] hover:bg-white rounded-3xl p-7 border border-slate-200/90 hover:border-[#036ae5] hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-                >
-                  <div>
-                    {/* Header card: Icon + Badge */}
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="w-12 h-12 rounded-2xl bg-white group-hover:bg-[#036ae5] text-[#036ae5] group-hover:text-white flex items-center justify-center shadow-sm border border-slate-200/80 group-hover:border-[#036ae5] transition-all duration-300">
-                        <IconComp className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 group-hover:text-[#036ae5] bg-white group-hover:bg-blue-50 px-2.5 py-1 rounded-full border border-slate-200/60 group-hover:border-blue-200 transition-colors">
-                        {item.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg font-black text-slate-900 group-hover:text-[#036ae5] transition-colors mb-1.5 leading-snug">
-                      {item.title}
-                    </h3>
-
-                    {/* Dòng thương hiệu tiêu biểu */}
-                    <div className="pt-3 border-t border-slate-200/80 mb-5">
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-2">
-                        Dòng sản phẩm tiêu biểu:
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {item.brands.map((brand, bIdx) => (
-                          <span
-                            key={bIdx}
-                            className="text-[10px] font-medium bg-white text-slate-700 px-2 py-0.5 rounded-lg border border-slate-200/70"
-                          >
-                            {brand}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Nút xem thiết bị */}
-                  <Link
-                    href={item.href}
-                    className="inline-flex items-center justify-between text-xs font-bold text-[#036ae5] group-hover:text-[#0256b8] pt-3 border-t border-slate-200/60 transition-colors"
-                  >
-                    <span>Xem danh sách thiết bị</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                  </Link>
+          {/* Lưới 8 Card Danh Mục Thiết Bị (ảnh thật minh họa từng nhóm) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            {hardwareCategories.map((item) => (
+              <Link
+                key={item.id}
+                href={item.href}
+                className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#036ae5] hover:shadow-lg transition-all duration-300 flex flex-col"
+              >
+                {/* Ảnh thật của thiết bị tiêu biểu trong nhóm */}
+                <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-[#f6f7fc] to-[#eef1f8] border-b border-slate-200/70">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-contain p-2 mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <span className="absolute top-2 right-2 text-[9px] font-mono font-bold uppercase tracking-wide text-white bg-[#036ae5] px-2 py-0.5 rounded-full">
+                    {item.badge}
+                  </span>
                 </div>
-              )
-            })}
+
+                {/* Nội dung card gọn */}
+                <div className="p-3.5 flex items-center justify-between gap-2">
+                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-[#036ae5] transition-colors leading-snug line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <ArrowRight className="w-4 h-4 flex-shrink-0 text-slate-300 group-hover:text-[#036ae5] group-hover:translate-x-1 transition-all" />
+                </div>
+              </Link>
+            ))}
           </div>
 
           {/* Banner phụ dẫn sang catalogue đầy đủ */}
-          <div className="mt-12 text-center">
+          <div className="mt-8 text-center">
             <Link
               href="/san-pham"
               className="inline-flex items-center gap-2 text-sm font-bold text-[#036ae5] hover:text-[#0256b8] transition-colors"

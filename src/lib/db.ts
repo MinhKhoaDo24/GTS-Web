@@ -11,7 +11,7 @@ declare global {
 function getConnectionString(): string {
   return (
     process.env.DATABASE_URL ||
-    'postgresql://gts_user:gts_password_2024@localhost:5432/gts_db?schema=public'
+    'postgresql://postgres:123456@localhost:5432/gts_db?schema=public'
   )
 }
 
