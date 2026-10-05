@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     locale: 'vi_VN',
     siteName: 'GTS - Global Technology & Service',
   },
+  icons: {
+    icon: '/pic/logo_no_background.png',
+  }
 }
 
 async function getLayoutData() {
