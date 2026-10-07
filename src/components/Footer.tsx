@@ -144,10 +144,6 @@ export function Footer({ settings }: FooterProps) {
             © {currentYear} GTS - Global Technology & Service. B2B Enterprise Network Partner.
             {settings.tax_code && ` | MST: ${settings.tax_code}`}
           </p>
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-green-400 font-medium">
-            <Shield className="w-4 h-4 text-[#22C55E]" />
-            <span>Cam kết CO/CQ 100% Chính hãng</span>
-          </div>
         </div>
       </div>
     </footer>

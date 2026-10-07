@@ -16,17 +16,20 @@ import { slugify } from '@/lib/utils'
 
 interface Brand { id: string; name: string }
 interface Category { id: string; name: string; parent_id?: string | null }
+interface Family { id: string; name: string; brand_id?: string | null }
 
 interface ProductFormProps {
   action: (prev: any, formData: FormData) => Promise<any>
   brands: Brand[]
   categories: Category[]
+  families?: Family[]
   defaultValues?: {
     id?: string
     name?: string
     slug?: string
     model?: string | null
     brand_id?: string
+    family_id?: string | null
     category_id?: string
     product_type?: string
     short_description?: string | null
@@ -41,6 +44,8 @@ interface ProductFormProps {
     variant_specs_summary?: string
   }
   mode: 'create' | 'edit'
+  /** Khi dùng trong ProductEditTabs, ẩn header riêng để tránh trùng */
+  hideHeader?: boolean
 }
 
 // ─── Form Field Helper ────────────────────────────────────────────────────────
@@ -72,7 +77,7 @@ function Field({
 const inputCls = 'w-full text-sm bg-slate-50/50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all font-medium'
 const selectCls = 'w-full text-sm bg-slate-50/50 hover:bg-slate-50/80 focus:bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all appearance-none cursor-pointer font-medium'
 
-export function ProductForm({ action, brands, categories, defaultValues = {}, mode }: ProductFormProps) {
+export function ProductForm({ action, brands, categories, families = [], defaultValues = {}, mode, hideHeader = false }: ProductFormProps) {
   const router = useRouter()
   const { error: toastError } = useToast()
 
@@ -80,6 +85,7 @@ export function ProductForm({ action, brands, categories, defaultValues = {}, mo
 
   const [name, setName] = useState(defaultValues.name ?? '')
   const [slug, setSlug] = useState(defaultValues.slug ?? '')
+  const [selectedBrandId, setSelectedBrandId] = useState(defaultValues.brand_id ?? '')
   const [slugManual, setSlugManual] = useState(Boolean(defaultValues.slug))
   const [description, setDescription] = useState(defaultValues.description ?? '')
   const [isActive, setIsActive] = useState(defaultValues.is_active ?? true)
@@ -105,35 +111,60 @@ export function ProductForm({ action, brands, categories, defaultValues = {}, mo
 
   return (
     <form action={formAction} className="space-y-6">
-      {/* Top Header & Actions Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/admin/products"
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-            title="Quay lại danh sách"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              {mode === 'create' ? 'Thêm sản phẩm mới' : 'Chỉnh sửa sản phẩm'}
-            </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
-              {mode === 'create'
-                ? 'Nhập thông tin sản phẩm và phân loại thiết bị phần cứng'
-                : defaultValues.name || 'Cập nhật thông tin chi tiết của sản phẩm'}
-            </p>
+      {/* Top Header & Actions Bar — ẩn khi đang dùng trong ProductEditTabs */}
+      {!hideHeader && (
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/admin/products"
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              title="Quay lại danh sách"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <div>
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+                {mode === 'create' ? 'Thêm sản phẩm mới' : 'Chỉnh sửa sản phẩm'}
+              </h1>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {mode === 'create'
+                  ? 'Nhập thông tin sản phẩm và phân loại thiết bị phần cứng'
+                  : defaultValues.name || 'Cập nhật thông tin chi tiết của sản phẩm'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+            <Link
+              href="/admin/products"
+              className="px-4 py-2 text-xs font-semibold rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+            >
+              Hủy bỏ
+            </Link>
+            <button
+              type="submit"
+              disabled={isPending}
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 text-xs font-semibold rounded-xl transition-all shadow-xs disabled:opacity-60"
+            >
+              {isPending ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Đang lưu...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="w-3.5 h-3.5" />
+                  <span>{mode === 'create' ? 'Tạo sản phẩm' : 'Lưu thay đổi'}</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
+      )}
 
-        <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
-          <Link
-            href="/admin/products"
-            className="px-4 py-2 text-xs font-semibold rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
-          >
-            Hủy bỏ
-          </Link>
+      {/* Save button khi hideHeader — hiển thị ở cuối form */}
+      {hideHeader && (
+        <div className="flex justify-end">
           <button
             type="submit"
             disabled={isPending}
@@ -147,12 +178,12 @@ export function ProductForm({ action, brands, categories, defaultValues = {}, mo
             ) : (
               <>
                 <Save className="w-3.5 h-3.5" />
-                <span>{mode === 'create' ? 'Tạo sản phẩm' : 'Lưu thay đổi'}</span>
+                <span>Lưu thông tin</span>
               </>
             )}
           </button>
         </div>
-      </div>
+      )}
 
       {/* Global Error Banner */}
       {errors._root && (
@@ -237,14 +268,15 @@ export function ProductForm({ action, brands, categories, defaultValues = {}, mo
                 />
               </Field>
 
-              {/* Brand & Category in 2 cols */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Brand, Family & Category in 3 cols */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Field label="Hãng sản xuất" name="brand_id" required error={errors.brand_id?.[0]}>
                   <div className="relative">
                     <select
                       id="brand_id"
                       name="brand_id"
-                      defaultValue={defaultValues.brand_id ?? ''}
+                      value={selectedBrandId}
+                      onChange={(e) => setSelectedBrandId(e.target.value)}
                       className={selectCls}
                       required
                     >
@@ -254,6 +286,27 @@ export function ProductForm({ action, brands, categories, defaultValues = {}, mo
                           {b.name}
                         </option>
                       ))}
+                    </select>
+                    <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                  </div>
+                </Field>
+
+                <Field label="Dòng sản phẩm" name="family_id">
+                  <div className="relative">
+                    <select
+                      id="family_id"
+                      name="family_id"
+                      defaultValue={defaultValues.family_id ?? ''}
+                      className={selectCls}
+                    >
+                      <option value="">— Chưa phân dòng —</option>
+                      {families
+                        .filter((f) => !selectedBrandId || !f.brand_id || f.brand_id === selectedBrandId)
+                        .map((f) => (
+                          <option key={f.id} value={f.id}>
+                            {f.name}
+                          </option>
+                        ))}
                     </select>
                     <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                   </div>

@@ -188,19 +188,6 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
         </div>
-
-        {/* B2B Action Button: Yêu cầu báo giá (KHÔNG HIỂN THỊ GIÁ) */}
-        <div className="mt-auto pt-3 border-t border-slate-100">
-          <Link
-            href={`/lien-he?product=${encodeURIComponent(product.slug)}&name=${encodeURIComponent(
-              product.name
-            )}`}
-            className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white text-xs font-bold py-2.5 px-3 text-center transition-colors duration-200 flex items-center justify-center gap-1.5 rounded-none shadow-none"
-          >
-            <span>Yêu cầu báo giá</span>
-            <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
       </div>
     </div>
   )

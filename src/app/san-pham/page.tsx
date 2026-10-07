@@ -719,12 +719,12 @@ export default async function ProductCatalogPage({ searchParams }: PageProps) {
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>
                     {activeSeriesInfo
-                      ? 'Cấp 3: Dòng thiết bị chuyên biệt'
+                      ? 'Dòng thiết bị chuyên biệt'
                       : activeBrandObj
-                      ? 'Cấp 2: Thương hiệu Enterprise'
+                      ? 'Thương hiệu Enterprise'
                       : activeCategoryObj
-                      ? 'Cấp 1: Danh mục phần cứng'
-                      : 'Hạ tầng B2B Enterprise'}
+                      ? 'Danh mục phần cứng'
+                      : 'Hạ tầng phần cứng doanh nghiệp'}
                   </span>
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -786,11 +786,6 @@ export default async function ProductCatalogPage({ searchParams }: PageProps) {
                 >
                   Tên Z → A
                 </Link>
-              </div>
-
-              {/* Product Counter */}
-              <div className="text-xs font-mono text-slate-600 bg-slate-50 px-3 py-1.5 border border-slate-200 rounded-xl self-start sm:self-auto whitespace-nowrap font-medium">
-                Tìm thấy <span className="font-black text-[#1D4ED8]">{totalCount}</span> thiết bị
               </div>
             </div>
 

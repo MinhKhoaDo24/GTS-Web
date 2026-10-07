@@ -59,7 +59,7 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="w-full space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Cấu hình Website</h1>
@@ -82,169 +82,183 @@ export default function AdminSettingsPage() {
         </div>
       )}
 
-      <form onSubmit={handleSave} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm space-y-8">
-        {/* Section 1: Kênh liên hệ trực tiếp */}
-        <div>
-          <h2 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">
-            1. Kênh liên hệ trực tiếp (Header, Footer & FloatingContact)
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Số Hotline hiển thị & gọi điện
-              </label>
-              <input
-                type="text"
-                value={settings.hotline || ''}
-                onChange={(e) => handleChange('hotline', e.target.value)}
-                placeholder="VD: 0901 234 567"
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-              />
-            </div>
+      <form onSubmit={handleSave} className="space-y-6">
+        {/* Grid layout: 2 cột section trên lg */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Số điện thoại Zalo (để mở link zalo.me)
-              </label>
-              <input
-                type="text"
-                value={settings.zalo_phone || ''}
-                onChange={(e) => handleChange('zalo_phone', e.target.value)}
-                placeholder="VD: 0901234567"
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-              />
-            </div>
+          {/* Cột trái: Liên hệ + Mạng xã hội */}
+          <div className="space-y-6">
 
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Email nhận liên hệ báo giá & hỗ trợ
-              </label>
-              <input
-                type="email"
-                value={settings.contact_email || ''}
-                onChange={(e) => handleChange('contact_email', e.target.value)}
-                placeholder="contact@gts.vn"
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-              />
-            </div>
-          </div>
-        </div>
+            {/* Section 1: Kênnh liên hệ */}
+            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+              <h2 className="text-sm font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 uppercase tracking-wide">
+                1. Kênh liên hệ trực tiếp
+                <span className="ml-2 text-[10px] font-medium text-gray-400 normal-case tracking-normal">Header, Footer &amp; FloatingContact</span>
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Số Hotline hiển thị &amp; gọi điện
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.hotline || ''}
+                    onChange={(e) => handleChange('hotline', e.target.value)}
+                    placeholder="VD: 0901 234 567"
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                  />
+                </div>
 
-        {/* Section 2: Thông tin công ty & địa chỉ */}
-        <div>
-          <h2 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">
-            2. Thông tin pháp nhân & Địa chỉ
-          </h2>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Tên đầy đủ công ty
-                </label>
-                <input
-                  type="text"
-                  value={settings.company_name || ''}
-                  onChange={(e) => handleChange('company_name', e.target.value)}
-                  placeholder="GTS - Global Technology & Service"
-                  className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-                />
-              </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Số điện thoại Zalo
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.zalo_phone || ''}
+                    onChange={(e) => handleChange('zalo_phone', e.target.value)}
+                    placeholder="VD: 0901234567"
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                  />
+                </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
-                  Mã số thuế (MST)
-                </label>
-                <input
-                  type="text"
-                  value={settings.tax_code || ''}
-                  onChange={(e) => handleChange('tax_code', e.target.value)}
-                  placeholder="0123456789"
-                  className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 font-mono focus:outline-none focus:border-[#1D4ED8]"
-                />
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Email nhận liên hệ báo giá &amp; hỗ trợ
+                  </label>
+                  <input
+                    type="email"
+                    value={settings.contact_email || ''}
+                    onChange={(e) => handleChange('contact_email', e.target.value)}
+                    placeholder="contact@gts.vn"
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                  />
+                </div>
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Địa chỉ trụ sở / văn phòng
-              </label>
-              <input
-                type="text"
-                value={settings.address || ''}
-                onChange={(e) => handleChange('address', e.target.value)}
-                placeholder="123 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP.HCM"
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-              />
+            {/* Section 3: Mạng xã hội */}
+            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+              <h2 className="text-sm font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 uppercase tracking-wide">
+                3. Mạng xã hội &amp; Liên kết
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Facebook Fanpage URL
+                  </label>
+                  <input
+                    type="url"
+                    value={settings.facebook_url || ''}
+                    onChange={(e) => handleChange('facebook_url', e.target.value)}
+                    placeholder="https://facebook.com/gts.vn"
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Link trang Tra cứu bảo hành
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.warranty_lookup_url || ''}
+                    onChange={(e) => handleChange('warranty_lookup_url', e.target.value)}
+                    placeholder="/chinh-sach-bao-hanh"
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                  />
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Giờ làm việc
-              </label>
-              <input
-                type="text"
-                value={settings.working_hours || ''}
-                onChange={(e) => handleChange('working_hours', e.target.value)}
-                placeholder="Thứ 2 – Thứ 6: 8:00 – 17:30 | Thứ 7: 8:00 – 12:00"
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-              />
-            </div>
+          </div>{/* /Cột trái */}
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Link Embed Google Maps iframe URL
-              </label>
-              <textarea
-                rows={2}
-                value={settings.google_map_embed_url || ''}
-                onChange={(e) => handleChange('google_map_embed_url', e.target.value)}
-                placeholder="https://www.google.com/maps/embed?pb=..."
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl p-3 font-mono focus:outline-none focus:border-[#1D4ED8]"
-              />
-            </div>
-          </div>
-        </div>
+          {/* Cột phải: Thông tin công ty */}
+          <div>
+            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm h-full">
+              <h2 className="text-sm font-black text-gray-900 mb-4 pb-2 border-b border-gray-100 uppercase tracking-wide">
+                2. Thông tin pháp nhân &amp; Địa chỉ
+              </h2>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      Tên đầy đủ công ty
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.company_name || ''}
+                      onChange={(e) => handleChange('company_name', e.target.value)}
+                      placeholder="GTS - Global Technology &amp; Service"
+                      className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                    />
+                  </div>
 
-        {/* Section 3: Mạng xã hội & Khác */}
-        <div>
-          <h2 className="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">
-            3. Mạng xã hội & Liên kết
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Facebook Fanpage URL
-              </label>
-              <input
-                type="url"
-                value={settings.facebook_url || ''}
-                onChange={(e) => handleChange('facebook_url', e.target.value)}
-                placeholder="https://facebook.com/gts.vn"
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-              />
-            </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                      Mã số thuế (MST)
+                    </label>
+                    <input
+                      type="text"
+                      value={settings.tax_code || ''}
+                      onChange={(e) => handleChange('tax_code', e.target.value)}
+                      placeholder="0123456789"
+                      className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 font-mono focus:outline-none focus:border-[#1D4ED8]"
+                    />
+                  </div>
+                </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
-                Link trang Tra cứu bảo hành
-              </label>
-              <input
-                type="text"
-                value={settings.warranty_lookup_url || ''}
-                onChange={(e) => handleChange('warranty_lookup_url', e.target.value)}
-                placeholder="/chinh-sach-bao-hanh"
-                className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
-              />
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Địa chỉ trụ sở / văn phòng
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.address || ''}
+                    onChange={(e) => handleChange('address', e.target.value)}
+                    placeholder="123 Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP.HCM"
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Giờ làm việc
+                  </label>
+                  <input
+                    type="text"
+                    value={settings.working_hours || ''}
+                    onChange={(e) => handleChange('working_hours', e.target.value)}
+                    placeholder="Thứ 2 – Thứ 6: 8:00 – 17:30 | Thứ 7: 8:00 – 12:00"
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#1D4ED8]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    Link Embed Google Maps iframe URL
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={settings.google_map_embed_url || ''}
+                    onChange={(e) => handleChange('google_map_embed_url', e.target.value)}
+                    placeholder="https://www.google.com/maps/embed?pb=..."
+                    className="w-full text-xs sm:text-sm border border-gray-200 rounded-xl p-3 font-mono focus:outline-none focus:border-[#1D4ED8] resize-none"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </div>{/* /Cột phải */}
+
+        </div>{/* /Grid 2 cột */}
 
         {/* Submit button */}
-        <div className="pt-4 border-t border-gray-100 flex justify-end">
+        <div className="bg-white rounded-2xl border border-gray-100 px-6 py-4 shadow-sm flex items-center justify-between">
+          <p className="text-xs text-gray-400">Các thay đổi sẽ có hiệu lực ngay sau khi lưu.</p>
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 bg-[#1D4ED8] hover:bg-[#1e40af] text-white px-6 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md disabled:opacity-50"
+            className="inline-flex items-center gap-2 bg-[#1D4ED8] hover:bg-[#1e40af] text-white px-8 py-3 rounded-xl font-bold text-xs sm:text-sm transition-all shadow-md disabled:opacity-50"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             <span>Lưu tất cả thay đổi</span>
