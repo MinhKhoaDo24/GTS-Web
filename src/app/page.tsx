@@ -515,47 +515,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. KHỐI CHỈ SỐ NĂNG LỰC (IMS-RESOURCES SOTATEK STYLE: HOVER ĐỔI NỀN XANH) ─── */}
-      <section className="py-20 sm:py-24 bg-[#f6f7fc] border-y border-slate-200/80">
-        <div className="layout-container">
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2">
-              NĂNG LỰC THỰC CHIẾN
-            </p>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Những Con Số Khẳng Định Năng Lực
-            </h2>
-          </div>
-
-          {/* Lưới 6 ô số liệu phong cách SotaTek: Hover đổi nền xanh #036ae5 chữ trắng */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
-            {[
-              { num: '100%', label: 'CO/CQ CHÍNH HÃNG', sub: 'Cam kết xuất xứ rõ ràng' },
-              { num: '200+', label: 'DỰ ÁN DOANH NGHIỆP', sub: 'Triển khai thành công' },
-              { num: '15+', label: 'HÃNG ĐỐI TÁC', sub: 'Thương hiệu toàn cầu' },
-              { num: '1,500+', label: 'THIẾT BỊ SẴN KHO', sub: 'Tại Hà Nội & TP.HCM' },
-              { num: '24/7', label: 'CAM KẾT SLA', sub: 'Ứng cứu sự cố khẩn' },
-              { num: '12 - 36', label: 'THÁNG BẢO HÀNH', sub: 'Chính hãng & 1-đổi-1' },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="group relative bg-white hover:bg-[#036ae5] rounded-2xl p-6 border border-slate-200/90 hover:border-[#036ae5] shadow-sm hover:shadow-xl transition-all duration-300 text-center flex flex-col justify-center min-h-[160px]"
-              >
-                <div className="text-3xl sm:text-4xl font-black text-slate-900 group-hover:text-white transition-colors tracking-tight mb-2">
-                  {stat.num}
-                </div>
-                <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-600 group-hover:text-blue-100 transition-colors">
-                  {stat.label}
-                </div>
-                <div className="text-[10px] text-slate-400 group-hover:text-blue-200 mt-1 transition-colors">
-                  {stat.sub}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── 6. KHỐI DỊCH VỤ DOANH NGHIỆP (HOMENEW-SERVICE SOTATEK STYLE) ───────── */}
       <section className="py-20 sm:py-28 bg-white">
         <div className="layout-container">

@@ -314,12 +314,8 @@ export function ProductFilters({
                   </span>
                   <span className="truncate">{cat.shortName}</span>
                 </div>
-                {isSelected ? (
+                {isSelected && (
                   <Check className="w-3.5 h-3.5 text-white flex-shrink-0" />
-                ) : (
-                  <span className="text-[10px] text-slate-400">
-                    {cat.brands.length} hãng
-                  </span>
                 )}
               </button>
             )
@@ -458,17 +454,6 @@ export function ProductFilters({
             Chọn <strong>Loại</strong> hoặc <strong>Hãng</strong> ở trên để xem các dòng máy tương ứng.
           </div>
         )}
-      </div>
-
-      {/* Cam kết B2B Support */}
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-50/50 rounded-2xl p-4 border border-blue-200/80">
-        <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#1D4ED8] mb-1.5">
-          <ShieldCheck className="w-4 h-4 text-[#1D4ED8]" />
-          <span>Cam kết GTS Enterprise</span>
-        </div>
-        <p className="text-[11px] text-slate-600 leading-relaxed">
-          100% thiết bị kèm đầy đủ C/O, C/Q từ hãng. Hỗ trợ mượn thiết bị demo PoC và tư vấn giải pháp mạng miễn phí.
-        </p>
       </div>
     </div>
   )

@@ -142,17 +142,6 @@ export default async function ContactPage() {
                 )}
               </div>
             </div>
-
-            {/* Cam kết */}
-            <div className="bg-gradient-to-br from-[#0F172A] to-[#1D4ED8] text-white rounded-2xl p-6 shadow-sm">
-              <h3 className="font-bold text-sm mb-3">Cam kết dịch vụ B2B</h3>
-              <ul className="space-y-2 text-xs text-blue-100">
-                <li>✓ Sản phẩm đầy đủ CO/CQ và hóa đơn VAT hợp lệ</li>
-                <li>✓ Hỗ trợ mượn thiết bị demo cho dự án doanh nghiệp</li>
-                <li>✓ Phản hồi yêu cầu kỹ thuật trong vòng 2 giờ làm việc</li>
-                <li>✓ Bảo hành 1 đổi 1 trong thời gian cam kết</li>
-              </ul>
-            </div>
           </div>
 
           {/* Contact Form */}

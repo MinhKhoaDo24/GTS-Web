@@ -3,12 +3,13 @@ import Image from 'next/image'
 import {
   Package, FolderOpen, Tag, Inbox, Plus, Settings, ArrowRight,
   TrendingUp, Clock, AlertCircle, CheckCircle2, ChevronRight,
-  FileText, ExternalLink
+  FileText, ExternalLink, Layers
 } from 'lucide-react'
 import {
   countProducts, getProducts,
   countCategories,
   countBrands,
+  countProductFamilies,
   countNewContacts, getContactRequests,
 } from '@/lib/dal'
 import { formatDate } from '@/lib/utils'
@@ -20,6 +21,7 @@ export default async function AdminDashboardPage() {
   const [
     productCount,
     categoryCount,
+    familyCount,
     brandCount,
     newContactCount,
     recentProductsRes,
@@ -27,6 +29,7 @@ export default async function AdminDashboardPage() {
   ] = await Promise.all([
     countProducts().catch(() => 0),
     countCategories().catch(() => 0),
+    countProductFamilies().catch(() => 0),
     countBrands().catch(() => 0),
     countNewContacts().catch(() => 0),
     getProducts({ limit: 5 }).catch(() => ({ items: [], total: 0 })),
@@ -41,6 +44,14 @@ export default async function AdminDashboardPage() {
       icon: Package,
       color: 'bg-blue-50 text-blue-600 border-blue-100',
       href: '/admin/products',
+    },
+    {
+      label: 'Dòng sản phẩm',
+      value: familyCount,
+      subtext: 'Chuỗi dòng thiết bị',
+      icon: Layers,
+      color: 'bg-cyan-50 text-cyan-600 border-cyan-100',
+      href: '/admin/product-families',
     },
     {
       label: 'Danh mục thiết bị',
@@ -110,7 +121,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {stats.map((stat) => (
           <Link
             key={stat.label}

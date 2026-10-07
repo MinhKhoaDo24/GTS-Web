@@ -6,7 +6,8 @@ import { signOut } from 'next-auth/react'
 import {
   LayoutDashboard, Package, FolderOpen, Tag,
   FileText, Settings, ExternalLink,
-  ChevronRight, ShieldCheck, Inbox, LogOut
+  ChevronRight, ShieldCheck, Inbox, LogOut,
+  Layers,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -35,6 +36,7 @@ const navGroups: NavGroup[] = [
     items: [
       { href: '/admin/products', label: 'Sản phẩm', icon: Package },
       { href: '/admin/categories', label: 'Danh mục thiết bị', icon: FolderOpen },
+      { href: '/admin/product-families', label: 'Dòng sản phẩm', icon: Layers },
       { href: '/admin/brands', label: 'Hãng sản xuất', icon: Tag },
     ],
   },
