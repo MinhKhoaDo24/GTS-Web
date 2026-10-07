@@ -1,4 +1,4 @@
-﻿-- ==========================================
+-- ==========================================
 -- GTS WEBSITE DATABASE DDL (PostgreSQL)
 -- ==========================================
 
@@ -151,6 +151,16 @@ CREATE TABLE specification_aliases (
     brand_id VARCHAR(255),
     alias VARCHAR(255),
     notes TEXT
+);
+
+CREATE TABLE category_specifications (
+    id VARCHAR(255) PRIMARY KEY,
+    category_id VARCHAR(255) REFERENCES categories(id) ON DELETE CASCADE,
+    specification_id VARCHAR(255) REFERENCES specifications(id) ON DELETE CASCADE,
+    sort_order INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    CONSTRAINT uq_category_spec UNIQUE (category_id, specification_id)
 );
 
 -- ------------------------------------------

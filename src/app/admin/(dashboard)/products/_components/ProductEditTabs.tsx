@@ -10,6 +10,7 @@ import { ProductForm } from './ProductForm'
 import { GalleryManager } from './GalleryManager'
 import { VariantsManager } from './VariantsManager'
 import { RelatedProductsManager } from './RelatedProductsManager'
+import { SpecificationsManager } from './SpecificationsManager'
 import type { ProductImage, ProductVariant, RelatedProduct } from '@/lib/dal/product-extras'
 import type { ProductDetail } from '@/lib/dal/products'
 import type { CategoryWithMeta } from '@/lib/dal/categories'
@@ -27,12 +28,14 @@ interface ProductEditTabsProps {
   variants: ProductVariant[]
   relations: RelatedProduct[]
   updateAction: (prev: any, formData: FormData) => Promise<any>
+  initialTab?: string
 }
 
-type TabKey = 'info' | 'gallery' | 'variants' | 'relations'
+type TabKey = 'info' | 'specs' | 'gallery' | 'variants' | 'relations'
 
 const TABS: { key: TabKey; label: string; icon: any; description: string }[] = [
   { key: 'info', label: 'Thông tin', icon: Package, description: 'Thông tin cơ bản & SEO' },
+  { key: 'specs', label: 'Thông số kỹ thuật', icon: Search, description: 'Dynamic spec form' },
   { key: 'gallery', label: 'Gallery ảnh', icon: ImageIcon, description: 'Quản lý ảnh sản phẩm' },
   { key: 'variants', label: 'Variants', icon: Layers, description: 'SKU & phiên bản' },
   { key: 'relations', label: 'Sản phẩm liên quan', icon: Link2, description: 'Liên kết sản phẩm' },
@@ -49,8 +52,14 @@ export function ProductEditTabs({
   variants,
   relations,
   updateAction,
+  initialTab,
 }: ProductEditTabsProps) {
-  const [activeTab, setActiveTab] = useState<TabKey>('info')
+  const validTabs: TabKey[] = ['info', 'specs', 'gallery', 'variants', 'relations']
+  const defaultTab = initialTab && validTabs.includes(initialTab as TabKey)
+    ? (initialTab as TabKey)
+    : 'info'
+
+  const [activeTab, setActiveTab] = useState<TabKey>(defaultTab)
 
   const tabCounts: Partial<Record<TabKey, number>> = {
     gallery: images.length,
@@ -179,6 +188,16 @@ export function ProductEditTabs({
               variant_specs_summary: product.variants?.[0]?.specifications_summary ?? '',
             }}
           />
+        )}
+
+        {/* Tab: Thông số kỹ thuật (Dynamic Form) */}
+        {activeTab === 'specs' && (
+          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-6">
+            <SpecificationsManager
+              productId={product.id}
+              categoryId={product.category_id}
+            />
+          </div>
         )}
 
         {/* Tab: Gallery ảnh */}

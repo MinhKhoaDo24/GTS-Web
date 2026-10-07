@@ -10,6 +10,7 @@ import { updateProductAction } from '../actions'
 
 interface Props {
   params: Promise<{ id: string }>
+  searchParams?: Promise<{ tab?: string }>
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -20,8 +21,9 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-export default async function EditProductPage({ params }: Props) {
+export default async function EditProductPage({ params, searchParams }: Props) {
   const { id } = await params
+  const { tab } = (await searchParams) ?? {}
 
   const [product, brands, categories, families, images, variants, relations] = await Promise.all([
     getProductById(id),
@@ -47,6 +49,7 @@ export default async function EditProductPage({ params }: Props) {
       variants={variants}
       relations={relations}
       updateAction={boundAction}
+      initialTab={tab}
     />
   )
 }

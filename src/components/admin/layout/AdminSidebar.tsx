@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Package, FolderOpen, Tag,
   FileText, Settings, ExternalLink,
   ChevronRight, ShieldCheck, Inbox, LogOut,
-  Layers,
+  Layers, Database,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -37,6 +37,7 @@ const navGroups: NavGroup[] = [
       { href: '/admin/products', label: 'Sản phẩm', icon: Package },
       { href: '/admin/categories', label: 'Danh mục thiết bị', icon: FolderOpen },
       { href: '/admin/product-families', label: 'Dòng sản phẩm', icon: Layers },
+      { href: '/admin/specifications', label: 'Thông số kỹ thuật', icon: Database },
       { href: '/admin/brands', label: 'Hãng sản xuất', icon: Tag },
     ],
   },

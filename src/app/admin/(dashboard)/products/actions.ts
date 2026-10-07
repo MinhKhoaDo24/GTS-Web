@@ -61,6 +61,8 @@ export async function createProductAction(
     return { success: false, errors: parsed.error.flatten().fieldErrors as Record<string, string[]> }
   }
 
+  let newId: string | null = null
+
   try {
     const { id } = await createProduct({
       name: parsed.data.name,
@@ -78,6 +80,7 @@ export async function createProductAction(
       seo_title: parsed.data.seo_title ?? null,
       seo_description: parsed.data.seo_description ?? null,
     })
+    newId = id
 
     // Create first variant if SKU provided
     if (parsed.data.variant_sku) {
@@ -104,7 +107,11 @@ export async function createProductAction(
     }
   }
 
-  redirect('/admin/products')
+  if (newId) {
+    redirect(`/admin/products/${newId}?tab=specs`)
+  } else {
+    redirect('/admin/products')
+  }
 }
 
 // ─── Update Product ──────────────────────────────────────────────────────────
