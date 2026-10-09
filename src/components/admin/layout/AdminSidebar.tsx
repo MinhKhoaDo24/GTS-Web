@@ -45,6 +45,7 @@ const navGroups: NavGroup[] = [
     label: 'Nội dung Website',
     items: [
       { href: '/admin/contents', label: 'Bài viết & Tin tức', icon: FileText },
+      { href: '/admin/solutions', label: 'Giải pháp', icon: Layers },
       { href: '/admin/contacts', label: 'Yêu cầu liên hệ', icon: Inbox },
     ],
   },

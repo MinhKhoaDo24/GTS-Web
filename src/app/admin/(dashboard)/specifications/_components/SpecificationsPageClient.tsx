@@ -18,8 +18,9 @@ import { useCallback, useState } from 'react'
 import {
   Plus, Trash2, ToggleLeft, ToggleRight, ChevronDown, ChevronRight,
   Settings2, Layers, AlertCircle, CheckCircle2, Loader2, Edit2,
-  X, Save, Tag, Database, Info, Filter, Search,
+  X, Save, Tag, Database, Info, Filter, Search, FolderTree,
 } from 'lucide-react'
+import { CategorySpecMappingTab } from './CategorySpecMappingTab'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -52,6 +53,7 @@ interface Spec {
 interface Props {
   initialGroups: SpecGroup[]
   initialSpecs: Spec[]
+  categories?: Array<{ id: string; name: string; parent_id?: string | null }>
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -436,7 +438,8 @@ function CreateSpecForm({
 
 // ─── Main Page Component ──────────────────────────────────────────────────────
 
-export function SpecificationsPageClient({ initialGroups, initialSpecs }: Props) {
+export function SpecificationsPageClient({ initialGroups, initialSpecs, categories = [] }: Props) {
+  const [mainTab, setMainTab] = useState<'specs' | 'mapping'>('specs')
   const [groups, setGroups] = useState<SpecGroup[]>(initialGroups)
   const [specs, setSpecs] = useState<Spec[]>(initialSpecs)
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
@@ -564,52 +567,84 @@ export function SpecificationsPageClient({ initialGroups, initialSpecs }: Props)
             <span className="font-bold text-emerald-600">{totalActive} đang kích hoạt</span>
           </p>
         </div>
-        <CreateGroupForm onCreated={handleGroupCreated} />
+        {mainTab === 'specs' && <CreateGroupForm onCreated={handleGroupCreated} />}
       </div>
 
-      {/* Info Card: category_specifications */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50/50 border border-blue-200/70 rounded-2xl p-4 flex gap-3">
-        <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
-        <div className="text-sm text-blue-800 space-y-1">
-          <p className="font-semibold">Về tính năng lọc theo Danh mục (category_specifications)</p>
-          <p className="text-xs text-blue-700 leading-relaxed">
-            Hiện tại: Dynamic Form hiển thị <strong>tất cả thông số active</strong> cho mọi danh mục.
-            Khi cần chuyên biệt hóa (Switch chỉ thấy specs mạng, Camera chỉ thấy specs AV),
-            Admin tạo bảng <code className="bg-blue-100 px-1 rounded font-mono">category_specifications</code> trong PostgreSQL —
-            hệ thống sẽ <strong>tự động nhận diện và filter chính xác</strong> mà không cần sửa code.
-          </p>
-          <p className="text-xs font-mono bg-blue-100/70 px-3 py-2 rounded-lg border border-blue-200/60 mt-2 text-blue-800">
-            {'CREATE TABLE category_specifications ('}
-            {'\n  id VARCHAR(255) PRIMARY KEY,'}
-            {'\n  category_id VARCHAR(255) REFERENCES categories(id),'}
-            {'\n  specification_id VARCHAR(255) REFERENCES specifications(id),'}
-            {'\n  sort_order INT DEFAULT 0,'}
-            {'\n  is_active BOOLEAN DEFAULT TRUE'}
-            {'\n);'}
-          </p>
-        </div>
+      {/* Main Tabs Switcher */}
+      <div className="flex items-center gap-2 border-b border-slate-200">
+        <button
+          type="button"
+          onClick={() => setMainTab('specs')}
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border-b-2 transition-all ${
+            mainTab === 'specs'
+              ? 'border-blue-600 text-blue-600'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <Database className="w-4 h-4" />
+          <span>Thư viện Thông số</span>
+          <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded-full font-mono">
+            {specs.length}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setMainTab('mapping')}
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold border-b-2 transition-all ${
+            mainTab === 'mapping'
+              ? 'border-blue-600 text-blue-600'
+              : 'border-transparent text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <FolderTree className="w-4 h-4" />
+          <span>Gắn thông số vào Danh mục (Category Mapping)</span>
+          <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.2 rounded-full font-mono font-semibold">
+            {categories.length} danh mục
+          </span>
+        </button>
       </div>
 
-      {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-        <input
-          type="text"
-          value={searchQ}
-          onChange={(e) => setSearchQ(e.target.value)}
-          placeholder="Tìm kiếm thông số theo tên, slug, hoặc nhóm..."
-          className={`${inputCls} pl-10`}
+      {mainTab === 'mapping' ? (
+        <CategorySpecMappingTab
+          categories={categories}
+          groups={groups}
+          specs={specs}
         />
-        {searchQ && (
-          <button
-            type="button"
-            onClick={() => setSearchQ('')}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2"
-          >
-            <X className="w-4 h-4 text-slate-400 hover:text-slate-600" />
-          </button>
-        )}
-      </div>
+      ) : (
+        <>
+          {/* Info Card: Dynamic Specifications */}
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50/50 border border-blue-200/70 rounded-2xl p-4 flex gap-3">
+            <Info className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-blue-800 space-y-1">
+              <p className="font-semibold">Về mô hình Dynamic Form theo Danh mục</p>
+              <p className="text-xs text-blue-700 leading-relaxed">
+                Tất cả thông số được tạo ở đây sẽ làm cơ sở dữ liệu để form thêm sản phẩm tự động nhận diện và vẽ ra các ô nhập liệu.
+                Qua tab <strong>&quot;Gắn thông số vào Danh mục&quot;</strong> để thiết lập Switch chỉ hiển thị thông số mạng, Camera chỉ hiển thị thông số AV!
+              </p>
+            </div>
+          </div>
+
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              value={searchQ}
+              onChange={(e) => setSearchQ(e.target.value)}
+              placeholder="Tìm kiếm thông số theo tên, slug, hoặc nhóm..."
+              className={`${inputCls} pl-10`}
+            />
+            {searchQ && (
+              <button
+                type="button"
+                onClick={() => setSearchQ('')}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2"
+              >
+                <X className="w-4 h-4 text-slate-400 hover:text-slate-600" />
+              </button>
+            )}
+          </div>
 
       {/* Khi search: hiện flat list */}
       {searchQ ? (
@@ -744,7 +779,9 @@ export function SpecificationsPageClient({ initialGroups, initialSpecs }: Props)
           )}
         </div>
       )}
-    </div>
+    </>
+  )}
+</div>
   )
 }
 

@@ -99,7 +99,43 @@ export async function createProductAction(
       )
     }
 
+    // Save dynamic specifications if provided
+    const specsPayloadStr = formData.get('specs_payload') as string | null
+    if (specsPayloadStr) {
+      try {
+        const specs = JSON.parse(specsPayloadStr)
+        if (Array.isArray(specs) && specs.length > 0) {
+          const { upsertProductSpecifications } = await import('@/lib/dal/specifications')
+          await upsertProductSpecifications(id, specs)
+        }
+      } catch (err) {
+        console.error('Lỗi khi lưu thông số kỹ thuật sản phẩm:', err)
+      }
+    }
+
+    // Save images to product_images gallery
+    const imagesJsonStr = formData.get('images_json') as string | null
+    if (imagesJsonStr) {
+      try {
+        const images: string[] = JSON.parse(imagesJsonStr)
+        if (Array.isArray(images) && images.length > 0) {
+          const { addProductImage } = await import('@/lib/dal/product-extras')
+          for (let i = 0; i < images.length; i++) {
+            await addProductImage({
+              product_id: id,
+              image_url: images[i],
+              sort_order: i,
+              is_primary: i === 0,
+            })
+          }
+        }
+      } catch (err) {
+        console.error('Lỗi khi lưu ảnh sản phẩm:', err)
+      }
+    }
+
     revalidatePath('/admin/products')
+    revalidatePath(`/san-pham/${parsed.data.slug}`)
   } catch (e: any) {
     return {
       success: false,
@@ -108,7 +144,7 @@ export async function createProductAction(
   }
 
   if (newId) {
-    redirect(`/admin/products/${newId}?tab=specs`)
+    redirect(`/admin/products/${newId}`)
   } else {
     redirect('/admin/products')
   }
@@ -160,6 +196,44 @@ export async function updateProductAction(
       seo_title: parsed.data.seo_title ?? null,
       seo_description: parsed.data.seo_description ?? null,
     })
+
+    // Save dynamic specifications if provided
+    const specsPayloadStr = formData.get('specs_payload') as string | null
+    if (specsPayloadStr) {
+      try {
+        const specs = JSON.parse(specsPayloadStr)
+        if (Array.isArray(specs)) {
+          const { upsertProductSpecifications } = await import('@/lib/dal/specifications')
+          await upsertProductSpecifications(id, specs)
+        }
+      } catch (err) {
+        console.error('Lỗi khi cập nhật thông số kỹ thuật sản phẩm:', err)
+      }
+    }
+
+    // Save images to product_images gallery
+    const imagesJsonStr = formData.get('images_json') as string | null
+    if (imagesJsonStr) {
+      try {
+        const images: string[] = JSON.parse(imagesJsonStr)
+        if (Array.isArray(images)) {
+          const { query } = await import('@/lib/db')
+          const { addProductImage } = await import('@/lib/dal/product-extras')
+          await query('DELETE FROM product_images WHERE product_id = $1', [id])
+          for (let i = 0; i < images.length; i++) {
+            await addProductImage({
+              product_id: id,
+              image_url: images[i],
+              sort_order: i,
+              is_primary: i === 0,
+            })
+          }
+        }
+      } catch (err) {
+        console.error('Lỗi khi cập nhật ảnh sản phẩm:', err)
+      }
+    }
+
     revalidatePath('/admin/products')
     revalidatePath(`/admin/products/${id}`)
     revalidatePath(`/san-pham/${parsed.data.slug}`)

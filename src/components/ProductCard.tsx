@@ -79,7 +79,6 @@ function LifecycleBadge({ status }: { status?: LifecycleStatus | string | null }
 
 export function ProductCard({ product }: ProductCardProps) {
   const thumbnail = product.thumbnail || null
-  const displayModel = product.model || product.part_number || product.sku || null
 
   // Tách specs summary thành mảng các gạch đầu dòng ngắn gọn (tối đa 3 mục)
   let specBullets: string[] = []
@@ -126,7 +125,7 @@ export function ProductCard({ product }: ProductCardProps) {
         ) : (
           <div className="flex flex-col items-center justify-center text-slate-400 p-4">
             <div className="w-14 h-14 rounded-none bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-slate-600 text-sm mb-1.5">
-              GTS
+              GTS 
             </div>
             <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               Hardware Spec
@@ -146,13 +145,6 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-col flex-1 p-4 bg-white">
         {/* Model / Part Number Header */}
         <div className="flex items-center justify-between text-xs text-slate-500 gap-2 mb-1.5">
-          {displayModel ? (
-            <div className="font-mono text-[12px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 border border-slate-200 truncate max-w-[180px] rounded-none">
-              P/N: {displayModel}
-            </div>
-          ) : (
-            <div className="font-mono text-[11px] text-slate-400">P/N: N/A</div>
-          )}
           {product.category?.name && (
             <span className="text-[11px] text-slate-500 truncate max-w-[110px]">
               {product.category.name}

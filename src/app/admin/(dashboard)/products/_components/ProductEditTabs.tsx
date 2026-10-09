@@ -179,6 +179,7 @@ export function ProductEditTabs({
               short_description: product.short_description,
               description: product.description,
               thumbnail: product.thumbnail,
+              images: images.map((img) => img.image_url),
               is_active: product.is_active,
               is_featured: product.is_featured,
               seo_title: product.seo_title,

@@ -11,6 +11,7 @@ import { TiptapEditor } from '@/components/admin/TiptapEditor'
 import { ImageUploader } from '@/components/admin/ImageUploader'
 import { useToast } from '@/components/admin/ui/Toast'
 import { slugify } from '@/lib/utils'
+import { DynamicProductSpecs } from './DynamicProductSpecs'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -39,6 +40,7 @@ interface ProductFormProps {
     is_featured?: boolean
     seo_title?: string | null
     seo_description?: string | null
+    images?: string[]
     variant_sku?: string
     variant_part_number?: string
     variant_specs_summary?: string
@@ -86,13 +88,20 @@ export function ProductForm({ action, brands, categories, families = [], default
   const [name, setName] = useState(defaultValues.name ?? '')
   const [slug, setSlug] = useState(defaultValues.slug ?? '')
   const [selectedBrandId, setSelectedBrandId] = useState(defaultValues.brand_id ?? '')
+  const [selectedCategoryId, setSelectedCategoryId] = useState(defaultValues.category_id ?? '')
   const [slugManual, setSlugManual] = useState(Boolean(defaultValues.slug))
   const [description, setDescription] = useState(defaultValues.description ?? '')
   const [isActive, setIsActive] = useState(defaultValues.is_active ?? true)
   const [isFeatured, setIsFeatured] = useState(defaultValues.is_featured ?? false)
-  const [thumbnail, setThumbnail] = useState<string[]>(
-    defaultValues.thumbnail ? [defaultValues.thumbnail] : []
+  const [images, setImages] = useState<string[]>(
+    defaultValues.images && defaultValues.images.length > 0
+      ? defaultValues.images
+      : defaultValues.thumbnail
+        ? [defaultValues.thumbnail]
+        : []
   )
+
+  const selectedCategory = categories.find((c) => c.id === selectedCategoryId)
 
   useEffect(() => {
     if (state?.success === false && state.errors?._root) {
@@ -317,7 +326,8 @@ export function ProductForm({ action, brands, categories, families = [], default
                     <select
                       id="category_id"
                       name="category_id"
-                      defaultValue={defaultValues.category_id ?? ''}
+                      value={selectedCategoryId}
+                      onChange={(e) => setSelectedCategoryId(e.target.value)}
                       className={selectCls}
                       required
                     >
@@ -354,6 +364,13 @@ export function ProductForm({ action, brands, categories, families = [], default
             </div>
           </div>
 
+          {/* Card: Thông số kỹ thuật đặc thù (Dynamic Form theo Danh mục) */}
+          <DynamicProductSpecs
+            categoryId={selectedCategoryId}
+            categoryName={selectedCategory?.name}
+            productId={defaultValues.id}
+          />
+
           {/* Card: Mô tả chi tiết */}
           <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
@@ -384,55 +401,7 @@ export function ProductForm({ action, brands, categories, families = [], default
             </div>
           </div>
 
-          {/* Card: Thông số kỹ thuật & Phiên bản */}
-          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-blue-600" />
-              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Phiên bản & Mã hàng kỹ thuật (Part Number)
-              </h2>
-            </div>
-            <div className="p-6 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="Mã SKU quản lý kho" name="variant_sku">
-                  <input
-                    id="variant_sku"
-                    name="variant_sku"
-                    type="text"
-                    defaultValue={defaultValues.variant_sku ?? ''}
-                    placeholder="VD: SKU-C9300-24T"
-                    className={`${inputCls} font-mono text-xs`}
-                  />
-                </Field>
 
-                <Field label="Mã Part Number nhà sản xuất" name="variant_part_number">
-                  <input
-                    id="variant_part_number"
-                    name="variant_part_number"
-                    type="text"
-                    defaultValue={defaultValues.variant_part_number ?? ''}
-                    placeholder="VD: C9300-24T-A"
-                    className={`${inputCls} font-mono text-xs`}
-                  />
-                </Field>
-              </div>
-
-              <Field
-                label="Tóm tắt thông số kỹ thuật chính"
-                name="variant_specs_summary"
-                hint="Hiển thị nhanh ở bảng thông số (VD: 24x 10/100/1000 Ethernet Ports, Network Essentials)"
-              >
-                <textarea
-                  id="variant_specs_summary"
-                  name="variant_specs_summary"
-                  rows={2}
-                  defaultValue={defaultValues.variant_specs_summary ?? ''}
-                  placeholder="Thông số tóm lược kỹ thuật..."
-                  className={`${inputCls} resize-none`}
-                />
-              </Field>
-            </div>
-          </div>
 
           {/* Card: SEO */}
           <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
@@ -557,22 +526,30 @@ export function ProductForm({ action, brands, categories, families = [], default
             </div>
           </div>
 
-          {/* Card: Ảnh đại diện */}
+          {/* Card: Ảnh sản phẩm (Đại diện & Gallery) */}
           <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center gap-2">
-              <ImageIcon className="w-4 h-4 text-blue-600" />
-              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Ảnh đại diện sản phẩm
-              </h2>
+            <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ImageIcon className="w-4 h-4 text-blue-600" />
+                <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  Hình ảnh sản phẩm
+                </h2>
+              </div>
+              {images.length > 0 && (
+                <span className="text-[11px] font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-100">
+                  {images.length} ảnh
+                </span>
+              )}
             </div>
             <div className="p-5">
-              <input type="hidden" name="thumbnail" value={thumbnail[0] ?? ''} />
+              <input type="hidden" name="thumbnail" value={images[0] ?? ''} />
+              <input type="hidden" name="images_json" value={JSON.stringify(images)} />
               <ImageUploader
-                images={thumbnail}
-                onChange={(imgs) => setThumbnail(imgs.slice(0, 1))}
+                images={images}
+                onChange={(imgs) => setImages(imgs)}
               />
               <p className="text-[11px] text-slate-400 mt-2">
-                Hỗ trợ PNG, JPG, WebP. Khuyến nghị tỷ lệ vuông 1:1.
+                Hỗ trợ chọn hoặc tải lên nhiều ảnh (PNG, JPG, WebP). Ảnh đầu tiên sẽ là ảnh đại diện chính.
               </p>
             </div>
           </div>
