@@ -23,7 +23,7 @@ import {
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Giải Pháp Hạ Tầng Mạng & An Ninh Cho Doanh Nghiệp | GTS',
+  title: 'Giải pháp',
   description:
     'Các giải pháp công nghệ toàn diện từ GTS: WiFi Doanh nghiệp mật độ cao, Mạng Core Spine-Leaf 100G, Tường lửa thế hệ mới NGFW, Tổng đài VoIP và Hạ tầng Máy chủ Data Center.',
 }

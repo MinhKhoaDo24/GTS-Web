@@ -22,7 +22,9 @@ export function Footer({ settings }: FooterProps) {
                 </span>
               </div>
               <div>
-                <div className="text-white font-extrabold text-xl leading-tight tracking-tight">Global Solution & Technology</div>
+                <div className="text-white font-extrabold text-lg sm:text-xl leading-tight tracking-tight flex items-center gap-2">
+                  <span className="text-slate-100 text-sm sm:text-base font-bold">Global Technology & Service</span>
+                </div>
                 <div className="text-blue-300 text-xs font-semibold leading-tight mt-0.5">Find your true solution</div>
               </div>
             </Link>

@@ -240,18 +240,21 @@ export function Header({
             </div>
             {/* xs: tên viết tắt */}
             <div className="flex flex-col sm:hidden">
-              <span className="text-[18px] font-black text-[#0F172A] tracking-tight group-hover:text-[#1D4ED8] transition-colors leading-tight">
-                GTS
-              </span>
-              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase leading-tight">
-                Enterprise
+              <span className="text-[20px] font-black tracking-tight leading-tight">
+                <span className="text-[#E52320]">G</span>
+                <span className="text-[#2563EB]">T</span>
+                <span className="text-[#52B52F]">S</span>
               </span>
             </div>
             {/* sm+: tên đầy đủ */}
             <div className="hidden sm:flex flex-col">
-              <span className="text-[17px] md:text-[21px] lg:text-2xl xl:text-[26px] font-black text-[#0F172A] tracking-tight group-hover:text-[#1D4ED8] transition-colors whitespace-nowrap">
-                Global Technology & Service
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[18px] md:text-[22px] lg:text-[25px] font-black tracking-tight leading-tight">
+                  <span className="text-[#E52320]">G</span>
+                  <span className="text-[#2563EB]">T</span>
+                  <span className="text-[#52B52F]">S</span>
+                </span>
+              </div>
               <span className="text-[10px] md:text-[11px] font-bold text-slate-500 tracking-wider uppercase">
                 Find your true solution
               </span>
@@ -792,12 +795,16 @@ export function Header({
                   className="h-8 w-auto object-contain"
                 />
                 <div className="flex flex-col leading-tight">
-                  <span className="text-[13px] font-black text-[#0F172A] tracking-tight group-hover:text-[#1D4ED8] transition-colors">
-                    Global Technology
-                  </span>
-                  <span className="text-[11px] font-black text-[#1D4ED8] tracking-tight">
-                    &amp; Service
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[15px] font-black tracking-tight">
+                      <span className="text-[#E52320]">G</span>
+                      <span className="text-[#2563EB]">T</span>
+                      <span className="text-[#52B52F]">S</span>
+                    </span>
+                    <span className="text-[12px] font-black text-[#0F172A] tracking-tight">
+                      Technology &amp; Service
+                    </span>
+                  </div>
                 </div>
               </Link>
               <button

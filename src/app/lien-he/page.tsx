@@ -9,7 +9,7 @@ import ContactForm from './ContactForm'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Liên hệ GTS - Global Technology & Service',
+  title: 'Liên hệ',
   description:
     'Thông tin liên hệ, địa chỉ văn phòng, hotline, email và chat Zalo trực tiếp với công ty GTS - Phân phối thiết bị mạng doanh nghiệp.',
 }
@@ -109,31 +109,9 @@ export default async function ContactPage() {
           </div>
         </div>
 
-        {/* Google Maps */}
-        <div className="mb-10">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[#1D4ED8]" />
-              <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wider">Bản đồ vị trí văn phòng</h2>
-            </div>
-            <div className="w-full" style={{ height: 400 }}>
-              <iframe
-                title="GTS Office Location"
-                src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
-                width="100%"
-                height="400"
-                style={{ border: 0, display: 'block' }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Contact Form + Company Info */}
+        {/* Contact Form + Company Info & Map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Company info */}
+          {/* Company info & Map */}
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
               <h3 className="text-base font-bold text-gray-900 mb-4 pb-3 border-b border-gray-100">
@@ -162,6 +140,26 @@ export default async function ContactPage() {
                     <span className="text-gray-600 font-mono">MST: {settings.tax_code}</span>
                   </div>
                 )}
+              </div>
+            </div>
+
+            {/* Google Maps đặt dưới ô thông tin công ty */}
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+              <div className="px-5 py-3.5 border-b border-gray-100 flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#1D4ED8]" />
+                <h2 className="text-xs font-bold text-gray-900 uppercase tracking-wider">Bản đồ vị trí</h2>
+              </div>
+              <div className="w-full h-[320px]">
+                <iframe
+                  title="GTS Office Location"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, display: 'block' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
               </div>
             </div>
           </div>

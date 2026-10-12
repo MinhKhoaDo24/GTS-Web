@@ -22,11 +22,13 @@ export async function GET(_req: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'Category ID is required' }, { status: 400 })
     }
 
-    const specIds = await getCategorySpecMappings(categoryId)
+    const mappings = await getCategorySpecMappings(categoryId)
     return NextResponse.json({
       categoryId,
-      specificationIds: specIds,
-      total: specIds.length,
+      specificationIds: mappings.map((m) => m.specification_id),
+      requiredIds: mappings.filter((m) => m.is_required).map((m) => m.specification_id),
+      mappings,
+      total: mappings.length,
     })
   } catch (error) {
     console.error('[GET /api/v2/admin/categories/[id]/specifications]', error)
@@ -42,13 +44,14 @@ export async function PUT(req: NextRequest, { params }: Props) {
     }
 
     const body = await req.json()
-    const { specificationIds } = body
+    const { specificationIds, requiredIds } = body
 
     if (!Array.isArray(specificationIds)) {
       return NextResponse.json({ error: 'specificationIds must be an array' }, { status: 400 })
     }
 
-    await setCategorySpecMappings(categoryId, specificationIds)
+    const reqSet = Array.isArray(requiredIds) ? new Set<string>(requiredIds) : undefined
+    await setCategorySpecMappings(categoryId, specificationIds, reqSet)
 
     return NextResponse.json({
       success: true,

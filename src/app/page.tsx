@@ -22,7 +22,7 @@ import {
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'GTS - Global Technology Solutions | Hạ Tầng Mạng & Phần Cứng Enterprise',
+  title: 'Trang chủ | GTS - Global Technology & Service',
   description:
     'GTS cung cấp thiết bị mạng doanh nghiệp chính hãng: Switch, Router, Firewall, WiFi Access Point, Máy chủ & Lưu trữ. Đối tác chiến lược của Cisco, Fortinet, HPE, Dell, Ubiquiti.',
 }
@@ -572,7 +572,7 @@ export default async function HomePage() {
                   SẢN PHẨM NỔI BẬT
                 </p>
                 <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-                  Thiết Bị Hạ Tầng Mạng & Phần Cứng Tiêu Biểu
+                  Thiết Bị Hạ Tầng Mạng & Phần Cứng Nổi Bật
                 </h2>
                 <p className="text-slate-600 mt-2 text-sm sm:text-base">
                   Switch Core/Access, Firewall NGFW, WiFi 6/7 và Server được doanh nghiệp lựa chọn nhiều nhất.
@@ -582,7 +582,7 @@ export default async function HomePage() {
                 href="/san-pham"
                 className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sm text-[#036ae5] font-bold hover:gap-3 transition-all"
               >
-                Xem toàn bộ catalogue <ArrowRight className="w-4 h-4" />
+                Xem toàn bộ sản phẩm <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
@@ -616,7 +616,7 @@ export default async function HomePage() {
                 Giải Pháp Kỹ Thuật Toàn Diện Cho Vận Hành Doanh Nghiệp
               </h2>
               <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-2xl">
-                Đồng hành cùng khách hàng từ khâu tư vấn thiết kế, thi công triển khai đến bảo trì SLA 24/7.
+                Đồng hành cùng khách hàng từ khâu tư vấn thiết kế, thi công triển khai đến bảo trì.
               </p>
             </div>
 
@@ -681,7 +681,7 @@ export default async function HomePage() {
               Từ Bài Toán Doanh Nghiệp Đến Triển Khai Thực Tế
             </h2>
             <p className="text-blue-100/80 text-sm">
-              Kinh nghiệm cung cấp, triển khai và bảo hành hệ thống hạ tầng mạng cho các tập đoàn, ngân hàng và nhà máy đầu ngành.
+              Kinh nghiệm cung cấp, triển khai và bảo hành hệ thống hạ tầng mạng cho các tập đoàn, ngân hàng và công ty hàng đầu.
             </p>
           </div>
 
@@ -701,7 +701,7 @@ export default async function HomePage() {
                 Triển khai giải pháp hạ tầng phù hợp cho bài toán của bạn!
               </h3>
               <p className="text-slate-600 text-sm sm:text-base mt-2">
-                Kỹ sư GTS luôn sẵn sàng khảo sát tại chân công trình và lên phương án kỹ thuật miễn phí.
+                Kỹ sư GTS luôn sẵn sàng khảo sát tại công trình và lên phương án kỹ thuật miễn phí.
               </p>
             </div>
             

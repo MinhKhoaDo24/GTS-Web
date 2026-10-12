@@ -6,12 +6,17 @@ import type { Category, Brand, Domain, SiteSetting } from '@/types/database'
 
 export const metadata: Metadata = {
   title: {
-    default: 'GTS - Global Technology & Service | Thiết bị mạng chính hãng',
+    default: 'Trang chủ | GTS - Global Technology & Service',
     template: '%s | GTS - Global Technology & Service',
   },
   description:
     'GTS cung cấp thiết bị mạng chính hãng: Switch, Router, Firewall, WiFi, VoIP từ Cisco, Ubiquiti, Ruijie, Fortinet. Tư vấn & triển khai hạ tầng mạng doanh nghiệp.',
   keywords: ['thiết bị mạng', 'switch', 'router', 'firewall', 'wifi', 'cisco', 'ubiquiti', 'GTS'],
+  icons: {
+    icon: '/logo-cong-ty.jpg',
+    shortcut: '/logo-cong-ty.jpg',
+    apple: '/logo-cong-ty.jpg',
+  },
   openGraph: {
     type: 'website',
     locale: 'vi_VN',
