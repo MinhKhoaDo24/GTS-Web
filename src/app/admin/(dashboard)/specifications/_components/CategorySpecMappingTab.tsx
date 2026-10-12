@@ -300,6 +300,7 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
                 <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
                   {groupSpecs.map((spec) => {
                     const isChecked = mappedSpecIds.has(spec.id)
+                    const isRequired = requiredSpecIds.has(spec.id)
                     return (
                       <div
                         key={spec.id}
@@ -328,7 +329,7 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
                           >
                             {spec.name}
                           </p>
-                          <div className="flex items-center gap-1.5 mt-0.5">
+                          <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
                             <span className="text-[10px] text-slate-400 font-mono">
                               {spec.data_type}
                             </span>
@@ -336,6 +337,20 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
                               <span className="text-[10px] bg-slate-100 text-slate-600 px-1 rounded font-mono">
                                 {spec.unit}
                               </span>
+                            )}
+                            {isChecked && (
+                              <button
+                                type="button"
+                                onClick={(e) => toggleRequired(spec.id, e)}
+                                title={isRequired ? 'Bỏ bắt buộc' : 'Marking is_required'}
+                                className={`text-[9px] px-1.5 py-0.5 rounded font-semibold transition-all border ${
+                                  isRequired
+                                    ? 'bg-rose-100 text-rose-700 border-rose-300 hover:bg-rose-200'
+                                    : 'bg-slate-100 text-slate-400 border-slate-200 hover:bg-rose-50 hover:text-rose-500 hover:border-rose-200'
+                                }`}
+                              >
+                                {isRequired ? '★ Bắt buộc' : '+ Bắt buộc?'}
+                              </button>
                             )}
                           </div>
                         </div>

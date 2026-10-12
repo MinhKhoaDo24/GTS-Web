@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Tra Cứu Bảo Hành & Dịch Vụ RMA Chính Hãng | GTS',
+  title: 'Tra cứu bảo hành',
   description:
     'Cổng tra cứu thời hạn bảo hành phần cứng và tiến độ xử lý RMA thiết bị mạng Cisco, Fortinet, HPE, Dell, Ubiquiti tại GTS.',
 }

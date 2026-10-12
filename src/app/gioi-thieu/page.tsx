@@ -29,9 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   ).catch(() => null)
 
   return {
-    title:
-      page?.seo_title ||
-      'Về GTS - Global Technology & Service | Nhà Phân Phối Thiết Bị Mạng Chính Hãng',
+    title: page?.seo_title || 'Giới thiệu',
     description:
       page?.seo_description ||
       'Giới thiệu công ty GTS: Nhà cung cấp thiết bị phần cứng mạng, máy chủ và giải pháp an ninh mạng hàng đầu Việt Nam. Đối tác chính thức của Cisco, Fortinet, HPE, Dell, Ubiquiti.',

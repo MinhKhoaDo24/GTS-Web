@@ -24,7 +24,7 @@ import {
 } from '@/lib/catalogTaxonomy'
 
 export const metadata: Metadata = {
-  title: 'Thiết Bị Phần Cứng & Hạ Tầng Mạng Enterprise Chính Hãng | GTS',
+  title: 'Sản phẩm',
   description:
     'Danh mục thiết bị mạng doanh nghiệp & máy chủ chính hãng tại GTS: Cisco, Fortinet, HPE Aruba, Dell Technologies, Ubiquiti. Đầy đủ chứng chỉ CO/CQ và bảo hành chính hãng.',
 }

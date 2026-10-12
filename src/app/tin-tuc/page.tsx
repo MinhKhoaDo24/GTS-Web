@@ -20,7 +20,7 @@ import {
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Tin tức & Bản tin Công nghệ Mạng Enterprise | GTS',
+  title: 'Tin tức',
   description:
     'Cập nhật tin tức phần cứng mạng, hướng dẫn kỹ thuật Cisco, Fortinet, HPE Aruba, Dell Technologies và kinh nghiệm triển khai hạ tầng CNTT doanh nghiệp từ chuyên gia GTS.',
 }

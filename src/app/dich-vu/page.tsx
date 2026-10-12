@@ -22,7 +22,7 @@ import {
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Dịch Vụ Kỹ Thuật & Triển Khai Hạ Tầng Mạng Enterprise | GTS',
+  title: 'Dịch vụ',
   description:
     'Dịch vụ kỹ thuật chuyên nghiệp tại GTS: Tư vấn thiết kế giải pháp mạng, triển khai cài đặt chuẩn hãng, bảo trì 24/7 SLA 4h và cung cấp linh kiện spare part chính hãng.',
 }

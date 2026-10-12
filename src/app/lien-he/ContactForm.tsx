@@ -5,6 +5,7 @@ import { Send, RotateCcw, Paperclip } from 'lucide-react'
 
 interface FormData {
   fullName: string
+  phone: string
   address: string
   email: string
   subject: string
@@ -14,6 +15,7 @@ interface FormData {
 
 const emptyForm: FormData = {
   fullName: '',
+  phone: '',
   address: '',
   email: '',
   subject: '',
@@ -47,6 +49,7 @@ export default function ContactForm() {
     try {
       const body = new FormData()
       body.append('fullName', form.fullName)
+      body.append('phone', form.phone)
       body.append('address', form.address)
       body.append('email', form.email)
       body.append('subject', form.subject)
@@ -66,11 +69,11 @@ export default function ContactForm() {
   }
 
   const inputCls =
-    'w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0077CC]/40 focus:border-[#0077CC] transition-all bg-white'
+    'w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/40 focus:border-[#1D4ED8] transition-all bg-white'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Row 1: Họ tên + Email */}
+      {/* Row 1: Họ tên + Số điện thoại */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input
           id="contact-fullName"
@@ -80,6 +83,29 @@ export default function ContactForm() {
           value={form.fullName}
           onChange={handleChange}
           required
+          className={inputCls}
+        />
+        <input
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          placeholder="Số điện thoại"
+          value={form.phone}
+          onChange={handleChange}
+          required
+          className={inputCls}
+        />
+      </div>
+
+      {/* Row 2: Địa chỉ + Email */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <input
+          id="contact-address"
+          name="address"
+          type="text"
+          placeholder="Địa chỉ"
+          value={form.address}
+          onChange={handleChange}
           className={inputCls}
         />
         <input
@@ -93,17 +119,6 @@ export default function ContactForm() {
           className={inputCls}
         />
       </div>
-
-      {/* Row 2: Địa chỉ */}
-      <input
-        id="contact-address"
-        name="address"
-        type="text"
-        placeholder="Địa chỉ"
-        value={form.address}
-        onChange={handleChange}
-        className={inputCls}
-      />
 
       {/* Chủ đề */}
       <input
@@ -158,7 +173,7 @@ export default function ContactForm() {
       )}
       {status === 'error' && (
         <p className="text-sm text-red-600 font-medium">
-          ✗ Gửi thất bại. Vui lòng thử lại hoặc liên hệ trực tiếp qua email.
+          ✗ Gửi thất bại. Vui lòng thử lại hoặc liên hệ trực tiếp qua hotline.
         </p>
       )}
 
@@ -168,7 +183,7 @@ export default function ContactForm() {
           id="contact-submit"
           type="submit"
           disabled={status === 'loading'}
-          className="inline-flex items-center gap-2 bg-[#0077CC] hover:bg-[#004A80] disabled:opacity-60 text-white font-bold px-7 py-2.5 rounded-lg text-sm transition-all"
+          className="inline-flex items-center gap-2 bg-[#1D4ED8] hover:bg-[#1e40af] disabled:opacity-60 text-white font-bold px-7 py-2.5 rounded-lg text-sm transition-all"
         >
           <Send className="w-4 h-4" />
           {status === 'loading' ? 'ĐANG GỬI...' : 'GỬI'}

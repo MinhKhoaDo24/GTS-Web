@@ -8,7 +8,7 @@ import ContactForm from './ContactForm'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Liên hệ GTS - Global Technology & Service',
+  title: 'Liên hệ',
   description:
     'Thông tin liên hệ, địa chỉ văn phòng, hotline, email và chat Zalo trực tiếp với công ty GTS - Phân phối thiết bị mạng doanh nghiệp.',
 }
@@ -22,9 +22,12 @@ export default async function ContactPage() {
     // Database fallback
   }
 
+  const companyName = settings.company_name || 'GTS - Global Technology & Service'
+  const hotline = settings.hotline || '0901 234 567'
+  const zaloPhone = settings.zalo_phone || '0901234567'
   const email = settings.contact_email || 'contact@gts.vn'
-  const address = settings.address || '369 Ngọc Lâm, Long Biên, Hà Nội'
-  const workingHours = settings.working_hours || 'T2 – T6: 8:00 – 17:30'
+  const address = settings.address || '480 Nguyễn Oanh, Phường 6, Gò Vấp, TP. Hồ Chí Minh'
+  const workingHours = settings.working_hours || 'T2 – T7: 8:00 – 17:30'
 
   return (
     <div className="bg-[#F8FAFC] py-10 sm:py-16 fade-in">
