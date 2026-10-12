@@ -139,6 +139,11 @@ export function ProductsTable({ items, total, page, totalPages }: Props) {
                       </div>
                       <div>
                         <div className="font-semibold text-gray-900 line-clamp-1 max-w-[220px]">{p.name}</div>
+                        {p.category_name && (
+                          <span className="inline-block text-[10px] font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded-md mt-0.5">
+                            {p.category_name}
+                          </span>
+                        )}
                         <div className="text-[11px] text-gray-400 font-mono mt-0.5">{p.slug}</div>
                       </div>
                     </div>

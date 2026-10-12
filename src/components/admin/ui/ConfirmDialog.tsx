@@ -6,10 +6,12 @@ import { AlertTriangle, X } from 'lucide-react'
 interface ConfirmDialogProps {
   open: boolean
   title: string
-  message: string
+  message?: string
+  description?: string
   confirmLabel?: string
   cancelLabel?: string
   danger?: boolean
+  variant?: 'danger' | 'warning' | 'info'
   onConfirm: () => void
   onCancel: () => void
 }
@@ -18,12 +20,16 @@ export function ConfirmDialog({
   open,
   title,
   message,
+  description,
   confirmLabel = 'Xác nhận xóa',
   cancelLabel = 'Hủy bỏ',
-  danger = true,
+  danger,
+  variant,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const isDanger = danger ?? (variant === 'danger' || variant === undefined)
+  const displayMessage = message ?? description ?? ''
   const confirmRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -65,7 +71,7 @@ export function ConfirmDialog({
         {/* Icon */}
         <div
           className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 border ${
-            danger
+            isDanger
               ? 'bg-rose-50 border-rose-100 text-rose-600'
               : 'bg-amber-50 border-amber-100 text-amber-600'
           }`}
@@ -74,7 +80,7 @@ export function ConfirmDialog({
         </div>
 
         <h3 className="text-base font-bold text-slate-900 mb-1.5">{title}</h3>
-        <p className="text-xs text-slate-500 leading-relaxed mb-6">{message}</p>
+        <p className="text-xs text-slate-500 leading-relaxed mb-6">{displayMessage}</p>
 
         <div className="flex items-center gap-2.5 justify-end">
           <button
@@ -87,7 +93,7 @@ export function ConfirmDialog({
             ref={confirmRef}
             onClick={onConfirm}
             className={`px-4 py-2.5 text-xs font-semibold rounded-xl text-white transition-all shadow-xs ${
-              danger
+              isDanger
                 ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-500/20'
                 : 'bg-amber-500 hover:bg-amber-600'
             }`}

@@ -175,12 +175,12 @@ export default async function ServiceDetailPage({ params }: PageProps) {
       <div className="layout-container">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 mb-8 font-medium">
-          <Link href="/" className="hover:text-[#1D4ED8] flex items-center gap-1 transition-colors">
+          <Link href="/" className="hover:text-[#0077CC] flex items-center gap-1 transition-colors">
             <Home className="w-3.5 h-3.5 text-slate-400" />
             <span>Trang chủ</span>
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-          <Link href="/dich-vu" className="hover:text-[#1D4ED8] transition-colors">
+          <Link href="/dich-vu" className="hover:text-[#0077CC] transition-colors">
             Dịch vụ kỹ thuật
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
@@ -188,7 +188,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
         </nav>
 
         {/* ── Header Banner ───────────────────────────────────────────────── */}
-        <div className="bg-gradient-to-r from-[#0F172A] via-[#1D4ED8] to-[#1e40af] text-white rounded-3xl p-8 sm:p-12 mb-12 shadow-xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#0F172A] via-[#0077CC] to-[#004A80] text-white rounded-3xl p-8 sm:p-12 mb-12 shadow-xl relative overflow-hidden">
           <div className="max-w-3xl relative z-10">
             <div className="inline-flex items-center gap-2 bg-white/15 text-blue-100 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-3 border border-white/20 backdrop-blur-sm">
               <Wrench className="w-4 h-4 text-amber-400" />
@@ -236,7 +236,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                     <div className="space-y-3">
                       {fallback.steps.map((step, sIdx) => (
                         <div key={sIdx} className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
-                          <div className="w-7 h-7 rounded-xl bg-[#1D4ED8] text-white flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
+                          <div className="w-7 h-7 rounded-xl bg-[#0077CC] text-white flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
                             {sIdx + 1}
                           </div>
                           <span className="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed">
@@ -272,7 +272,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
           <div className="lg:col-span-4 space-y-6">
             {/* Box Đặt Lịch Tư Vấn */}
             <div className="bg-white rounded-3xl p-7 border border-slate-200/80 shadow-xs space-y-5">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#1D4ED8] pb-2 border-b border-slate-100">
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#0077CC] pb-2 border-b border-slate-100">
                 <Send className="w-4 h-4" />
                 <span>Yêu cầu tư vấn dịch vụ</span>
               </div>
@@ -282,7 +282,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
               <Link
                 href={`/lien-he?service=${encodeURIComponent(slug)}&type=consultation`}
-                className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider text-center block transition-colors shadow-md"
+                className="w-full bg-[#0077CC] hover:bg-[#004A80] text-white py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider text-center block transition-colors shadow-md"
               >
                 Gửi yêu cầu dịch vụ này
               </Link>
@@ -313,8 +313,8 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                     href={`/dich-vu/${item.slug}`}
                     className={`flex items-center justify-between p-2.5 rounded-xl text-xs font-bold transition-colors ${
                       item.slug === slug
-                        ? 'bg-blue-50 text-[#1D4ED8]'
-                        : 'text-slate-700 hover:bg-slate-50 hover:text-[#1D4ED8]'
+                        ? 'bg-blue-50 text-[#0077CC]'
+                        : 'text-slate-700 hover:bg-slate-50 hover:text-[#0077CC]'
                     }`}
                   >
                     <span>{item.label}</span>

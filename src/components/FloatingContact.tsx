@@ -41,7 +41,7 @@ export function FloatingContact({ hotline, zaloPhone, email }: FloatingContactPr
       label: 'Gọi điện',
       icon: <Phone className="w-5 h-5" />,
       href: `tel:${(hotline || '0901234567').replace(/\s/g, '')}`,
-      bg: 'bg-[#F59E0B] hover:bg-[#d97706]',
+      bg: 'bg-[#0EA5E9] hover:bg-[#0077CC]',
       tooltip: hotline || '0901 234 567',
     },
     {
@@ -90,7 +90,7 @@ export function FloatingContact({ hotline, zaloPhone, email }: FloatingContactPr
       {/* Main FAB */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`rounded-full bg-[#22C55E] hover:bg-[#16a34a] text-white flex items-center justify-center shadow-xl transition-all duration-300 active:scale-95 ${
+        className={`rounded-full bg-[#0EA5E9] hover:bg-[#0077CC] text-white flex items-center justify-center shadow-xl transition-all duration-300 active:scale-95 ${
           !isOpen ? 'pulse-animation' : ''
         }`}
         style={{ width: '52px', height: '52px' }}

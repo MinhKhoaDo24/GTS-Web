@@ -79,7 +79,6 @@ function LifecycleBadge({ status }: { status?: LifecycleStatus | string | null }
 
 export function ProductCard({ product }: ProductCardProps) {
   const thumbnail = product.thumbnail || null
-  const displayModel = product.model || product.part_number || product.sku || null
 
   // Tách specs summary thành mảng các gạch đầu dòng ngắn gọn (tối đa 3 mục)
   let specBullets: string[] = []
@@ -94,11 +93,11 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <div className="group bg-white rounded-none border border-slate-200 hover:border-[#1D4ED8] transition-all duration-200 flex flex-col h-full relative hover:shadow-[0_4px_20px_rgba(15,23,42,0.08)]">
+    <div className="group bg-white rounded-none border border-slate-200 hover:border-[#0077CC] transition-all duration-200 flex flex-col h-full relative hover:shadow-[0_4px_20px_rgba(15,23,42,0.08)]">
       {/* Top Meta Bar: Brand Badge & Lifecycle */}
       <div className="p-3.5 pb-0 flex items-center justify-between gap-2 border-b border-transparent">
         {product.brand?.name ? (
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#1D4ED8] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-none">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#0077CC] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-none">
             {product.brand.name}
           </span>
         ) : (
@@ -126,7 +125,7 @@ export function ProductCard({ product }: ProductCardProps) {
         ) : (
           <div className="flex flex-col items-center justify-center text-slate-400 p-4">
             <div className="w-14 h-14 rounded-none bg-slate-200 border border-slate-300 flex items-center justify-center font-bold text-slate-600 text-sm mb-1.5">
-              GTS
+              GTS 
             </div>
             <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               Hardware Spec
@@ -146,13 +145,6 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-col flex-1 p-4 bg-white">
         {/* Model / Part Number Header */}
         <div className="flex items-center justify-between text-xs text-slate-500 gap-2 mb-1.5">
-          {displayModel ? (
-            <div className="font-mono text-[12px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 border border-slate-200 truncate max-w-[180px] rounded-none">
-              P/N: {displayModel}
-            </div>
-          ) : (
-            <div className="font-mono text-[11px] text-slate-400">P/N: N/A</div>
-          )}
           {product.category?.name && (
             <span className="text-[11px] text-slate-500 truncate max-w-[110px]">
               {product.category.name}
@@ -161,7 +153,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Product Title */}
-        <h3 className="text-[15px] font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-[#1D4ED8] transition-colors min-h-[2.6rem]">
+        <h3 className="text-[15px] font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-[#0077CC] transition-colors min-h-[2.6rem]">
           <Link href={`/san-pham/${product.slug}`} className="hover:underline">
             {product.name}
           </Link>
@@ -176,7 +168,7 @@ export function ProductCard({ product }: ProductCardProps) {
                   key={idx}
                   className="text-[12px] text-slate-600 flex items-start gap-1.5 leading-tight"
                 >
-                  <span className="text-[#1D4ED8] font-bold mt-0.5">•</span>
+                  <span className="text-[#0077CC] font-bold mt-0.5">•</span>
                   <span className="line-clamp-1">{spec}</span>
                 </li>
               ))}
@@ -187,19 +179,6 @@ export function ProductCard({ product }: ProductCardProps) {
               <span>Liên hệ để nhận datasheet & hồ sơ kỹ thuật</span>
             </div>
           )}
-        </div>
-
-        {/* B2B Action Button: Yêu cầu báo giá (KHÔNG HIỂN THỊ GIÁ) */}
-        <div className="mt-auto pt-3 border-t border-slate-100">
-          <Link
-            href={`/lien-he?product=${encodeURIComponent(product.slug)}&name=${encodeURIComponent(
-              product.name
-            )}`}
-            className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white text-xs font-bold py-2.5 px-3 text-center transition-colors duration-200 flex items-center justify-center gap-1.5 rounded-none shadow-none"
-          >
-            <span>Yêu cầu báo giá</span>
-            <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
         </div>
       </div>
     </div>

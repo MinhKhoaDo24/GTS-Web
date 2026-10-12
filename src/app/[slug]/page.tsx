@@ -82,7 +82,7 @@ export default async function DynamicStaticPage({ params }: PageProps) {
       <div className="max-w-[1000px] mx-auto px-4">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-gray-500 mb-6">
-          <Link href="/" className="hover:text-[#1D4ED8] transition-colors">
+          <Link href="/" className="hover:text-[#0077CC] transition-colors">
             Trang chủ
           </Link>
           <ChevronRight className="w-3 h-3" />
@@ -113,7 +113,7 @@ export default async function DynamicStaticPage({ params }: PageProps) {
             </div>
             <a
               href={`tel:${(settings.hotline || '0901234567').replace(/\s/g, '')}`}
-              className="inline-flex items-center gap-2 bg-[#1D4ED8] hover:bg-[#1e40af] text-white px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition-all whitespace-nowrap shadow-sm hover:shadow"
+              className="inline-flex items-center gap-2 bg-[#0077CC] hover:bg-[#004A80] text-white px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm transition-all whitespace-nowrap shadow-sm hover:shadow"
             >
               <PhoneCall className="w-4 h-4" />
               <span>Hotline: {settings.hotline || '0901 234 567'}</span>

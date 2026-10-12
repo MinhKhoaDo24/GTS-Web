@@ -1,12 +1,17 @@
 import Link from 'next/link'
-import { Phone, Mail, MapPin, Clock, Shield } from 'lucide-react'
+import { Mail, MapPin, Clock, Navigation } from 'lucide-react'
 
 interface FooterProps {
   settings: Record<string, string>
 }
 
+const COMPANY_ADDRESS = '369 Ngọc Lâm, Long Biên, Hà Nội'
+
 export function Footer({ settings }: FooterProps) {
   const currentYear = new Date().getFullYear()
+  const address = settings.address || COMPANY_ADDRESS
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
+  const mapDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
 
   return (
     <footer className="bg-gradient-to-r from-[#0F172A] to-[#1E293B] text-gray-300">
@@ -48,8 +53,8 @@ export function Footer({ settings }: FooterProps) {
               ].map(item => (
                 <li key={item.href}>
                   <Link href={item.href}
-                    className="text-sm sm:text-base text-gray-300 hover:text-[#22C55E] transition-colors flex items-center gap-1.5 group">
-                    <span className="text-gray-600 group-hover:text-[#22C55E] transition-colors font-bold">›</span>
+                    className="text-sm sm:text-base text-gray-300 hover:text-[#0EA5E9] transition-colors flex items-center gap-1.5 group">
+                    <span className="text-gray-600 group-hover:text-[#0EA5E9] transition-colors font-bold">›</span>
                     {item.label}
                   </Link>
                 </li>
@@ -72,11 +77,13 @@ export function Footer({ settings }: FooterProps) {
                 { href: '/faq', label: 'Câu hỏi thường gặp (FAQ)' },
                 { href: '/lien-he', label: 'Liên hệ & Báo giá nhanh' },
                 { href: '/chinh-sach-bao-hanh', label: 'Chính sách bảo hành & CO/CQ' },
+                { href: '/quy-dinh-dieu-khoan', label: 'Quy định & Điều khoản' },
+                { href: '/chinh-sach-bao-mat', label: 'Chính sách bảo mật' },
               ].map(item => (
                 <li key={item.href}>
                   <Link href={item.href}
-                    className="text-sm sm:text-base text-gray-300 hover:text-[#22C55E] transition-colors flex items-center gap-1.5 group">
-                    <span className="text-gray-600 group-hover:text-[#22C55E] transition-colors font-bold">›</span>
+                    className="text-sm sm:text-base text-gray-300 hover:text-[#0EA5E9] transition-colors flex items-center gap-1.5 group">
+                    <span className="text-gray-600 group-hover:text-[#0EA5E9] transition-colors font-bold">›</span>
                     {item.label}
                   </Link>
                 </li>
@@ -93,46 +100,49 @@ export function Footer({ settings }: FooterProps) {
               <li className="flex gap-3 items-start">
                 <MapPin className="w-5 h-5 text-[#3B82F6] flex-shrink-0 mt-0.5" />
                 <span className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                  {settings.address || '480 Nguyễn Oanh, Phường 6, Gò Vấp, TP. Hồ Chí Minh'}
+                  {address}
                 </span>
               </li>
               <li>
-                <a href={`tel:${(settings.hotline || '0901234567').replace(/\s/g, '')}`}
-                  className="flex items-center gap-3 text-sm sm:text-base text-amber-400 font-bold hover:text-amber-300 transition-colors">
-                  <Phone className="w-5 h-5 flex-shrink-0" />
-                  Hotline: {settings.hotline || '0901 234 567'}
-                </a>
-              </li>
-              <li>
                 <a href={`mailto:${settings.contact_email}`}
-                  className="flex items-center gap-3 text-sm sm:text-base text-gray-300 hover:text-[#22C55E] transition-colors">
-                  <Mail className="w-5 h-5 text-[#22C55E] flex-shrink-0" />
+                  className="flex items-center gap-3 text-sm sm:text-base text-gray-300 hover:text-[#0EA5E9] transition-colors">
+                  <Mail className="w-5 h-5 text-[#0EA5E9] flex-shrink-0" />
                   {settings.contact_email || 'contact@gts.vn'}
                 </a>
               </li>
               <li className="flex gap-3 items-center">
                 <Clock className="w-5 h-5 text-gray-400 flex-shrink-0" />
                 <span className="text-sm sm:text-base text-gray-300 leading-relaxed">
-                  {settings.working_hours || 'T2 – T7: 8:00 – 17:30'}
+                  {settings.working_hours || 'T2 – T6: 8:00 – 17:30'}
                 </span>
               </li>
             </ul>
 
-            {/* Google Map */}
-            {settings.google_map_embed_url && (
-              <div className="mt-4 rounded-xl overflow-hidden border border-gray-700 shadow-md">
+            {/* Google Mini Map + Chỉ đường */}
+            <div className="mt-5">
+              <div className="rounded-xl overflow-hidden border border-gray-700 shadow-md">
                 <iframe
-                  src={settings.google_map_embed_url}
+                  src={mapEmbedUrl}
                   width="100%"
-                  height="130"
+                  height="150"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="GTS Location"
+                  title={`Bản đồ vị trí GTS - ${address}`}
+                  className="block w-full"
                 />
               </div>
-            )}
+              <a
+                href={mapDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-lg bg-[#1E88E5] hover:bg-[#1565C0] text-white text-sm font-semibold px-4 py-2.5 transition-colors"
+              >
+                <Navigation className="w-4 h-4 flex-shrink-0" />
+                Xem chỉ đường
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -144,10 +154,6 @@ export function Footer({ settings }: FooterProps) {
             © {currentYear} GTS - Global Technology & Service. B2B Enterprise Network Partner.
             {settings.tax_code && ` | MST: ${settings.tax_code}`}
           </p>
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-green-400 font-medium">
-            <Shield className="w-4 h-4 text-[#22C55E]" />
-            <span>Cam kết CO/CQ 100% Chính hãng</span>
-          </div>
         </div>
       </div>
     </footer>

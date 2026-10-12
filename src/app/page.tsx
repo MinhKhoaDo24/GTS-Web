@@ -6,6 +6,28 @@ import type { Brand, SiteSetting, Customer, Partner } from '@/types/database'
 import { ProductCard, type ProductItem } from '@/components/ProductCard'
 import { ProjectsCarousel, type ProjectItem } from '@/components/ProjectsCarousel'
 import {
+  CiscoLogo,
+  FortinetLogo,
+  HpeArubaLogo,
+  DellLogo,
+  UbiquitiLogo,
+  RuijieLogo,
+  MikrotikLogo,
+  GrandstreamLogo,
+  JuniperLogo,
+  ApcLogo,
+  VietcombankLogo,
+  MbBankLogo,
+  VingroupLogo,
+  LgInnotekLogo,
+  ViettelLogo,
+  FptLogo,
+  DecathlonLogo,
+  PetrovietnamLogo,
+  VinmecLogo,
+  MuongThanhLogo,
+} from '@/components/BrandLogos'
+import {
   ArrowRight,
   Headphones,
   Truck,
@@ -81,38 +103,39 @@ const hardwareCategories = [
   {
     id: 'voip',
     title: 'Tổng Đài IP & Hội Nghị',
-    image: '/pic/Categories/Dien-thoai-khong-day-DECT-Yealink-W73P-2.png',
+    image: '/pic/Categories/Dien-thoai-khong-day-DECT-Yealink-W73P-2.jpg',
     href: '/san-pham?search=VoIP',
     badge: 'Unified Comms',
   },
 ]
 
-/** Danh sách đối tác công nghệ mặc định khi CSDL chưa có dữ liệu ảnh */
+/** Danh sách đối tác công nghệ mặc định khi CSDL chưa có dữ liệu ảnh (logo SVG hardcode) */
 const fallbackPartners = [
-  { id: 'cisco', name: 'Cisco Systems', logo: null },
-  { id: 'fortinet', name: 'Fortinet', logo: null },
-  { id: 'hpe', name: 'HPE Aruba', logo: null },
-  { id: 'dell', name: 'Dell Technologies', logo: null },
-  { id: 'ubiquiti', name: 'Ubiquiti Networks', logo: null },
-  { id: 'ruijie', name: 'Ruijie Reyee', logo: null },
-  { id: 'mikrotik', name: 'MikroTik', logo: null },
-  { id: 'grandstream', name: 'Grandstream', logo: null },
-  { id: 'juniper', name: 'Juniper Networks', logo: null },
-  { id: 'apc', name: 'APC Schneider', logo: null },
+  { id: 'cisco', name: 'Cisco Systems', logo: '/pic/brands/cisco.svg', Logo: CiscoLogo },
+  { id: 'fortinet', name: 'Fortinet', logo: '/pic/brands/fortinet.svg', Logo: FortinetLogo },
+  { id: 'hpe', name: 'HPE Aruba', logo: '/pic/brands/hpe.svg', Logo: HpeArubaLogo },
+  { id: 'dell', name: 'Dell Technologies', logo: '/pic/brands/dell.svg', Logo: DellLogo },
+  { id: 'ubiquiti', name: 'Ubiquiti Networks', logo: '/pic/brands/ubiquiti.svg', Logo: UbiquitiLogo },
+  { id: 'ruijie', name: 'Ruijie Reyee', logo: null, Logo: RuijieLogo },
+  { id: 'mikrotik', name: 'MikroTik', logo: '/pic/brands/mikrotik.svg', Logo: MikrotikLogo },
+  { id: 'grandstream', name: 'Grandstream', logo: null, Logo: GrandstreamLogo },
+  { id: 'juniper', name: 'Juniper Networks', logo: '/pic/brands/juniper.svg', Logo: JuniperLogo },
+  { id: 'apc', name: 'APC Schneider', logo: '/pic/brands/apc.png', Logo: ApcLogo },
 ]
 
 /** Danh sách khách hàng tiêu biểu mặc định khi CSDL chưa có dữ liệu ảnh */
+/** Danh sách khách hàng tiêu biểu mặc định khi CSDL chưa có dữ liệu ảnh (logo SVG hardcode) */
 const fallbackCustomers = [
-  { id: 'vcb', name: 'Vietcombank', logo: null },
-  { id: 'mbbank', name: 'MB Bank', logo: null },
-  { id: 'vingroup', name: 'Tập đoàn Vingroup', logo: null },
-  { id: 'lginnotek', name: 'LG Innotek', logo: null },
-  { id: 'viettel', name: 'Viettel Telecom', logo: null },
-  { id: 'fpt', name: 'FPT Software', logo: null },
-  { id: 'decathlon', name: 'Decathlon', logo: null },
-  { id: 'petro', name: 'PetroVietnam', logo: null },
-  { id: 'vinmec', name: 'Vinmec Healthcare', logo: null },
-  { id: 'muongthanh', name: 'Mường Thanh Group', logo: null },
+  { id: 'vcb', name: 'Vietcombank', logo: '/pic/brands/vietcombank.svg', Logo: VietcombankLogo },
+  { id: 'mbbank', name: 'MB Bank', logo: '/pic/brands/mbbank.png', Logo: MbBankLogo },
+  { id: 'vingroup', name: 'Tập đoàn Vingroup', logo: '/pic/brands/vingroup.svg', Logo: VingroupLogo },
+  { id: 'lginnotek', name: 'LG Innotek', logo: '/pic/brands/lginnotek.svg', Logo: LgInnotekLogo },
+  { id: 'viettel', name: 'Viettel Telecom', logo: '/pic/brands/viettel.svg', Logo: ViettelLogo },
+  { id: 'fpt', name: 'FPT Software', logo: '/pic/brands/fpt.svg', Logo: FptLogo },
+  { id: 'decathlon', name: 'Decathlon', logo: '/pic/brands/decathlon.svg', Logo: DecathlonLogo },
+  { id: 'petro', name: 'PetroVietnam', logo: '/pic/brands/petrovietnam.svg', Logo: PetrovietnamLogo },
+  { id: 'vinmec', name: 'Vinmec Healthcare', logo: null, Logo: VinmecLogo },
+  { id: 'muongthanh', name: 'Mường Thanh Group', logo: null, Logo: MuongThanhLogo },
 ]
 
 /** Danh sách 4 dịch vụ doanh nghiệp */
@@ -286,8 +309,8 @@ export default async function HomePage() {
       <section className="relative bg-gradient-to-br from-[#061e52] via-[#0b2875] to-[#1539ce] text-white overflow-hidden">
         {/* Glow hiệu ứng công nghệ */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#036ae5] rounded-full blur-[120px]" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#22c55e] rounded-full blur-[140px]" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#0077CC] rounded-full blur-[120px]" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#0EA5E9] rounded-full blur-[140px]" />
         </div>
 
         <div className="relative layout-container py-12 sm:py-14 lg:py-20 flex justify-center">
@@ -305,7 +328,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/san-pham"
-                className="inline-flex items-center gap-2.5 bg-[#036ae5] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-base transition-all hover:shadow-xl hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2.5 bg-[#0077CC] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-base transition-all hover:shadow-xl hover:-translate-y-0.5"
               >
                 <span>Xem Danh mục thiết bị</span>
                 <ArrowRight className="w-5 h-5" />
@@ -345,7 +368,7 @@ export default async function HomePage() {
         <div className="layout-container">
           {/* Header căn giữa chuẩn SotaTek */}
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
               DANH MỤC SẢN PHẨM
             </p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-2">
@@ -362,7 +385,7 @@ export default async function HomePage() {
               <Link
                 key={item.id}
                 href={item.href}
-                className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#036ae5] hover:shadow-lg transition-all duration-300 flex flex-col"
+                className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#0077CC] hover:shadow-lg transition-all duration-300 flex flex-col"
               >
                 {/* Ảnh thật của thiết bị tiêu biểu trong nhóm */}
                 <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-[#f6f7fc] to-[#eef1f8] border-b border-slate-200/70">
@@ -373,17 +396,17 @@ export default async function HomePage() {
                     sizes="(max-width: 1024px) 50vw, 25vw"
                     className="object-contain p-2 mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-2 right-2 text-[9px] font-mono font-bold uppercase tracking-wide text-white bg-[#036ae5] px-2 py-0.5 rounded-full">
+                  <span className="absolute top-2 right-2 text-[9px] font-mono font-bold uppercase tracking-wide text-white bg-[#0077CC] px-2 py-0.5 rounded-full">
                     {item.badge}
                   </span>
                 </div>
 
                 {/* Nội dung card gọn */}
                 <div className="p-3.5 flex items-center justify-between gap-2">
-                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-[#036ae5] transition-colors leading-snug line-clamp-2">
+                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-[#0077CC] transition-colors leading-snug line-clamp-2">
                     {item.title}
                   </h3>
-                  <ArrowRight className="w-4 h-4 flex-shrink-0 text-slate-300 group-hover:text-[#036ae5] group-hover:translate-x-1 transition-all" />
+                  <ArrowRight className="w-4 h-4 flex-shrink-0 text-slate-300 group-hover:text-[#0077CC] group-hover:translate-x-1 transition-all" />
                 </div>
               </Link>
             ))}
@@ -393,7 +416,7 @@ export default async function HomePage() {
           <div className="mt-8 text-center">
             <Link
               href="/san-pham"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#036ae5] hover:text-[#0256b8] transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-bold text-[#0077CC] hover:text-[#0256b8] transition-colors"
             >
               <span>Xem toàn bộ danh mục sản phẩm & giải pháp phần cứng</span>
               <ArrowRight className="w-4 h-4" />
@@ -407,7 +430,7 @@ export default async function HomePage() {
         <div className="layout-container">
           {/* HEADER ĐỐI TÁC, KHÁCH HÀNG Ở CHÍNH GIỮA */}
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2.5">
+            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2.5">
               ĐỐI TÁC CHIẾN LƯỢC & KHÁCH HÀNG TIÊU BIỂU
             </p>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-4">
@@ -428,25 +451,30 @@ export default async function HomePage() {
 
             <div className="overflow-hidden mask-linear-gradient py-2">
               <div className="animate-marquee items-center gap-4 sm:gap-6">
-                {marqueePartners.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#036ae5] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
-                    title={item.name}
-                  >
-                    {item.logo ? (
-                      <img
-                        src={item.logo}
-                        alt={item.name}
-                        className="max-h-9 sm:max-h-11 max-w-[140px] object-contain grayscale group-hover:grayscale-0 transition-all duration-200"
-                      />
-                    ) : (
-                      <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#036ae5] tracking-wider uppercase transition-colors text-center px-2">
-                        {item.name}
-                      </span>
-                    )}
-                  </div>
-                ))}
+                {marqueePartners.map((item, idx) => {
+                  const LogoComp = 'Logo' in item ? item.Logo : undefined
+                  return (
+                    <div
+                      key={idx}
+                      className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#0077CC] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
+                      title={item.name}
+                    >
+                      {item.logo ? (
+                        <img
+                          src={item.logo}
+                          alt={item.name}
+                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain grayscale group-hover:grayscale-0 transition-all duration-200"
+                        />
+                      ) : LogoComp ? (
+                        <LogoComp className="h-8 sm:h-9 max-w-[150px] text-slate-700 group-hover:text-[#0077CC] grayscale group-hover:grayscale-0 transition-all duration-200" />
+                      ) : (
+                        <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
+                          {item.name}
+                        </span>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -461,25 +489,30 @@ export default async function HomePage() {
 
             <div className="overflow-hidden mask-linear-gradient py-2">
               <div className="animate-marquee-reverse items-center gap-4 sm:gap-6">
-                {marqueeCustomers.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#036ae5] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
-                    title={item.name}
-                  >
-                    {item.logo ? (
-                      <img
-                        src={item.logo}
-                        alt={item.name}
-                        className="max-h-9 sm:max-h-11 max-w-[140px] object-contain grayscale group-hover:grayscale-0 transition-all duration-200"
-                      />
-                    ) : (
-                      <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#036ae5] tracking-wider uppercase transition-colors text-center px-2">
-                        {item.name}
-                      </span>
-                    )}
-                  </div>
-                ))}
+                {marqueeCustomers.map((item, idx) => {
+                  const LogoComp = 'Logo' in item ? item.Logo : undefined
+                  return (
+                    <div
+                      key={idx}
+                      className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#0077CC] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
+                      title={item.name}
+                    >
+                      {item.logo ? (
+                        <img
+                          src={item.logo}
+                          alt={item.name}
+                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain grayscale group-hover:grayscale-0 transition-all duration-200"
+                        />
+                      ) : LogoComp ? (
+                        <LogoComp className="h-8 sm:h-9 max-w-[150px] text-slate-700 group-hover:text-[#0077CC] grayscale group-hover:grayscale-0 transition-all duration-200" />
+                      ) : (
+                        <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
+                          {item.name}
+                        </span>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -525,7 +558,7 @@ export default async function HomePage() {
 
             {/* Cột phải: Đoạn văn Tổng quan & Nút tìm hiểu thêm */}
             <div className="lg:col-span-7">
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2.5">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2.5">
                 TỔNG QUAN VỀ GTS
               </p>
 
@@ -545,7 +578,7 @@ export default async function HomePage() {
               <div className="flex flex-wrap items-center gap-4">
                 <Link
                   href="/gioi-thieu"
-                  className="inline-flex items-center gap-2 bg-[#036ae5] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 bg-[#0077CC] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
                 >
                   <span>Tìm hiểu thêm về GTS</span>
                   <ArrowRight className="w-4 h-4" />
@@ -568,7 +601,7 @@ export default async function HomePage() {
           <div className="layout-container">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16">
               <div className="max-w-2xl">
-                <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2">
+                <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
                   SẢN PHẨM NỔI BẬT
                 </p>
                 <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -580,7 +613,7 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/san-pham"
-                className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sm text-[#036ae5] font-bold hover:gap-3 transition-all"
+                className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sm text-[#0077CC] font-bold hover:gap-3 transition-all"
               >
                 Xem toàn bộ catalogue <ArrowRight className="w-4 h-4" />
               </Link>
@@ -595,7 +628,7 @@ export default async function HomePage() {
             <div className="text-center mt-12 sm:hidden">
               <Link
                 href="/san-pham"
-                className="inline-flex items-center gap-2 bg-[#036ae5] text-white px-7 py-3.5 rounded-2xl font-bold text-sm"
+                className="inline-flex items-center gap-2 bg-[#0077CC] text-white px-7 py-3.5 rounded-2xl font-bold text-sm"
               >
                 Xem tất cả thiết bị <ArrowRight className="w-4 h-4" />
               </Link>
@@ -609,7 +642,7 @@ export default async function HomePage() {
         <div className="layout-container">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16">
             <div>
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#036ae5] mb-2">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
                 DỊCH VỤ DOANH NGHIỆP
               </p>
               <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
@@ -622,7 +655,7 @@ export default async function HomePage() {
 
             <Link
               href="/dich-vu"
-              className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-bold text-[#036ae5] hover:text-[#0256b8] transition-all"
+              className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-bold text-[#0077CC] hover:text-[#0256b8] transition-all"
             >
               <span>Xem tất cả dịch vụ</span>
               <ArrowRight className="w-4 h-4" />
@@ -634,13 +667,13 @@ export default async function HomePage() {
             {featuredServices.map((svc) => (
               <div
                 key={svc.id}
-                className="group bg-[#f6f7fc] hover:bg-white rounded-3xl p-7 border border-slate-200/90 hover:border-[#036ae5] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
+                className="group bg-[#f6f7fc] hover:bg-white rounded-3xl p-7 border border-slate-200/90 hover:border-[#0077CC] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
-                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#036ae5] bg-blue-50 border border-blue-100 px-3 py-1 rounded-full inline-block mb-4">
+                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0077CC] bg-blue-50 border border-blue-100 px-3 py-1 rounded-full inline-block mb-4">
                     {svc.tag}
                   </div>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-[#036ae5] transition-colors mb-3 leading-snug">
+                  <h3 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-[#0077CC] transition-colors mb-3 leading-snug">
                     {svc.title}
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed mb-6">
@@ -659,7 +692,7 @@ export default async function HomePage() {
 
                 <Link
                   href={svc.href}
-                  className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-bold text-[#036ae5] group-hover:text-[#0256b8]"
+                  className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-bold text-[#0077CC] group-hover:text-[#0256b8]"
                 >
                   <span>Xem chi tiết dịch vụ</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -694,7 +727,7 @@ export default async function HomePage() {
         <div className="layout-container">
           <div className="bg-[#f6f7fc] rounded-3xl p-8 sm:p-14 border border-slate-200/90 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="max-w-2xl">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#036ae5] block mb-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0077CC] block mb-2">
                 HỢP TÁC DOANH NGHIỆP
               </span>
               <h3 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-snug">
@@ -708,7 +741,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center gap-4 flex-shrink-0">
               <a
                 href={`tel:${hotline.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2.5 bg-[#036ae5] hover:bg-[#0256b8] text-white px-7 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg"
+                className="inline-flex items-center gap-2.5 bg-[#0077CC] hover:bg-[#0256b8] text-white px-7 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg"
               >
                 <PhoneCall className="w-4 h-4" />
                 <span>Hotline: {hotline}</span>

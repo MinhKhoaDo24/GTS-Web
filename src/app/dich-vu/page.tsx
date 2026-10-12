@@ -85,7 +85,7 @@ export default async function ServicesPage() {
       <div className="layout-container">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 mb-8 font-medium">
-          <Link href="/" className="hover:text-[#1D4ED8] flex items-center gap-1 transition-colors">
+          <Link href="/" className="hover:text-[#0077CC] flex items-center gap-1 transition-colors">
             <Home className="w-3.5 h-3.5 text-slate-400" />
             <span>Trang chủ</span>
           </Link>
@@ -94,7 +94,7 @@ export default async function ServicesPage() {
         </nav>
 
         {/* ── Header Banner ───────────────────────────────────────────────── */}
-        <div className="bg-gradient-to-r from-[#0F172A] via-[#1D4ED8] to-[#1e40af] text-white rounded-3xl p-8 sm:p-14 mb-12 shadow-xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#0F172A] via-[#0077CC] to-[#004A80] text-white rounded-3xl p-8 sm:p-14 mb-12 shadow-xl relative overflow-hidden">
           <div className="max-w-3xl relative z-10">
             <div className="inline-flex items-center gap-2 bg-white/15 text-blue-100 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4 border border-white/20 backdrop-blur-sm">
               <Wrench className="w-4 h-4 text-amber-400" />
@@ -126,7 +126,7 @@ export default async function ServicesPage() {
                 className="bg-white rounded-3xl p-8 border border-slate-200/80 hover:border-blue-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#1D4ED8] flex items-center justify-center mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#0077CC] flex items-center justify-center mb-6">
                     <Icon className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl sm:text-2xl font-black text-slate-900 mb-3">
@@ -152,7 +152,7 @@ export default async function ServicesPage() {
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                   <Link
                     href={`/dich-vu/${srv.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1D4ED8] hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0077CC] hover:underline"
                   >
                     <span>Xem chi tiết dịch vụ</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -160,7 +160,7 @@ export default async function ServicesPage() {
 
                   <Link
                     href={`/lien-he?service=${encodeURIComponent(srv.slug)}&type=consultation`}
-                    className="bg-[#1D4ED8] hover:bg-[#1E40AF] text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-xs"
+                    className="bg-[#0077CC] hover:bg-[#004A80] text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-xs"
                   >
                     Yêu cầu tư vấn
                   </Link>
@@ -173,7 +173,7 @@ export default async function ServicesPage() {
         {/* ── Cam Kết SLA & Quy Trình Làm Việc ──────────────────────────────── */}
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/80 shadow-xs mb-14">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1D4ED8] block mb-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#0077CC] block mb-2">
               Cam kết dịch vụ SLA
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
@@ -196,7 +196,7 @@ export default async function ServicesPage() {
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200/60 text-center">
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1D4ED8] flex items-center justify-center mx-auto mb-3">
+              <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#0077CC] flex items-center justify-center mx-auto mb-3">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <div className="text-2xl font-black text-slate-900 mb-1">4 Giờ On-site</div>
@@ -238,14 +238,14 @@ export default async function ServicesPage() {
             <div className="flex flex-wrap gap-3">
               <a
                 href={`tel:${hotline.replace(/\s/g, '')}`}
-                className="bg-[#F59E0B] hover:bg-[#d97706] text-white px-6 py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-2"
+                className="bg-[#0EA5E9] hover:bg-[#0077CC] text-white px-6 py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider transition-colors flex items-center gap-2"
               >
                 <PhoneCall className="w-4 h-4" />
                 <span>Hotline: {hotline}</span>
               </a>
               <Link
                 href="/lien-he?type=consultation"
-                className="bg-[#1D4ED8] hover:bg-[#1E40AF] text-white px-6 py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider transition-colors"
+                className="bg-[#0077CC] hover:bg-[#004A80] text-white px-6 py-3.5 rounded-2xl font-bold text-xs uppercase tracking-wider transition-colors"
               >
                 Đặt lịch khảo sát
               </Link>

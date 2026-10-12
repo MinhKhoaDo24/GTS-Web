@@ -17,7 +17,7 @@ export function PriceDisplay({
   if (!price || price === 0) {
     return (
       <span
-        className="mt-2 inline-flex items-center font-bold text-[#1D4ED8] bg-blue-50/80 px-2.5 py-1 rounded-lg border border-blue-200 tracking-wide text-xs sm:text-sm"
+        className="mt-2 inline-flex items-center font-bold text-[#0077CC] bg-blue-50/80 px-2.5 py-1 rounded-lg border border-blue-200 tracking-wide text-xs sm:text-sm"
       >
         Liên hệ báo giá
       </span>
@@ -25,7 +25,7 @@ export function PriceDisplay({
   }
 
   return (
-    <span className={`text-[#1D4ED8] tracking-tight ${sizeClass}`}>
+    <span className={`text-[#0077CC] tracking-tight ${sizeClass}`}>
       {price.toLocaleString('vi-VN')}₫
     </span>
   )

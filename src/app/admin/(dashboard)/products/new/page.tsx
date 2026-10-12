@@ -1,4 +1,4 @@
-import { getBrands, getCategories } from '@/lib/dal'
+import { getBrands, getCategories, getProductFamilies } from '@/lib/dal'
 import { ProductForm } from '../_components/ProductForm'
 import { createProductAction } from '../actions'
 
@@ -6,9 +6,10 @@ export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Thêm sản phẩm mới - GTS Admin' }
 
 export default async function NewProductPage() {
-  const [brands, categories] = await Promise.all([
+  const [brands, categories, families] = await Promise.all([
     getBrands(),
     getCategories(),
+    getProductFamilies({ activeOnly: true }),
   ])
 
   return (
@@ -17,6 +18,7 @@ export default async function NewProductPage() {
         action={createProductAction}
         brands={brands as any[]}
         categories={categories}
+        families={families}
         mode="create"
       />
     </div>

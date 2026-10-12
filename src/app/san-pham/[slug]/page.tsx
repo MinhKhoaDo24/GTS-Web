@@ -335,11 +335,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
       <div className="layout-container">
         {/* ── Breadcrumb (Sắc nét, góc vuông) ───────────────────────────── */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6 flex-wrap font-medium">
-          <Link href="/" className="hover:text-[#1D4ED8] transition-colors">
+          <Link href="/" className="hover:text-[#0077CC] transition-colors">
             Trang chủ
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-300 flex-shrink-0" />
-          <Link href="/san-pham" className="hover:text-[#1D4ED8] transition-colors">
+          <Link href="/san-pham" className="hover:text-[#0077CC] transition-colors">
             Sản phẩm & Hạ tầng
           </Link>
           {product.domain && (
@@ -347,7 +347,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <ChevronRight className="w-3.5 h-3.5 text-slate-300 flex-shrink-0" />
               <Link
                 href={`/san-pham?domain=${product.domain.slug}`}
-                className="hover:text-[#1D4ED8] transition-colors"
+                className="hover:text-[#0077CC] transition-colors"
               >
                 {product.domain.name}
               </Link>
@@ -356,7 +356,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           <ChevronRight className="w-3.5 h-3.5 text-slate-300 flex-shrink-0" />
           <Link
             href={`/san-pham?category=${product.category.slug}`}
-            className="hover:text-[#1D4ED8] transition-colors"
+            className="hover:text-[#0077CC] transition-colors"
           >
             {product.category.name}
           </Link>
@@ -380,16 +380,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/san-pham?brand=${product.brand.slug}`}
-                      className="bg-blue-50 text-[#1D4ED8] text-xs font-bold uppercase tracking-wider px-3 py-1 border border-blue-200 rounded-none hover:bg-blue-100 transition-colors"
+                      className="bg-blue-50 text-[#0077CC] text-xs font-bold uppercase tracking-wider px-3 py-1 border border-blue-200 rounded-none hover:bg-blue-100 transition-colors"
                     >
                       Hãng: {product.brand.name}
                     </Link>
 
-                    {displayModel && (
-                      <span className="text-xs font-mono font-bold text-slate-700 bg-slate-100 px-2.5 py-1 border border-slate-200 rounded-none">
-                        P/N: {displayModel}
-                      </span>
-                    )}
+
                   </div>
 
                   <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-none font-semibold">
@@ -405,7 +401,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 </h1>
 
                 {/* B2B Pricing & Invoicing Notice (KHÔNG CÓ GIÁ CỐ ĐỊNH) */}
-                <div className="p-4 bg-slate-50 border border-slate-200 border-l-4 border-l-[#1D4ED8] mb-5 rounded-none">
+                <div className="p-4 bg-slate-50 border border-slate-200 border-l-4 border-l-[#0077CC] mb-5 rounded-none">
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                       Hình thức giá: B2B Project / Đại lý & Doanh nghiệp
@@ -440,7 +436,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     href={`/lien-he?product=${encodeURIComponent(product.slug)}&name=${encodeURIComponent(
                       product.name
                     )}&type=quote`}
-                    className="flex items-center justify-center gap-2 bg-[#1D4ED8] hover:bg-[#1E40AF] text-white py-3 px-4 rounded-none font-bold text-xs uppercase tracking-wider transition-colors"
+                    className="flex items-center justify-center gap-2 bg-[#0077CC] hover:bg-[#004A80] text-white py-3 px-4 rounded-none font-bold text-xs uppercase tracking-wider transition-colors"
                   >
                     <Send className="w-4 h-4" />
                     <span>Yêu cầu báo giá</span>
@@ -474,7 +470,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     <span>100% Chính hãng</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#1D4ED8] flex-shrink-0" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#0077CC] flex-shrink-0" />
                     <span>Hồ sơ CO/CQ đầy đủ</span>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -497,7 +493,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           <div className="lg:col-span-8 space-y-6">
             <div className="bg-white border border-slate-200 p-6 sm:p-8 rounded-none">
               <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-200">
-                <FileText className="w-5 h-5 text-[#1D4ED8]" />
+                <FileText className="w-5 h-5 text-[#0077CC]" />
                 <h2 className="text-lg sm:text-xl font-bold text-slate-900 uppercase tracking-wide">
                   Chi tiết thiết bị & Tính năng
                 </h2>
@@ -516,7 +512,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white border border-slate-200 p-6 rounded-none">
               <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-slate-200">
-                <Settings className="w-5 h-5 text-[#1D4ED8]" />
+                <Settings className="w-5 h-5 text-[#0077CC]" />
                 <h2 className="text-base font-bold text-slate-900 uppercase tracking-wide">
                   Thông số kỹ thuật
                 </h2>
@@ -561,7 +557,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </p>
               <Link
                 href="/lien-he?type=consultation"
-                className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white py-2.5 px-3 text-xs font-bold text-center block rounded-none uppercase tracking-wider transition-colors"
+                className="w-full bg-[#0077CC] hover:bg-[#004A80] text-white py-2.5 px-3 text-xs font-bold text-center block rounded-none uppercase tracking-wider transition-colors"
               >
                 Đặt lịch tư vấn giải pháp
               </Link>
@@ -583,7 +579,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </div>
               <Link
                 href={`/san-pham?category=${product.category.slug}`}
-                className="text-xs font-bold text-[#1D4ED8] hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-[#0077CC] hover:underline flex items-center gap-1"
               >
                 <span>Xem tất cả</span>
                 <ChevronRight className="w-3.5 h-3.5" />

@@ -1,6 +1,21 @@
 import type { Metadata } from 'next'
+import { Manrope, Inter } from 'next/font/google'
 import './globals.css'
 import { PublicLayout } from '@/components/PublicLayout'
+
+const manrope = Manrope({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-manrope-src',
+  display: 'swap',
+})
+
+const inter = Inter({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter-src',
+  display: 'swap',
+})
 import { query } from '@/lib/db'
 import type { Category, Brand, Domain, SiteSetting } from '@/types/database'
 
@@ -49,12 +64,8 @@ export default async function RootLayout({
   const { settings, categories, brands, domains } = await getLayoutData()
 
   return (
-    <html lang="vi">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="min-h-screen flex flex-col bg-[#F8FAFC]">
+    <html lang="vi" className={`${manrope.variable} ${inter.variable}`}>
+      <body className="min-h-screen flex flex-col bg-[#F8FAFC] font-sans">
         <PublicLayout settings={settings} categories={categories} brands={brands} domains={domains}>
           {children}
         </PublicLayout>

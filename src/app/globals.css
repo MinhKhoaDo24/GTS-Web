@@ -1,31 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #1D4ED8;
+  /* Bang mau thuong hieu GTS */
+  --color-primary: #0077CC;
+  --color-primary-hover: #004A80;
+  --color-primary-light: #0EA5E9;
   --color-primary-dark: #0F172A;
-  --color-primary-hover: #1e40af;
+  --color-navy: #061F4A;
   --color-brand-red: #D92D20;
   --color-brand-red-hover: #B42318;
-  --color-secondary: #22C55E;
-  --color-secondary-hover: #16a34a;
-  --color-accent: #F59E0B;
-  --color-accent-hover: #d97706;
+  --color-secondary: #0EA5E9;
+  --color-secondary-hover: #0077CC;
+  --color-accent: #0EA5E9;
+  --color-accent-hover: #0077CC;
   --color-bg: #F8FAFC;
   --color-surface: #FFFFFF;
 
-  --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  /* Manrope: tiêu đề, nội dung & thành phần giao diện (font chính) */
+  --font-sans: var(--font-manrope-src), ui-sans-serif, system-ui, sans-serif;
+  /* Inter: mô tả, hướng dẫn, chú thích & chỉ dẫn */
+  --font-inter: var(--font-inter-src), ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --primary: #1D4ED8;
+  --primary: #0077CC;
+  --primary-hover: #004A80;
+  --primary-light: #0EA5E9;
   --primary-dark: #0F172A;
-  --primary-hover: #1e40af;
+  --navy: #061F4A;
   --brand-red: #D92D20;
-  --secondary: #22C55E;
-  --secondary-hover: #16a34a;
-  --accent: #F59E0B;
-  --accent-hover: #d97706;
+  --secondary: #0EA5E9;
+  --secondary-hover: #0077CC;
+  --accent: #0EA5E9;
+  --accent-hover: #0077CC;
   --bg: #F8FAFC;
   --surface: #FFFFFF;
 }
@@ -39,13 +46,18 @@ html {
 }
 
 body {
-  font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-manrope-src), ui-sans-serif, system-ui, sans-serif;
   background-color: var(--bg);
   color: #1e293b;
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Inter: dùng cho nội dung mô tả, hướng dẫn, chú thích & chỉ dẫn */
+.font-inter {
+  font-family: var(--font-inter-src), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* ── Container Layout Width ────────────────────────────────────────────── */
@@ -105,8 +117,13 @@ body {
   --tw-prose-bullets: var(--primary);
   --tw-prose-counters: var(--primary);
   max-width: 100%;
+  font-family: var(--font-inter-src), ui-sans-serif, system-ui, sans-serif;
   font-size: 1.05rem;
   line-height: 1.75;
+}
+
+.prose :where(h1, h2, h3, h4) {
+  font-family: var(--font-manrope-src), ui-sans-serif, system-ui, sans-serif;
 }
 
 .prose table {

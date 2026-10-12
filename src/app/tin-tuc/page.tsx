@@ -287,7 +287,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
       <div className="layout-container">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6 font-medium">
-          <Link href="/" className="hover:text-[#1D4ED8] transition-colors">
+          <Link href="/" className="hover:text-[#0077CC] transition-colors">
             Trang chủ
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
@@ -295,7 +295,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
         </nav>
 
         {/* ── HEADER BANNER TIN TỨC ───────────────────────────────────────── */}
-        <div className="bg-gradient-to-r from-[#0F172A] via-[#1D4ED8] to-[#1E3A8A] text-white rounded-3xl p-8 sm:p-12 mb-10 shadow-xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-[#0F172A] via-[#0077CC] to-[#1E3A8A] text-white rounded-3xl p-8 sm:p-12 mb-10 shadow-xl relative overflow-hidden">
           <div className="max-w-3xl relative z-10">
             <div className="inline-flex items-center gap-2 bg-white/15 text-blue-100 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4 border border-white/20 backdrop-blur-sm">
               <Newspaper className="w-4 h-4 text-[#38BDF8]" />
@@ -326,7 +326,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                   href={cat.slug ? `/tin-tuc?category=${cat.slug}` : '/tin-tuc'}
                   className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                     isActive
-                      ? 'bg-[#1D4ED8] text-white shadow-sm shadow-blue-500/20'
+                      ? 'bg-[#0077CC] text-white shadow-sm shadow-blue-500/20'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900'
                   }`}
                 >
@@ -348,11 +348,11 @@ export default async function NewsPage({ searchParams }: PageProps) {
               name="q"
               defaultValue={searchFilter}
               placeholder="Tìm theo chủ đề, từ khóa..."
-              className="w-full text-xs font-medium bg-slate-50 border border-slate-200 pl-3.5 pr-9 py-2.5 rounded-xl focus:outline-none focus:border-[#1D4ED8] focus:bg-white transition-colors"
+              className="w-full text-xs font-medium bg-slate-50 border border-slate-200 pl-3.5 pr-9 py-2.5 rounded-xl focus:outline-none focus:border-[#0077CC] focus:bg-white transition-colors"
             />
             <button
               type="submit"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#1D4ED8]"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#0077CC]"
             >
               <Search className="w-4 h-4" />
             </button>
@@ -374,7 +374,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 <div>
                   <div className="flex flex-wrap items-center gap-2.5 mb-4">
                     {featuredPost.postCategory && (
-                      <span className="bg-blue-100 text-[#1D4ED8] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                      <span className="bg-blue-100 text-[#0077CC] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                         {featuredPost.postCategory.name}
                       </span>
                     )}
@@ -388,7 +388,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                     </span>
                   </div>
 
-                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 group-hover:text-[#1D4ED8] transition-colors leading-snug mb-3">
+                  <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 group-hover:text-[#0077CC] transition-colors leading-snug mb-3">
                     <Link href={`/tin-tuc/${featuredPost.slug}`}>{featuredPost.title}</Link>
                   </h2>
 
@@ -401,13 +401,13 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                   <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold">
-                    <User className="w-4 h-4 text-[#1D4ED8]" />
+                    <User className="w-4 h-4 text-[#0077CC]" />
                     <span>{featuredPost.author || 'Đội ngũ Kỹ sư GTS'}</span>
                   </div>
 
                   <Link
                     href={`/tin-tuc/${featuredPost.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] px-4 py-2.5 rounded-xl transition-all shadow-sm shadow-blue-500/20"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[#0077CC] hover:bg-[#004A80] px-4 py-2.5 rounded-xl transition-all shadow-sm shadow-blue-500/20"
                   >
                     <span>Đọc bài phân tích</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -439,7 +439,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 Tất cả bài viết ({filteredPosts.length})
               </h2>
               {categoryFilter && (
-                <Link href="/tin-tuc" className="text-xs text-[#1D4ED8] font-bold hover:underline">
+                <Link href="/tin-tuc" className="text-xs text-[#0077CC] font-bold hover:underline">
                   Xóa lọc chuyên mục
                 </Link>
               )}
@@ -457,7 +457,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                   <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-center justify-between gap-2 mb-3">
                       {post.postCategory && (
-                        <span className="bg-blue-50 text-[#1D4ED8] text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                        <span className="bg-blue-50 text-[#0077CC] text-[11px] font-bold px-2.5 py-0.5 rounded-full">
                           {post.postCategory.name}
                         </span>
                       )}
@@ -467,7 +467,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-slate-900 line-clamp-2 mb-2 group-hover:text-[#1D4ED8] transition-colors leading-snug">
+                    <h3 className="text-base font-bold text-slate-900 line-clamp-2 mb-2 group-hover:text-[#0077CC] transition-colors leading-snug">
                       <Link href={`/tin-tuc/${post.slug}`}>{post.title}</Link>
                     </h3>
 
@@ -483,7 +483,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                       </span>
                       <Link
                         href={`/tin-tuc/${post.slug}`}
-                        className="font-bold text-[#1D4ED8] group-hover:gap-1.5 inline-flex items-center gap-1 transition-all"
+                        className="font-bold text-[#0077CC] group-hover:gap-1.5 inline-flex items-center gap-1 transition-all"
                       >
                         Đọc tiếp <ArrowRight className="w-3 h-3" />
                       </Link>
@@ -500,7 +500,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
             </p>
             <Link
               href="/tin-tuc"
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1D4ED8] hover:underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0077CC] hover:underline"
             >
               Xem lại tất cả bài viết →
             </Link>
@@ -519,7 +519,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
           </div>
           <Link
             href="/lien-he?type=consultation"
-            className="flex-shrink-0 bg-[#1D4ED8] hover:bg-[#1E40AF] text-white px-6 py-3 rounded-2xl text-xs font-bold transition-all shadow-md shadow-blue-500/20"
+            className="flex-shrink-0 bg-[#0077CC] hover:bg-[#004A80] text-white px-6 py-3 rounded-2xl text-xs font-bold transition-all shadow-md shadow-blue-500/20"
           >
             Liên hệ chuyên gia GTS
           </Link>
