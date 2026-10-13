@@ -49,7 +49,6 @@ interface Props {
 export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
   const [selectedCatId, setSelectedCatId] = useState<string>(categories[0]?.id || '')
   const [mappedSpecIds, setMappedSpecIds] = useState<Set<string>>(new Set())
-  const [requiredSpecIds, setRequiredSpecIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -65,10 +64,7 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
       const res = await fetch(`/api/v2/admin/categories/${catId}/specifications`)
       if (!res.ok) throw new Error('Không thể tải liên kết thông số của danh mục')
       const data = await res.json()
-      const ids: string[] = data.specificationIds || []
-      const reqIds: string[] = data.requiredIds || []
-      setMappedSpecIds(new Set(ids))
-      setRequiredSpecIds(new Set(reqIds))
+      setMappedSpecIds(new Set(data.specificationIds || []))
     } catch (err: any) {
       console.error(err)
       setStatus('error')
@@ -90,23 +86,9 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
       const next = new Set(prev)
       if (next.has(specId)) {
         next.delete(specId)
-        // Nếu bỏ chọn thì cũng bỏ required
-        setRequiredSpecIds((r) => { const rn = new Set(r); rn.delete(specId); return rn })
       } else {
         next.add(specId)
       }
-      return next
-    })
-  }
-
-  // Toggle is_required cho 1 thông số
-  const toggleRequired = (specId: string, e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (!mappedSpecIds.has(specId)) return
-    setRequiredSpecIds((prev) => {
-      const next = new Set(prev)
-      if (next.has(specId)) next.delete(specId)
-      else next.add(specId)
       return next
     })
   }
@@ -143,11 +125,11 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           specificationIds: Array.from(mappedSpecIds),
-          requiredIds: Array.from(requiredSpecIds),
         }),
       })
 
       if (!res.ok) throw new Error('Không thể lưu cấu hình danh mục')
+      const data = await res.json()
       setStatus('success')
       setStatusMsg(`Đã gắn ${mappedSpecIds.size} thông số cho danh mục thành công!`)
       setTimeout(() => setStatus('idle'), 4000)

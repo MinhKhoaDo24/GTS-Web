@@ -166,11 +166,11 @@ export function ProductFilters({
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               placeholder="VD: C9200L, FG-60F, R750..."
-              className="w-full text-xs font-mono bg-slate-50 border border-slate-300 px-3 py-2.5 pr-8 focus:outline-none focus:border-[#1D4ED8] focus:bg-white rounded-xl transition-colors"
+              className="w-full text-xs font-mono bg-slate-50 border border-slate-300 px-3 py-2.5 pr-8 focus:outline-none focus:border-[#0077CC] focus:bg-white rounded-xl transition-colors"
             />
             <button
               type="submit"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#1D4ED8] cursor-pointer"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#0077CC] cursor-pointer"
             >
               <Search className="w-4 h-4" />
             </button>
@@ -182,7 +182,7 @@ export function ProductFilters({
       {hasActiveFilters && (
         <div className="bg-white rounded-2xl border border-blue-200 bg-blue-50/30 p-4 space-y-2.5 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-black uppercase tracking-wider text-[#1D4ED8] flex items-center gap-1">
+            <span className="text-[11px] font-black uppercase tracking-wider text-[#0077CC] flex items-center gap-1">
               <Filter className="w-3.5 h-3.5" />
               <span>Đang áp dụng bộ lọc</span>
             </span>
@@ -199,7 +199,7 @@ export function ProductFilters({
           <div className="flex flex-wrap gap-1.5 pt-1">
             {/* Chip Cấp 1 */}
             {activeCategoryObj && (
-              <span className="inline-flex items-center gap-1 text-[11px] font-bold bg-[#1D4ED8] text-white px-2.5 py-1 rounded-lg shadow-2xs">
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold bg-[#0077CC] text-white px-2.5 py-1 rounded-lg shadow-2xs">
                 <span> {activeCategoryObj.shortName}</span>
                 <button
                   type="button"
@@ -287,12 +287,12 @@ export function ProductFilters({
             onClick={() => updateFilters({ category: null })}
             className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
               !currentCategory
-                ? 'bg-blue-50 text-[#1D4ED8] font-black'
+                ? 'bg-blue-50 text-[#0077CC] font-black'
                 : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
             }`}
           >
             <span>Tất cả loại sản phẩm</span>
-            {!currentCategory && <Check className="w-3.5 h-3.5 text-[#1D4ED8]" />}
+            {!currentCategory && <Check className="w-3.5 h-3.5 text-[#0077CC]" />}
           </button>
 
           {CATALOG_TAXONOMY.map((cat) => {
@@ -304,8 +304,8 @@ export function ProductFilters({
                 onClick={() => updateFilters({ category: cat.slug })}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
                   isSelected
-                    ? 'bg-[#1D4ED8] text-white shadow-xs'
-                    : 'text-slate-700 hover:bg-slate-50 hover:text-[#1D4ED8]'
+                    ? 'bg-[#0077CC] text-white shadow-xs'
+                    : 'text-slate-700 hover:bg-slate-50 hover:text-[#0077CC]'
                 }`}
               >
                 <div className="flex items-center gap-2 truncate">
@@ -355,12 +355,12 @@ export function ProductFilters({
             onClick={() => updateFilters({ brand: null })}
             className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
               !currentBrand
-                ? 'bg-blue-50 text-[#1D4ED8] font-black'
+                ? 'bg-blue-50 text-[#0077CC] font-black'
                 : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
             }`}
           >
             <span>Tất cả các hãng</span>
-            {!currentBrand && <Check className="w-3.5 h-3.5 text-[#1D4ED8]" />}
+            {!currentBrand && <Check className="w-3.5 h-3.5 text-[#0077CC]" />}
           </button>
 
           {availableBrands.map((b) => {
@@ -373,7 +373,7 @@ export function ProductFilters({
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
                   isSelected
                     ? 'bg-slate-900 text-white shadow-xs'
-                    : 'text-slate-700 hover:bg-slate-50 hover:text-[#1D4ED8]'
+                    : 'text-slate-700 hover:bg-slate-50 hover:text-[#0077CC]'
                 }`}
               >
                 <span className="truncate">{b.name}</span>
@@ -415,12 +415,12 @@ export function ProductFilters({
               onClick={() => updateFilters({ series: null })}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-left cursor-pointer ${
                 !currentSeries
-                  ? 'bg-blue-50 text-[#1D4ED8] font-black'
+                  ? 'bg-blue-50 text-[#0077CC] font-black'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
               }`}
             >
               <span>Tất cả dòng sản phẩm</span>
-              {!currentSeries && <Check className="w-3.5 h-3.5 text-[#1D4ED8]" />}
+              {!currentSeries && <Check className="w-3.5 h-3.5 text-[#0077CC]" />}
             </button>
 
             {availableSeries.map((ser) => {
@@ -465,7 +465,7 @@ export function ProductFilters({
         <button
           type="button"
           onClick={() => setMobileFilterOpen(true)}
-          className="w-full flex items-center justify-center gap-2 bg-[#1D4ED8] text-white py-3 px-4 rounded-2xl font-bold text-xs shadow-md shadow-blue-500/20 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-[#0077CC] text-white py-3 px-4 rounded-2xl font-bold text-xs shadow-md shadow-blue-500/20 cursor-pointer"
         >
           <Filter className="w-4 h-4" />
           <span>Lọc sản phẩm 3 cấp độ {hasActiveFilters ? '(Đang lọc)' : ''}</span>
@@ -490,7 +490,7 @@ export function ProductFilters({
           <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl z-10 flex flex-col p-4 overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
               <span className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                <Filter className="w-4 h-4 text-[#1D4ED8]" />
+                <Filter className="w-4 h-4 text-[#0077CC]" />
                 <span>Bộ lọc 3 cấp độ</span>
               </span>
               <button

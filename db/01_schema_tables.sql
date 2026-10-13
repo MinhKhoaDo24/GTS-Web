@@ -157,8 +157,6 @@ CREATE TABLE category_specifications (
     id VARCHAR(255) PRIMARY KEY,
     category_id VARCHAR(255) REFERENCES categories(id) ON DELETE CASCADE,
     specification_id VARCHAR(255) REFERENCES specifications(id) ON DELETE CASCADE,
-    is_required BOOLEAN DEFAULT FALSE,
-    is_filterable BOOLEAN DEFAULT FALSE,
     sort_order INT DEFAULT 0,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),

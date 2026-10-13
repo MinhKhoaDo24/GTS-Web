@@ -50,8 +50,7 @@ export async function PUT(req: NextRequest, { params }: Props) {
       return NextResponse.json({ error: 'specificationIds must be an array' }, { status: 400 })
     }
 
-    const reqSet = Array.isArray(requiredIds) ? new Set<string>(requiredIds) : undefined
-    await setCategorySpecMappings(categoryId, specificationIds, reqSet)
+    await setCategorySpecMappings(categoryId, specificationIds)
 
     return NextResponse.json({
       success: true,

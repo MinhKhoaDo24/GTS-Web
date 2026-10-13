@@ -47,7 +47,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
               onClick={() => setSelectedIndex(idx)}
               className={`relative w-20 h-20 flex-shrink-0 bg-white rounded-xl border-2 overflow-hidden transition-all ${
                 selectedIndex === idx
-                  ? 'border-[#1D4ED8] shadow-sm'
+                  ? 'border-[#0077CC] shadow-sm'
                   : 'border-gray-200 hover:border-gray-300 opacity-70 hover:opacity-100'
               }`}
             >

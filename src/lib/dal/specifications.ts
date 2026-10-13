@@ -41,8 +41,6 @@ export interface Specification {
   is_searchable: boolean
   sort_order: number
   is_active: boolean
-  /** Trường bắt buộc nhập (từ category_specifications.is_required) */
-  is_required?: boolean
   /** Các lựa chọn nếu data_type = 'select' */
   options?: SpecificationOption[]
 }
@@ -164,24 +162,17 @@ export async function getSpecsByCategoryId(categoryId: string): Promise<Specific
      ) AS exists`
   )
 
-  // Map: specification_id => is_required
-  const isRequiredMap: Record<string, boolean> = {}
   let specIds: string[] | null = null
 
   if (tableExists?.exists && categoryId) {
-    // Tầng 1: lọc theo category mapping, lấy cả is_required
-    const rows = await query<{ specification_id: string; is_required: boolean; sort_order: number }>(
-      `SELECT specification_id, COALESCE(is_required, false) AS is_required, sort_order
-       FROM category_specifications
-       WHERE category_id = $1 AND is_active = true
-       ORDER BY sort_order ASC`,
+    // Tầng 1: lọc theo category mapping
+    const rows = await query<{ specification_id: string }>(
+      `SELECT specification_id FROM category_specifications
+       WHERE category_id = $1 AND is_active = true`,
       [categoryId]
     )
     if (rows.length > 0) {
       specIds = rows.map((r) => r.specification_id)
-      for (const r of rows) {
-        isRequiredMap[r.specification_id] = r.is_required
-      }
     }
   }
 
@@ -195,7 +186,7 @@ export async function getSpecsByCategoryId(categoryId: string): Promise<Specific
     queryParams.push(...specIds)
   }
 
-  const specs = await query<Omit<Specification, 'options' | 'is_required'>>(
+  const specs = await query<Omit<Specification, 'options'>>(
     `SELECT
        s.id, s.group_id, s.name, s.slug,
        s.data_type, s.unit, s.description,
@@ -229,11 +220,7 @@ export async function getSpecsByCategoryId(categoryId: string): Promise<Specific
     }
   }
 
-  return specs.map((s) => ({
-    ...s,
-    is_required: isRequiredMap[s.id] ?? false,
-    options: optionsMap[s.id] ?? [],
-  }))
+  return specs.map((s) => ({ ...s, options: optionsMap[s.id] ?? [] }))
 }
 
 // ─── Product Specifications ───────────────────────────────────────────────────
@@ -479,13 +466,7 @@ export async function toggleSpecificationActive(id: string, is_active: boolean):
 // Các hàm này chỉ hoạt động SAU KHI Admin tạo bảng category_specifications.
 // Bảng này không bắt buộc — hệ thống tự fallback nếu chưa có.
 
-export interface CategorySpecMapping {
-  specification_id: string
-  is_required: boolean
-  sort_order: number
-}
-
-export async function getCategorySpecMappings(categoryId: string): Promise<CategorySpecMapping[]> {
+export async function getCategorySpecMappings(categoryId: string): Promise<string[]> {
   const exists = await queryOne<{ exists: boolean }>(
     `SELECT EXISTS (
        SELECT FROM information_schema.tables
@@ -494,28 +475,17 @@ export async function getCategorySpecMappings(categoryId: string): Promise<Categ
   )
   if (!exists?.exists) return []
 
-  const rows = await query<{ specification_id: string; is_required: boolean; sort_order: number }>(
-    `SELECT specification_id,
-            COALESCE(is_required, false) AS is_required,
-            sort_order
-     FROM category_specifications
-     WHERE category_id = $1 AND is_active = true
-     ORDER BY sort_order ASC`,
+  const rows = await query<{ specification_id: string }>(
+    `SELECT specification_id FROM category_specifications
+     WHERE category_id = $1 AND is_active = true`,
     [categoryId]
   )
-  return rows
-}
-
-/** Trả về chỉ danh sách IDs (backward compat) */
-export async function getCategorySpecIds(categoryId: string): Promise<string[]> {
-  const mappings = await getCategorySpecMappings(categoryId)
-  return mappings.map((m) => m.specification_id)
+  return rows.map((r) => r.specification_id)
 }
 
 export async function setCategorySpecMappings(
   categoryId: string,
-  specificationIds: string[],
-  requiredIds?: Set<string>
+  specificationIds: string[]
 ): Promise<void> {
   // Xóa mappings cũ
   await query('DELETE FROM category_specifications WHERE category_id = $1', [categoryId])
@@ -523,11 +493,10 @@ export async function setCategorySpecMappings(
   // Insert mappings mới
   for (let i = 0; i < specificationIds.length; i++) {
     const id = `cs-${Date.now()}-${i}-${Math.random().toString(36).slice(2, 5)}`
-    const isRequired = requiredIds ? requiredIds.has(specificationIds[i]) : false
     await query(
-      `INSERT INTO category_specifications (id, category_id, specification_id, is_active, is_required, sort_order)
-       VALUES ($1, $2, $3, true, $4, $5)`,
-      [id, categoryId, specificationIds[i], isRequired, i]
+      `INSERT INTO category_specifications (id, category_id, specification_id, is_active, sort_order)
+       VALUES ($1, $2, $3, true, $4)`,
+      [id, categoryId, specificationIds[i], i]
     )
   }
 }

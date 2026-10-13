@@ -93,11 +93,11 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <div className="group bg-white rounded-none border border-slate-200 hover:border-[#1D4ED8] transition-all duration-200 flex flex-col h-full relative hover:shadow-[0_4px_20px_rgba(15,23,42,0.08)]">
+    <div className="group bg-white rounded-none border border-slate-200 hover:border-[#0077CC] transition-all duration-200 flex flex-col h-full relative hover:shadow-[0_4px_20px_rgba(15,23,42,0.08)]">
       {/* Top Meta Bar: Brand Badge & Lifecycle */}
       <div className="p-3.5 pb-0 flex items-center justify-between gap-2 border-b border-transparent">
         {product.brand?.name ? (
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#1D4ED8] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-none">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#0077CC] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-none">
             {product.brand.name}
           </span>
         ) : (
@@ -153,7 +153,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Product Title */}
-        <h3 className="text-[15px] font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-[#1D4ED8] transition-colors min-h-[2.6rem]">
+        <h3 className="text-[15px] font-bold text-slate-900 line-clamp-2 leading-snug group-hover:text-[#0077CC] transition-colors min-h-[2.6rem]">
           <Link href={`/san-pham/${product.slug}`} className="hover:underline">
             {product.name}
           </Link>
@@ -168,7 +168,7 @@ export function ProductCard({ product }: ProductCardProps) {
                   key={idx}
                   className="text-[12px] text-slate-600 flex items-start gap-1.5 leading-tight"
                 >
-                  <span className="text-[#1D4ED8] font-bold mt-0.5">•</span>
+                  <span className="text-[#0077CC] font-bold mt-0.5">•</span>
                   <span className="line-clamp-1">{spec}</span>
                 </li>
               ))}

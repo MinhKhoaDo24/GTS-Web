@@ -36,7 +36,7 @@ export default async function WarrantyLookupPage() {
       <div className="layout-container">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 mb-8 font-medium">
-          <Link href="/" className="hover:text-[#1D4ED8] flex items-center gap-1 transition-colors">
+          <Link href="/" className="hover:text-[#0077CC] flex items-center gap-1 transition-colors">
             <Home className="w-3.5 h-3.5 text-slate-400" />
             <span>Trang chủ</span>
           </Link>
@@ -45,7 +45,7 @@ export default async function WarrantyLookupPage() {
         </nav>
 
         {/* ── Header Banner ───────────────────────────────────────────────── */}
-        <div className="bg-gradient-to-r from-[#0F172A] via-[#1D4ED8] to-[#1e40af] text-white rounded-3xl p-8 sm:p-14 mb-12 shadow-xl text-center max-w-4xl mx-auto">
+        <div className="bg-gradient-to-r from-[#0F172A] via-[#0077CC] to-[#004A80] text-white rounded-3xl p-8 sm:p-14 mb-12 shadow-xl text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-white/15 text-blue-100 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4 border border-white/20 backdrop-blur-sm">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>Cổng tra cứu bảo hành điện tử GTS</span>
@@ -70,7 +70,7 @@ export default async function WarrantyLookupPage() {
               </div>
               <button
                 type="button"
-                className="bg-[#1D4ED8] hover:bg-[#1E40AF] text-white px-6 py-3 rounded-xl sm:rounded-full font-bold text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer whitespace-nowrap"
+                className="bg-[#0077CC] hover:bg-[#004A80] text-white px-6 py-3 rounded-xl sm:rounded-full font-bold text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer whitespace-nowrap"
               >
                 Tra cứu ngay
               </button>
@@ -84,7 +84,7 @@ export default async function WarrantyLookupPage() {
         {/* ── Quy Trình Bảo Hành & Cam Kết Chính Hãng ─────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
           <div className="bg-white rounded-3xl p-7 border border-slate-200/80 shadow-xs">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#1D4ED8] flex items-center justify-center mb-4">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0077CC] flex items-center justify-center mb-4">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <h3 className="font-bold text-slate-900 text-base mb-2">Bảo Hành 1 Đổi 1</h3>
@@ -117,7 +117,7 @@ export default async function WarrantyLookupPage() {
         {/* ── Hotline Tiếp Nhận RMA ───────────────────────────────────────── */}
         <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs max-w-4xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1D4ED8] mb-1">
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#0077CC] mb-1">
               <HelpCircle className="w-4 h-4" />
               <span>Cần gửi thiết bị bảo hành?</span>
             </div>
@@ -139,7 +139,7 @@ export default async function WarrantyLookupPage() {
             </a>
             <a
               href={`mailto:${email}?subject=Yêu cầu RMA bảo hành`}
-              className="bg-[#1D4ED8] hover:bg-[#1E40AF] text-white px-5 py-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+              className="bg-[#0077CC] hover:bg-[#004A80] text-white px-5 py-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-colors"
             >
               <Mail className="w-4 h-4" />
               <span>Gửi Email RMA</span>

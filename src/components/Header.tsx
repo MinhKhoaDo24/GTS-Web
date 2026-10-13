@@ -240,21 +240,21 @@ export function Header({
             </div>
             {/* xs: tên viết tắt */}
             <div className="flex flex-col sm:hidden">
-              <span className="text-[20px] font-black tracking-tight leading-tight">
-                <span className="text-[#E52320]">G</span>
-                <span className="text-[#2563EB]">T</span>
-                <span className="text-[#52B52F]">S</span>
+              <span className="text-[18px] font-black text-[#0F172A] tracking-tight group-hover:text-[#0077CC] transition-colors leading-tight">
+                GTS
+              </span>
+              <span className="text-[9px] font-bold text-slate-500 tracking-wider uppercase leading-tight">
+                Enterprise
               </span>
             </div>
             {/* sm+: tên đầy đủ */}
             <div className="hidden sm:flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="text-[18px] md:text-[22px] lg:text-[25px] font-black tracking-tight leading-tight">
-                  <span className="text-[#E52320]">G</span>
-                  <span className="text-[#2563EB]">T</span>
-                  <span className="text-[#52B52F]">S</span>
-                </span>
-              </div>
+              <span className="text-[17px] md:text-[21px] lg:text-2xl xl:text-[26px] font-black tracking-tight whitespace-nowrap">
+                <span className="text-[#E53935]">Global</span>{' '}
+                <span className="text-[#1E88E5]">Technology</span>{' '}
+                <span className="text-[#0F172A]">&amp;</span>{' '}
+                <span className="text-[#43A047]">Service</span>
+              </span>
               <span className="text-[10px] md:text-[11px] font-bold text-slate-500 tracking-wider uppercase">
                 Find your true solution
               </span>
@@ -268,7 +268,7 @@ export function Header({
               <button
                 type="button"
                 onClick={() => setCategoryDropdownOpen((prev) => !prev)}
-                className="inline-flex items-center gap-2 bg-[#1D4ED8] hover:bg-[#1E40AF] text-white px-5 py-3 rounded-full font-bold text-sm shadow-md shadow-blue-500/20 transition-all hover:scale-102 active:scale-98 whitespace-nowrap cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#0077CC] hover:bg-[#004A80] text-white px-5 py-3 rounded-full font-bold text-sm shadow-md shadow-blue-500/20 transition-all hover:scale-102 active:scale-98 whitespace-nowrap cursor-pointer"
               >
                 <Menu className="w-4 h-4 text-white" />
                 <span>Danh mục</span>
@@ -290,7 +290,7 @@ export function Header({
                     <Link
                       href="/san-pham"
                       onClick={() => setCategoryDropdownOpen(false)}
-                      className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-[#1D4ED8] bg-blue-50/80 hover:bg-blue-100 transition-colors"
+                      className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-[#0077CC] bg-blue-50/80 hover:bg-blue-100 transition-colors"
                     >
                       <span>Tất cả thiết bị</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -300,13 +300,13 @@ export function Header({
                         key={cat.id}
                         href={`/san-pham?category=${cat.slug}`}
                         onClick={() => setCategoryDropdownOpen(false)}
-                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-[#1D4ED8] transition-colors group"
+                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-[#0077CC] transition-colors group"
                       >
                         <div className="flex items-center gap-2.5">
                           {getCategoryIcon(cat.icon)}
                           <span>{cat.shortName}</span>
                         </div>
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#1D4ED8] transition-colors" />
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#0077CC] transition-colors" />
                       </Link>
                     ))}
                   </div>
@@ -321,11 +321,11 @@ export function Header({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Nhập tên sản phẩm, Model, mã P/N hoặc Series (VD: C9200, FG-60F, R750)..."
-                className="w-full h-12 sm:h-12.5 pl-6 pr-14 text-sm font-medium text-slate-900 bg-slate-50 hover:bg-white focus:bg-white border-2 border-slate-200 hover:border-slate-300 focus:border-[#1D4ED8] rounded-full shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100/60 transition-all placeholder:text-slate-400"
+                className="w-full h-12 sm:h-12.5 pl-6 pr-14 text-sm font-medium text-slate-900 bg-slate-50 hover:bg-white focus:bg-white border-2 border-slate-200 hover:border-slate-300 focus:border-[#0077CC] rounded-full shadow-inner focus:outline-none focus:ring-4 focus:ring-blue-100/60 transition-all placeholder:text-slate-400"
               />
               <button
                 type="submit"
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9.5 h-9.5 bg-[#1D4ED8] hover:bg-[#1E40AF] text-white rounded-full flex items-center justify-center shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-9.5 h-9.5 bg-[#0077CC] hover:bg-[#004A80] text-white rounded-full flex items-center justify-center shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
                 title="Tìm kiếm"
               >
                 <Search className="w-4 h-4" />
@@ -346,7 +346,7 @@ export function Header({
                 <span className="text-[11px] font-bold text-gray-800 uppercase tracking-wide">
                   Tư vấn báo giá
                 </span>
-                <span className="text-sm font-black text-[#0F172A] group-hover:text-[#1D4ED8] transition-colors">
+                <span className="text-sm font-black text-[#0F172A] group-hover:text-[#0077CC] transition-colors">
                   {hotline}
                 </span>
               </div>
@@ -357,7 +357,7 @@ export function Header({
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className="md:hidden w-10 h-10 sm:w-11 sm:h-11 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-200 flex items-center justify-center text-slate-800 hover:text-[#1D4ED8] shadow-xs flex-shrink-0"
+            className="md:hidden w-10 h-10 sm:w-11 sm:h-11 bg-slate-50 rounded-xl sm:rounded-2xl border border-slate-200 flex items-center justify-center text-slate-800 hover:text-[#0077CC] shadow-xs flex-shrink-0"
             aria-label="Mở menu mobile"
           >
             <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -372,11 +372,11 @@ export function Header({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm Model, P/N, tên thiết bị..."
-              className="w-full h-10 sm:h-11 pl-4 pr-12 text-sm bg-slate-50 border border-slate-200 rounded-full shadow-xs focus:outline-none focus:border-[#1D4ED8] text-slate-900 placeholder:text-slate-400"
+              className="w-full h-10 sm:h-11 pl-4 pr-12 text-sm bg-slate-50 border border-slate-200 rounded-full shadow-xs focus:outline-none focus:border-[#0077CC] text-slate-900 placeholder:text-slate-400"
             />
             <button
               type="submit"
-              className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 bg-[#1D4ED8] text-white rounded-full flex items-center justify-center"
+              className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 bg-[#0077CC] text-white rounded-full flex items-center justify-center"
             >
               <Search className="w-4 h-4" />
             </button>
@@ -392,7 +392,7 @@ export function Header({
               {/* 1. Trang chủ */}
               <Link
                 href="/"
-                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#1D4ED8] transition-all whitespace-nowrap"
+                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#0077CC] transition-all whitespace-nowrap"
               >
                 Trang chủ
               </Link>
@@ -400,7 +400,7 @@ export function Header({
               {/* 2. Giới thiệu */}
               <Link
                 href="/gioi-thieu"
-                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#1D4ED8] transition-all whitespace-nowrap"
+                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#0077CC] transition-all whitespace-nowrap"
               >
                 Giới thiệu
               </Link>
@@ -417,14 +417,14 @@ export function Header({
                   onClick={() => setProductMegaMenuOpen(false)}
                   className={`inline-flex items-center gap-1.5 px-3.5 xl:px-4.5 py-2.5 rounded-xl transition-all whitespace-nowrap ${
                     productMegaMenuOpen
-                      ? 'bg-blue-50 text-[#1D4ED8]'
-                      : 'hover:bg-blue-50 hover:text-[#1D4ED8]'
+                      ? 'bg-blue-50 text-[#0077CC]'
+                      : 'hover:bg-blue-50 hover:text-[#0077CC]'
                   }`}
                 >
                   <span>Sản phẩm</span>
                   <ChevronDown
                     className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                      productMegaMenuOpen ? 'rotate-180 text-[#1D4ED8]' : ''
+                      productMegaMenuOpen ? 'rotate-180 text-[#0077CC]' : ''
                     }`}
                   />
                 </Link>
@@ -474,8 +474,8 @@ export function Header({
                                     onClick={() => setProductMegaMenuOpen(false)}
                                     className={`w-full flex items-center justify-between px-3 py-2.5 rounded-2xl text-xs font-bold transition-all text-left group ${
                                       isSelected
-                                        ? 'bg-[#1D4ED8] text-white shadow-md shadow-blue-500/25'
-                                        : 'text-slate-700 hover:bg-white hover:text-[#1D4ED8]'
+                                        ? 'bg-[#0077CC] text-white shadow-md shadow-blue-500/25'
+                                        : 'text-slate-700 hover:bg-white hover:text-[#0077CC]'
                                     }`}
                                   >
                                     <div className="flex items-center gap-2.5 truncate">
@@ -488,7 +488,7 @@ export function Header({
                                       className={`w-4 h-4 flex-shrink-0 transition-transform ${
                                         isSelected
                                           ? 'text-white translate-x-0.5'
-                                          : 'text-slate-300 group-hover:text-[#1D4ED8]'
+                                          : 'text-slate-300 group-hover:text-[#0077CC]'
                                       }`}
                                     />
                                   </Link>
@@ -503,7 +503,7 @@ export function Header({
                           <Link
                             href={`/san-pham?category=${currentCategory.slug}`}
                             onClick={() => setProductMegaMenuOpen(false)}
-                            className="text-[11px] font-bold text-[#1D4ED8] hover:underline flex items-center gap-1"
+                            className="text-[11px] font-bold text-[#0077CC] hover:underline flex items-center gap-1"
                           >
                             <span>Xem toàn bộ {currentCategory.shortName}</span>
                             <ArrowRight className="w-3 h-3" />
@@ -534,8 +534,8 @@ export function Header({
                                     onClick={() => setProductMegaMenuOpen(false)}
                                     className={`w-full flex items-center justify-between px-3 py-2.5 rounded-2xl text-xs transition-all text-left group ${
                                       isSelected
-                                        ? 'bg-blue-50 text-[#1D4ED8] font-black border border-blue-200 shadow-xs'
-                                        : 'text-slate-700 hover:bg-slate-50 hover:text-[#1D4ED8] font-bold'
+                                        ? 'bg-blue-50 text-[#0077CC] font-black border border-blue-200 shadow-xs'
+                                        : 'text-slate-700 hover:bg-slate-50 hover:text-[#0077CC] font-bold'
                                     }`}
                                   >
                                     <div className="truncate">
@@ -553,8 +553,8 @@ export function Header({
                                     <ChevronRight
                                       className={`w-4 h-4 flex-shrink-0 transition-transform ${
                                         isSelected
-                                          ? 'text-[#1D4ED8] translate-x-0.5'
-                                          : 'text-slate-300 group-hover:text-[#1D4ED8]'
+                                          ? 'text-[#0077CC] translate-x-0.5'
+                                          : 'text-slate-300 group-hover:text-[#0077CC]'
                                       }`}
                                     />
                                   </Link>
@@ -569,7 +569,7 @@ export function Header({
                           <Link
                             href={`/san-pham?category=${currentCategory.slug}&brand=${currentBrand.slug}`}
                             onClick={() => setProductMegaMenuOpen(false)}
-                            className="text-[11px] font-bold text-slate-600 hover:text-[#1D4ED8] flex items-center gap-1"
+                            className="text-[11px] font-bold text-slate-600 hover:text-[#0077CC] flex items-center gap-1"
                           >
                             <span>Xem tất cả {currentBrand.name}</span>
                             <ArrowRight className="w-3 h-3" />
@@ -599,7 +599,7 @@ export function Header({
                               >
                                 <div className="flex items-start justify-between gap-2">
                                   <div>
-                                    <div className="text-xs font-black text-slate-900 group-hover:text-[#1D4ED8] transition-colors flex items-center gap-1.5">
+                                    <div className="text-xs font-black text-slate-900 group-hover:text-[#0077CC] transition-colors flex items-center gap-1.5">
                                       <span>{series.name}</span>
                                     </div>
                                     {series.description && (
@@ -608,7 +608,7 @@ export function Header({
                                       </p>
                                     )}
                                   </div>
-                                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#1D4ED8] group-hover:translate-x-1 transition-all flex-shrink-0 mt-0.5" />
+                                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#0077CC] group-hover:translate-x-1 transition-all flex-shrink-0 mt-0.5" />
                                 </div>
 
                                 {/* Model tiêu biểu */}
@@ -638,7 +638,7 @@ export function Header({
                           <Link
                             href={`/san-pham?category=${currentCategory.slug}&brand=${currentBrand.slug}`}
                             onClick={() => setProductMegaMenuOpen(false)}
-                            className="font-bold text-[#1D4ED8] hover:underline flex items-center gap-1"
+                            className="font-bold text-[#0077CC] hover:underline flex items-center gap-1"
                           >
                             <span>Xem thêm</span> 
                             <ArrowRight className="w-3.5 h-3.5" />
@@ -660,14 +660,14 @@ export function Header({
                   href="/giai-phap"
                   className={`inline-flex items-center gap-1.5 px-3.5 xl:px-4.5 py-2.5 rounded-xl transition-all whitespace-nowrap ${
                     solutionsDropdownOpen
-                      ? 'bg-blue-50 text-[#1D4ED8]'
-                      : 'hover:bg-blue-50 hover:text-[#1D4ED8]'
+                      ? 'bg-blue-50 text-[#0077CC]'
+                      : 'hover:bg-blue-50 hover:text-[#0077CC]'
                   }`}
                 >
                   <span>Giải pháp</span>
                   <ChevronDown
                     className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                      solutionsDropdownOpen ? 'rotate-180 text-[#1D4ED8]' : ''
+                      solutionsDropdownOpen ? 'rotate-180 text-[#0077CC]' : ''
                     }`}
                   />
                 </Link>
@@ -684,9 +684,9 @@ export function Header({
                           key={idx}
                           href={sol.href}
                           onClick={() => setSolutionsDropdownOpen(false)}
-                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50 text-slate-800 hover:text-[#1D4ED8] transition-colors"
+                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50 text-slate-800 hover:text-[#0077CC] transition-colors"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-green-100/60 text-[#22C55E] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <div className="w-8 h-8 rounded-lg bg-green-100/60 text-[#0EA5E9] flex items-center justify-center flex-shrink-0 mt-0.5">
                             <Icon className="w-4 h-4" />
                           </div>
                           <div>
@@ -710,14 +710,14 @@ export function Header({
                   href="/dich-vu"
                   className={`inline-flex items-center gap-1.5 px-3.5 xl:px-4.5 py-2.5 rounded-xl transition-all whitespace-nowrap ${
                     servicesDropdownOpen
-                      ? 'bg-blue-50 text-[#1D4ED8]'
-                      : 'hover:bg-blue-50 hover:text-[#1D4ED8]'
+                      ? 'bg-blue-50 text-[#0077CC]'
+                      : 'hover:bg-blue-50 hover:text-[#0077CC]'
                   }`}
                 >
                   <span>Dịch vụ</span>
                   <ChevronDown
                     className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${
-                      servicesDropdownOpen ? 'rotate-180 text-[#1D4ED8]' : ''
+                      servicesDropdownOpen ? 'rotate-180 text-[#0077CC]' : ''
                     }`}
                   />
                 </Link>
@@ -734,9 +734,9 @@ export function Header({
                           key={idx}
                           href={srv.href}
                           onClick={() => setServicesDropdownOpen(false)}
-                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50 text-slate-800 hover:text-[#1D4ED8] transition-colors"
+                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50 text-slate-800 hover:text-[#0077CC] transition-colors"
                         >
-                          <div className="w-8 h-8 rounded-lg bg-blue-100/60 text-[#1D4ED8] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <div className="w-8 h-8 rounded-lg bg-blue-100/60 text-[#0077CC] flex items-center justify-center flex-shrink-0 mt-0.5">
                             <Icon className="w-4 h-4" />
                           </div>
                           <div>
@@ -753,7 +753,7 @@ export function Header({
               {/* ── 6. TIN TỨC (MỚI THÊM VÀO HEADER THEO YÊU CẦU) ─────────── */}
               <Link
                 href="/tin-tuc"
-                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#1D4ED8] transition-all whitespace-nowrap"
+                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#0077CC] transition-all whitespace-nowrap"
               >
                 Tin tức
               </Link>
@@ -761,7 +761,7 @@ export function Header({
               {/* 7. Liên hệ */}
               <Link
                 href="/lien-he"
-                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#1D4ED8] transition-all whitespace-nowrap"
+                className="px-3.5 xl:px-4.5 py-2.5 rounded-xl hover:bg-blue-50 hover:text-[#0077CC] transition-all whitespace-nowrap"
               >
                 Liên hệ
               </Link>
@@ -795,16 +795,12 @@ export function Header({
                   className="h-8 w-auto object-contain"
                 />
                 <div className="flex flex-col leading-tight">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[15px] font-black tracking-tight">
-                      <span className="text-[#E52320]">G</span>
-                      <span className="text-[#2563EB]">T</span>
-                      <span className="text-[#52B52F]">S</span>
-                    </span>
-                    <span className="text-[12px] font-black text-[#0F172A] tracking-tight">
-                      Technology &amp; Service
-                    </span>
-                  </div>
+                  <span className="text-[13px] font-black text-[#0F172A] tracking-tight group-hover:text-[#0077CC] transition-colors">
+                    Global Technology
+                  </span>
+                  <span className="text-[11px] font-black text-[#0077CC] tracking-tight">
+                    &amp; Service
+                  </span>
                 </div>
               </Link>
               <button
@@ -824,7 +820,7 @@ export function Header({
               <Link
                 href="/"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#1D4ED8] font-semibold text-sm transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#0077CC] font-semibold text-sm transition-colors"
               >
                 <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                   <Building2 className="w-4 h-4 text-slate-500" />
@@ -836,7 +832,7 @@ export function Header({
               <Link
                 href="/gioi-thieu"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#1D4ED8] font-semibold text-sm transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#0077CC] font-semibold text-sm transition-colors"
               >
                 <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                   <Sparkles className="w-4 h-4 text-slate-500" />
@@ -851,13 +847,13 @@ export function Header({
                   onClick={() => toggleMobileMenu('products')}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold text-sm transition-colors cursor-pointer ${
                     mobileExpanded === 'products'
-                      ? 'bg-blue-50 text-[#1D4ED8]'
-                      : 'text-slate-700 hover:bg-blue-50 hover:text-[#1D4ED8]'
+                      ? 'bg-blue-50 text-[#0077CC]'
+                      : 'text-slate-700 hover:bg-blue-50 hover:text-[#0077CC]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                      <Boxes className="w-4 h-4 text-[#1D4ED8]" />
+                      <Boxes className="w-4 h-4 text-[#0077CC]" />
                     </div>
                     Sản phẩm
                   </div>
@@ -872,7 +868,7 @@ export function Header({
                     <Link
                       href="/san-pham"
                       onClick={() => setMobileOpen(false)}
-                      className="flex items-center justify-between px-4 py-2.5 text-xs font-black text-[#1D4ED8] bg-blue-50 border-b border-slate-100 hover:bg-blue-100 transition-colors"
+                      className="flex items-center justify-between px-4 py-2.5 text-xs font-black text-[#0077CC] bg-blue-50 border-b border-slate-100 hover:bg-blue-100 transition-colors"
                     >
                       <span>Xem tất cả sản phẩm</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -885,7 +881,7 @@ export function Header({
                             <Link
                               href={`/san-pham?category=${cat.slug}`}
                               onClick={() => setMobileOpen(false)}
-                              className="flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#1D4ED8] flex-1"
+                              className="flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#0077CC] flex-1"
                             >
                               {getCategoryIcon(cat.icon)}
                               {cat.name}
@@ -893,11 +889,11 @@ export function Header({
                             <button
                               type="button"
                               onClick={() => toggleMobileCat(cat.slug)}
-                              className="p-1.5 rounded-lg hover:bg-blue-50 text-slate-400 hover:text-[#1D4ED8] transition-colors"
+                              className="p-1.5 rounded-lg hover:bg-blue-50 text-slate-400 hover:text-[#0077CC] transition-colors"
                             >
                               <ChevronDown
                                 className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                                  isCatOpen ? 'rotate-180 text-[#1D4ED8]' : ''
+                                  isCatOpen ? 'rotate-180 text-[#0077CC]' : ''
                                 }`}
                               />
                             </button>
@@ -913,18 +909,18 @@ export function Header({
                                       <Link
                                         href={`/san-pham?category=${cat.slug}&brand=${br.slug}`}
                                         onClick={() => setMobileOpen(false)}
-                                        className="text-[11px] font-semibold text-slate-600 hover:text-[#1D4ED8] flex-1"
+                                        className="text-[11px] font-semibold text-slate-600 hover:text-[#0077CC] flex-1"
                                       >
                                         {br.name}
                                       </Link>
                                       <button
                                         type="button"
                                         onClick={() => toggleMobileBrand(brandKey)}
-                                        className="p-1 text-slate-300 hover:text-[#1D4ED8]"
+                                        className="p-1 text-slate-300 hover:text-[#0077CC]"
                                       >
                                         <ChevronDown
                                           className={`w-3 h-3 transition-transform duration-200 ${
-                                            isBrandOpen ? 'rotate-180 text-[#1D4ED8]' : ''
+                                            isBrandOpen ? 'rotate-180 text-[#0077CC]' : ''
                                           }`}
                                         />
                                       </button>
@@ -936,7 +932,7 @@ export function Header({
                                             key={ser.id}
                                             href={`/san-pham?category=${cat.slug}&brand=${br.slug}&series=${ser.slug}`}
                                             onClick={() => setMobileOpen(false)}
-                                            className="block text-[10px] text-slate-500 hover:text-[#1D4ED8] py-0.5 transition-colors"
+                                            className="block text-[10px] text-slate-500 hover:text-[#0077CC] py-0.5 transition-colors"
                                           >
                                             · {ser.name}
                                           </Link>
@@ -1048,7 +1044,7 @@ export function Header({
               <Link
                 href="/tin-tuc"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#1D4ED8] font-semibold text-sm transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#0077CC] font-semibold text-sm transition-colors"
               >
                 <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                   <Newspaper className="w-4 h-4 text-slate-500" />
@@ -1060,7 +1056,7 @@ export function Header({
               <Link
                 href="/lien-he"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#1D4ED8] font-semibold text-sm transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-blue-50 hover:text-[#0077CC] font-semibold text-sm transition-colors"
               >
                 <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-4 h-4 text-slate-500" />
@@ -1074,7 +1070,7 @@ export function Header({
             <div className="flex-shrink-0 p-4 border-t border-slate-200 bg-slate-50/80">
               <a
                 href={`tel:${hotline.replace(/\s/g, '')}`}
-                className="w-full flex items-center justify-center gap-2.5 bg-[#0B1120] hover:bg-[#1D4ED8] text-white py-3.5 px-4 rounded-2xl font-bold text-sm shadow-md transition-colors"
+                className="w-full flex items-center justify-center gap-2.5 bg-[#0B1120] hover:bg-[#0077CC] text-white py-3.5 px-4 rounded-2xl font-bold text-sm shadow-md transition-colors"
               >
                 <Phone className="w-4 h-4 text-amber-400 animate-pulse flex-shrink-0" />
                 <span>

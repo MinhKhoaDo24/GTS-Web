@@ -142,11 +142,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
       <div className="max-w-[880px] mx-auto px-4">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-6 flex-wrap">
-          <Link href="/" className="hover:text-[#1D4ED8] transition-colors">
+          <Link href="/" className="hover:text-[#0077CC] transition-colors">
             Trang chủ
           </Link>
           <ChevronRight className="w-3 h-3 text-slate-300" />
-          <Link href="/tin-tuc" className="hover:text-[#1D4ED8] transition-colors">
+          <Link href="/tin-tuc" className="hover:text-[#0077CC] transition-colors">
             Tin tức & Kiến thức
           </Link>
           <ChevronRight className="w-3 h-3 text-slate-300" />
@@ -156,7 +156,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
         {/* Back link */}
         <Link
           href="/tin-tuc"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-[#1D4ED8] transition-colors mb-6"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-[#0077CC] transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Quay lại danh sách tin tức
@@ -167,7 +167,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* Metadata header */}
           <div className="flex flex-wrap items-center gap-3 mb-5">
             {post.postCategory && (
-              <span className="bg-blue-100 text-[#1D4ED8] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              <span className="bg-blue-100 text-[#0077CC] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                 {post.postCategory.name}
               </span>
             )}
@@ -180,7 +180,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               {post.readTime || '5 phút đọc'}
             </span>
             <span className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold ml-auto">
-              <User className="w-3.5 h-3.5 text-[#1D4ED8]" />
+              <User className="w-3.5 h-3.5 text-[#0077CC]" />
               {post.author || 'Đội ngũ Kỹ sư GTS'}
             </span>
           </div>
@@ -190,7 +190,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           </h1>
 
           {post.excerpt && (
-            <div className="text-sm sm:text-base text-slate-700 font-medium leading-relaxed bg-blue-50/70 p-5 rounded-2xl mb-8 border-l-4 border-[#1D4ED8]">
+            <div className="text-sm sm:text-base text-slate-700 font-medium leading-relaxed bg-blue-50/70 p-5 rounded-2xl mb-8 border-l-4 border-[#0077CC]">
               {post.excerpt}
             </div>
           )}
@@ -203,7 +203,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* Article Footer & Author Signature */}
           <div className="mt-12 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-100 text-[#1D4ED8] flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-full bg-blue-100 text-[#0077CC] flex items-center justify-center font-bold">
                 GTS
               </div>
               <div>
@@ -214,7 +214,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
             <Link
               href="/lien-he?type=quote"
-              className="text-xs font-bold text-white bg-[#1D4ED8] hover:bg-[#1E40AF] px-4 py-2.5 rounded-xl shadow-xs transition-colors"
+              className="text-xs font-bold text-white bg-[#0077CC] hover:bg-[#004A80] px-4 py-2.5 rounded-xl shadow-xs transition-colors"
             >
               Yêu cầu tư vấn cấu hình tương đương
             </Link>
@@ -235,10 +235,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
                   <span className="text-[11px] text-slate-400 block mb-2 font-medium">
                     {formatDate(p.publishedAt || p.createdAt)}
                   </span>
-                  <h3 className="text-sm font-bold text-slate-800 group-hover:text-[#1D4ED8] line-clamp-2 transition-colors leading-snug">
+                  <h3 className="text-sm font-bold text-slate-800 group-hover:text-[#0077CC] line-clamp-2 transition-colors leading-snug">
                     {p.title}
                   </h3>
-                  <div className="mt-4 flex items-center gap-1 text-xs font-bold text-[#1D4ED8]">
+                  <div className="mt-4 flex items-center gap-1 text-xs font-bold text-[#0077CC]">
                     <span>Đọc tiếp</span>
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </div>

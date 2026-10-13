@@ -46,7 +46,6 @@ export interface SpecField {
   data_type: SpecDataType
   unit: string | null
   description: string | null
-  is_required?: boolean
   options?: SpecOption[]
 }
 
@@ -115,8 +114,6 @@ function SpecFieldItem({
       className={`p-3.5 rounded-xl border transition-all ${
         isFilled
           ? 'bg-blue-50/30 border-blue-200 shadow-xs'
-          : spec.is_required && !isFilled
-          ? 'bg-rose-50/20 border-rose-200/70 hover:border-rose-300'
           : 'bg-white border-slate-200/80 hover:border-slate-300'
       }`}
     >
@@ -124,18 +121,10 @@ function SpecFieldItem({
         <div className="flex items-center gap-1.5 min-w-0">
           <label className="text-xs font-semibold text-slate-700 truncate" title={spec.name}>
             {spec.name}
-            {spec.is_required && (
-              <span className="text-rose-500 ml-0.5" title="Trường bắt buộc">*</span>
-            )}
           </label>
           {spec.unit && (
             <span className="text-[10px] text-blue-600 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded font-mono font-medium shrink-0">
               {spec.unit}
-            </span>
-          )}
-          {spec.is_required && !isFilled && (
-            <span className="text-[9px] text-rose-600 bg-rose-50 border border-rose-200 px-1.5 py-0.2 rounded font-medium shrink-0">
-              Bắt buộc
             </span>
           )}
           {isExtra && (

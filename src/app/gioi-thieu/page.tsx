@@ -62,19 +62,19 @@ const milestones = [
 const coreValues = [
   {
     icon: ShieldCheck,
-    color: 'bg-blue-50 text-[#1D4ED8]',
+    color: 'bg-blue-50 text-[#0077CC]',
     title: 'Chính Hãng 100%',
     desc: 'Cam kết bồi thường 200% nếu phát hiện hàng giả, hàng nhái hoặc không có CO/CQ hợp lệ.',
   },
   {
     icon: Award,
-    color: 'bg-emerald-50 text-[#22C55E]',
+    color: 'bg-emerald-50 text-[#0EA5E9]',
     title: 'Kỹ Thuật Chuyên Sâu',
     desc: 'Đội ngũ kỹ sư sở hữu chứng chỉ quốc tế CCNA, CCNP, NSE4 sẵn sàng tư vấn thiết kế PoC miễn phí.',
   },
   {
     icon: HeartHandshake,
-    color: 'bg-amber-50 text-[#F59E0B]',
+    color: 'bg-amber-50 text-[#0EA5E9]',
     title: 'Đồng Hành Lâu Dài',
     desc: 'Chính sách bảo hành 1 đổi 1 trong thời gian bảo hành, hỗ trợ spare part mượn tạm khi xảy ra sự cố.',
   },
@@ -92,11 +92,6 @@ const partners = [
   { name: 'HPE Aruba Networking', level: 'Silver Partner' },
   { name: 'Dell Technologies', level: 'Authorized Partner' },
   { name: 'Ubiquiti / Ruijie', level: 'Official Distributor' },
-]
-
-const partnerMarquee = [
-  'Cisco', 'Fortinet', 'HPE Aruba', 'Dell', 'Ubiquiti', 'Ruijie',
-  'Juniper', 'Palo Alto', 'VMware', 'Microsoft', 'Synology', 'APC',
 ]
 
 
@@ -151,7 +146,7 @@ export default async function AboutPage() {
           <section className="layout-container py-14 sm:py-20">
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-stretch">
               <div className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm sm:p-10 lg:col-span-7">
-                <span className="text-xs font-black uppercase tracking-widest text-[#1D4ED8]">
+                <span className="text-xs font-black uppercase tracking-widest text-[#0077CC]">
                   Giới thiệu doanh nghiệp
                 </span>
                 <h2 className="mt-3 text-2xl font-black leading-tight text-slate-900 sm:text-4xl">
@@ -199,34 +194,12 @@ export default async function AboutPage() {
             </div>
           </section>
 
-          {/* Partner marquee */}
-          <section className="border-y border-slate-200 bg-white py-10">
-            <div className="layout-container mb-6 text-center">
-              <span className="text-xs font-black uppercase tracking-widest text-slate-400">
-                Thương hiệu công nghệ GTS phân phối &amp; tích hợp
-              </span>
-            </div>
-            <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-              <div className="animate-marquee gap-4">
-                {[...partnerMarquee, ...partnerMarquee].map((brand, index) => (
-                  <span
-                    key={`${brand}-${index}`}
-                    className="mx-2 flex shrink-0 items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-black text-slate-700"
-                  >
-                    <Cpu className="h-4 w-4 text-[#1D4ED8]" />
-                    {brand}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </section>
-
           {/* Growth timeline */}
           <section className="bg-[#F8FAFC] py-14 sm:py-20">
             <div className="layout-container">
               <Reveal>
                 <div className="mx-auto mb-10 max-w-2xl text-center">
-                  <span className="text-xs font-black uppercase tracking-widest text-[#1D4ED8]">
+                  <span className="text-xs font-black uppercase tracking-widest text-[#0077CC]">
                     Growth Process · Company Milestones
                   </span>
                   <h2 className="mt-3 text-2xl font-black text-slate-900 sm:text-4xl">
@@ -244,8 +217,8 @@ export default async function AboutPage() {
                   <Reveal key={milestone.year} delay={index * 120}>
                     <article className="group relative z-10 h-full rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-lg">
                       <div className="mb-5 flex items-center justify-between">
-                        <span className="text-lg font-black text-[#1D4ED8]">{milestone.year}</span>
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-xs font-black text-[#1D4ED8] ring-4 ring-[#F8FAFC] transition-colors group-hover:bg-[#1D4ED8] group-hover:text-white">
+                        <span className="text-lg font-black text-[#0077CC]">{milestone.year}</span>
+                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-xs font-black text-[#0077CC] ring-4 ring-[#F8FAFC] transition-colors group-hover:bg-[#0077CC] group-hover:text-white">
                           {String(index + 1).padStart(2, '0')}
                         </span>
                       </div>
@@ -264,7 +237,7 @@ export default async function AboutPage() {
               <article className="relative overflow-hidden rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 sm:p-10">
                 <Eye className="absolute -bottom-8 -right-8 h-36 w-36 text-blue-100" />
                 <div className="relative z-10">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1D4ED8] text-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0077CC] text-white">
                     <Eye className="h-6 w-6" />
                   </div>
                   <h2 className="mt-5 text-2xl font-black text-slate-900">Tầm Nhìn</h2>
@@ -326,7 +299,7 @@ export default async function AboutPage() {
             <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:p-12 lg:p-16">
               <Quote className="absolute right-7 top-6 h-24 w-24 text-blue-50 sm:h-32 sm:w-32" />
               <div className="relative z-10 max-w-4xl">
-                <span className="text-xs font-black uppercase tracking-widest text-[#1D4ED8]">
+                <span className="text-xs font-black uppercase tracking-widest text-[#0077CC]">
                   Thông điệp của Ban lãnh đạo
                 </span>
                 <h2 className="mt-3 text-2xl font-black text-slate-900 sm:text-4xl">Thư Ngỏ</h2>
@@ -355,7 +328,7 @@ export default async function AboutPage() {
 
           {/* Call to action */}
           <section className="layout-container">
-            <div className="overflow-hidden rounded-3xl bg-gradient-to-r from-[#1D4ED8] to-[#0F3A8A] p-8 text-white shadow-xl sm:p-12">
+            <div className="overflow-hidden rounded-3xl bg-gradient-to-r from-[#0077CC] to-[#0F3A8A] p-8 text-white shadow-xl sm:p-12">
               <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
                 <div className="lg:col-span-7">
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-blue-100">
@@ -369,7 +342,7 @@ export default async function AboutPage() {
                     Đội ngũ kỹ sư GTS sẵn sàng khảo sát, tư vấn thiết kế và xây dựng phương án phù hợp với nhu cầu vận hành và ngân sách của doanh nghiệp.
                   </p>
                   <div className="mt-7 flex flex-wrap gap-3">
-                    <Link href="/lien-he" className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-black text-[#1D4ED8] transition-colors hover:bg-blue-50">
+                    <Link href="/lien-he" className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-black text-[#0077CC] transition-colors hover:bg-blue-50">
                       Yêu cầu tư vấn
                       <ArrowRight className="h-4 w-4" />
                     </Link>
