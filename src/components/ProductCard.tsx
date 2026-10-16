@@ -132,13 +132,6 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           </div>
         )}
-
-        {/* Hover technical badge */}
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <span className="text-[10px] font-mono font-bold uppercase bg-slate-900 text-white px-2 py-0.5 rounded-none">
-            B2B Unit
-          </span>
-        </div>
       </Link>
 
       {/* Card Content - Thông tin kỹ thuật & Model */}

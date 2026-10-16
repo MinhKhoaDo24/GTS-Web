@@ -49,6 +49,7 @@ interface Props {
 export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
   const [selectedCatId, setSelectedCatId] = useState<string>(categories[0]?.id || '')
   const [mappedSpecIds, setMappedSpecIds] = useState<Set<string>>(new Set())
+  const [requiredSpecIds, setRequiredSpecIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -65,6 +66,7 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
       if (!res.ok) throw new Error('Không thể tải liên kết thông số của danh mục')
       const data = await res.json()
       setMappedSpecIds(new Set(data.specificationIds || []))
+      setRequiredSpecIds(new Set(data.requiredIds || []))
     } catch (err: any) {
       console.error(err)
       setStatus('error')
@@ -83,6 +85,20 @@ export function CategorySpecMappingTab({ categories, groups, specs }: Props) {
   // Toggle 1 thông số
   const toggleSpec = (specId: string) => {
     setMappedSpecIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(specId)) {
+        next.delete(specId)
+      } else {
+        next.add(specId)
+      }
+      return next
+    })
+  }
+
+  // Toggle bắt buộc (is_required)
+  const toggleRequired = (specId: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setRequiredSpecIds((prev) => {
       const next = new Set(prev)
       if (next.has(specId)) {
         next.delete(specId)

@@ -8,6 +8,7 @@ export async function GET() {
     const dict = Object.fromEntries(settings.map((s) => [s.key, s.value]))
     return NextResponse.json({ data: dict })
   } catch (error) {
+    console.error('Fetch settings error:', error)
     return NextResponse.json({ error: 'Failed to fetch settings' }, { status: 500 })
   }
 }

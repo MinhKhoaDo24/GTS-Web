@@ -343,12 +343,6 @@ export function ProductFilters({
           )}
         </div>
 
-        {activeCategoryObj && (
-          <div className="text-[10px] text-slate-500 bg-slate-50 px-2.5 py-1 rounded-lg mb-2">
-            Hãng có sản phẩm: <strong>{activeCategoryObj.shortName}</strong>
-          </div>
-        )}
-
         <div className="space-y-1 max-h-56 overflow-y-auto pr-1">
           <button
             type="button"
@@ -468,7 +462,7 @@ export function ProductFilters({
           className="w-full flex items-center justify-center gap-2 bg-[#0077CC] text-white py-3 px-4 rounded-2xl font-bold text-xs shadow-md shadow-blue-500/20 cursor-pointer"
         >
           <Filter className="w-4 h-4" />
-          <span>Lọc sản phẩm 3 cấp độ {hasActiveFilters ? '(Đang lọc)' : ''}</span>
+          <span>Bộ lọc sản phẩm {hasActiveFilters ? '(Đang lọc)' : ''}</span>
           {hasActiveFilters && (
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
           )}

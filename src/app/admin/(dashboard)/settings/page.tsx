@@ -11,7 +11,7 @@ export default function AdminSettingsPage() {
   const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
-    fetch('/api/admin/site-settings')
+    fetch('/api/v2/admin/site-settings')
       .then((r) => r.json())
       .then((json) => {
         if (json.data) setSettings(json.data)
@@ -31,7 +31,7 @@ export default function AdminSettingsPage() {
     setErrorMsg('')
 
     try {
-      const res = await fetch('/api/admin/site-settings', {
+      const res = await fetch('/api/v2/admin/site-settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(settings),

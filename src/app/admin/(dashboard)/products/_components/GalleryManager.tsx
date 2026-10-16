@@ -43,7 +43,7 @@ export function GalleryManager({ productId, initialImages }: GalleryManagerProps
       formData.append('file', files[i])
 
       try {
-        const uploadRes = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+        const uploadRes = await fetch('/api/v2/admin/upload', { method: 'POST', body: formData })
         const uploadData = await uploadRes.json()
         if (!uploadData.url) continue
 

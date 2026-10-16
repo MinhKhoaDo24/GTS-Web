@@ -87,7 +87,7 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
     const formData = new FormData()
     formData.append('file', file)
     try {
-      const res = await fetch('/api/admin/upload', {
+      const res = await fetch('/api/v2/admin/upload', {
         method: 'POST',
         body: formData,
       })

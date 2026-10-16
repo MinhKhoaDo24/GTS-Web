@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
@@ -64,11 +64,11 @@ const serviceItems = [
 ]
 
 const solutionItems = [
-  { label: 'WiFi Doanh nghiệp', href: '/giai-phap-wifi', icon: Wifi, desc: 'Phủ sóng WiFi 6/6E mật độ cao' },
-  { label: 'Mạng Core / LAN / WAN', href: '/giai-phap-mang', icon: Network, desc: 'Hạ tầng mạng tốc độ 10G/40G/100G' },
-  { label: 'Bảo mật Firewall NGFW', href: '/giai-phap-bao-mat', icon: Lock, desc: 'Ngăn chặn tấn công & mã hóa dữ liệu' },
-  { label: 'Tổng đài VoIP & Call Center', href: '/giai-phap-voip', icon: PhoneCall, desc: 'Tiết kiệm 60% cước gọi nội bộ' },
-  { label: 'Hội nghị truyền hình', href: '/giai-phap-hoi-nghi', icon: Video, desc: 'Phòng họp thông minh 4K Teams/Zoom' },
+  { label: 'WiFi Doanh nghiệp', href: '/giai-phap/giai-phap-wifi', icon: Wifi, desc: 'Phủ sóng WiFi 6/6E mật độ cao' },
+  { label: 'Mạng Core / LAN / WAN', href: '/giai-phap/giai-phap-mang', icon: Network, desc: 'Hạ tầng mạng tốc độ 10G/40G/100G' },
+  { label: 'Bảo mật Firewall NGFW', href: '/giai-phap/giai-phap-bao-mat', icon: Lock, desc: 'Ngăn chặn tấn công & mã hóa dữ liệu' },
+  { label: 'Tổng đài VoIP & Call Center', href: '/giai-phap/giai-phap-voip', icon: PhoneCall, desc: 'Tiết kiệm 60% cước gọi nội bộ' },
+  { label: 'Hội nghị truyền hình', href: '/giai-phap/giai-phap-hoi-nghi', icon: Video, desc: 'Phòng họp thông minh 4K Teams/Zoom' },
 ]
 
 // Helper render icon cho Cấp 1

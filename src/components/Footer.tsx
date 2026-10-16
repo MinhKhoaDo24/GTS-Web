@@ -67,14 +67,14 @@ export function Footer({ settings }: FooterProps) {
           {/* Col 3: Quick Links */}
           <div>
             <h3 className="text-white font-bold mb-4 text-base uppercase tracking-wider border-b border-gray-800 pb-2">
-              Liên kết nhanh
+              Giải pháp & Chính sách
             </h3>
             <ul className="space-y-2.5">
               {[
-                { href: '/gioi-thieu', label: 'Về công ty GTS' },
-                { href: '/giai-phap-wifi', label: 'Giải pháp WiFi diện rộng' },
-                { href: '/giai-phap-mang', label: 'Hạ tầng mạng văn phòng / nhà máy' },
-                { href: '/giai-phap-bao-mat', label: 'Bảo mật & Tường lửa Firewall' },
+                { href: '/gioi-thieu', label: 'Về Chúng tôi' },
+                { href: '/giai-phap/giai-phap-wifi', label: 'Giải pháp WiFi diện rộng' },
+                { href: '/giai-phap/giai-phap-mang', label: 'Hạ tầng mạng văn phòng / nhà máy' },
+                { href: '/giai-phap/giai-phap-bao-mat', label: 'Bảo mật & Tường lửa Firewall' },
                 { href: '/tin-tuc', label: 'Tin tức công nghệ mạng' },
                 { href: '/faq', label: 'Câu hỏi thường gặp (FAQ)' },
                 { href: '/lien-he', label: 'Liên hệ & Báo giá nhanh' },
@@ -153,7 +153,7 @@ export function Footer({ settings }: FooterProps) {
       <div className="border-t border-gray-800 bg-[#0B1120]">
         <div className="layout-container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs sm:text-sm text-gray-400 text-center sm:text-left">
-            © {currentYear} GTS - Global Technology & Service. B2B Enterprise Network Partner.
+            © {currentYear} GTS - Global Technology & Service - 2026.
             {settings.tax_code && ` | MST: ${settings.tax_code}`}
           </p>
         </div>

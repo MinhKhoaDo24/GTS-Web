@@ -514,14 +514,14 @@ export default async function NewsPage({ searchParams }: PageProps) {
               Cần tư vấn thiết kế giải pháp mạng riêng cho doanh nghiệp của bạn?
             </h3>
             <p className="text-xs sm:text-sm text-slate-600">
-              Đội ngũ kỹ sư sở hữu chứng chỉ CCNA, CCNP, NSE7 của GTS sẵn sàng hỗ trợ khảo sát và lên cấu hình PoC miễn phí.
+              Đội ngũ kỹ sư sở hữu chứng chỉ CCNA, CCNP, NSE7 của GTS sẵn sàng hỗ trợ khảo sát và lên cấu hình phần cứng miễn phí.
             </p>
           </div>
           <Link
-            href="/lien-he?type=consultation"
+            href="/lien-he"
             className="flex-shrink-0 bg-[#0077CC] hover:bg-[#004A80] text-white px-6 py-3 rounded-2xl text-xs font-bold transition-all shadow-md shadow-blue-500/20"
           >
-            Liên hệ chuyên gia GTS
+            Liên hệ tư vấn
           </Link>
         </div>
       </div>

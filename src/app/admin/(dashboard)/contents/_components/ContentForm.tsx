@@ -49,7 +49,7 @@ export function ContentForm({ initialData, action }: ContentFormProps) {
     const formData = new FormData()
     formData.append('file', file)
     try {
-      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+      const res = await fetch('/api/v2/admin/upload', { method: 'POST', body: formData })
       const data = await res.json()
       if (data.url) {
         if (isThumb) setThumbnail(data.url)

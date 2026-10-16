@@ -172,7 +172,7 @@ export async function getProductById(id: string): Promise<ProductDetail | null> 
     `SELECT id, sku, part_number, variant_name, specifications_summary, is_active
      FROM product_variants
      WHERE product_id = $1
-     ORDER BY created_at ASC`,
+     ORDER BY is_active DESC, id ASC`,
     [id]
   )
 

@@ -25,8 +25,8 @@ export async function GET(_req: NextRequest, { params }: Props) {
     const mappings = await getCategorySpecMappings(categoryId)
     return NextResponse.json({
       categoryId,
-      specificationIds: mappings.map((m) => m.specification_id),
-      requiredIds: mappings.filter((m) => m.is_required).map((m) => m.specification_id),
+      specificationIds: mappings,
+      requiredIds: [],
       mappings,
       total: mappings.length,
     })

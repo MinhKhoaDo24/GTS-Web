@@ -463,10 +463,10 @@ export default async function HomePage() {
                         <img
                           src={item.logo}
                           alt={item.name}
-                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain grayscale group-hover:grayscale-0 transition-all duration-200"
+                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain transition-all duration-200"
                         />
                       ) : LogoComp ? (
-                        <LogoComp className="h-8 sm:h-9 max-w-[150px] text-slate-700 group-hover:text-[#0077CC] grayscale group-hover:grayscale-0 transition-all duration-200" />
+                        <LogoComp className="h-8 sm:h-9 max-w-[150px] transition-all duration-200" />
                       ) : (
                         <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
                           {item.name}
@@ -501,10 +501,10 @@ export default async function HomePage() {
                         <img
                           src={item.logo}
                           alt={item.name}
-                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain grayscale group-hover:grayscale-0 transition-all duration-200"
+                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain transition-all duration-200"
                         />
                       ) : LogoComp ? (
-                        <LogoComp className="h-8 sm:h-9 max-w-[150px] text-slate-700 group-hover:text-[#0077CC] grayscale group-hover:grayscale-0 transition-all duration-200" />
+                        <LogoComp className="h-8 sm:h-9 max-w-[150px] transition-all duration-200" />
                       ) : (
                         <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
                           {item.name}

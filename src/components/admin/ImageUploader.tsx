@@ -25,7 +25,7 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
       formData.append('file', files[i])
 
       try {
-        const res = await fetch('/api/admin/upload', {
+        const res = await fetch('/api/v2/admin/upload', {
           method: 'POST',
           body: formData,
         })
