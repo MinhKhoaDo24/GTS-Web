@@ -23,6 +23,7 @@ const productSchema = z.object({
   is_featured: z.boolean().default(false),
   seo_title: z.string().optional(),
   seo_description: z.string().optional(),
+  datasheet_url: z.string().url('Link datasheet không hợp lệ').optional().or(z.literal('')),
   // variant fields (first variant)
   variant_sku: z.string().optional(),
   variant_part_number: z.string().optional(),
@@ -53,6 +54,7 @@ export async function createProductAction(
     is_featured: formData.get('is_featured') === 'true',
     seo_title: formData.get('seo_title') as string || undefined,
     seo_description: formData.get('seo_description') as string || undefined,
+    datasheet_url: formData.get('datasheet_url') as string || undefined,
     variant_sku: formData.get('variant_sku') as string || undefined,
     variant_part_number: formData.get('variant_part_number') as string || undefined,
     variant_specs_summary: formData.get('variant_specs_summary') as string || undefined,
@@ -82,6 +84,7 @@ export async function createProductAction(
       is_featured: parsed.data.is_featured,
       seo_title: parsed.data.seo_title ?? null,
       seo_description: parsed.data.seo_description ?? null,
+      datasheet_url: parsed.data.datasheet_url ?? null,
     })
     newId = id
 
@@ -176,6 +179,7 @@ export async function updateProductAction(
     is_featured: formData.get('is_featured') === 'true',
     seo_title: formData.get('seo_title') as string || undefined,
     seo_description: formData.get('seo_description') as string || undefined,
+    datasheet_url: formData.get('datasheet_url') as string || undefined,
   }
 
   const parsed = productSchema.safeParse(raw)
@@ -200,6 +204,7 @@ export async function updateProductAction(
       is_featured: parsed.data.is_featured,
       seo_title: parsed.data.seo_title ?? null,
       seo_description: parsed.data.seo_description ?? null,
+      datasheet_url: parsed.data.datasheet_url ?? null,
     })
 
     // Save dynamic specifications if provided

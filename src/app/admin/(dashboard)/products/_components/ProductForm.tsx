@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   Save, ArrowLeft, Loader2, AlertCircle, Image as ImageIcon,
-  Globe, Star, Eye, EyeOff, Package, ChevronDown, Sparkles, Layers
+  Globe, Star, Eye, EyeOff, Package, ChevronDown, Sparkles, Layers, FileText, ExternalLink
 } from 'lucide-react'
 import { TiptapEditor } from '@/components/admin/TiptapEditor'
 import { ImageUploader } from '@/components/admin/ImageUploader'
@@ -41,6 +41,7 @@ interface ProductFormProps {
     is_featured?: boolean
     seo_title?: string | null
     seo_description?: string | null
+    datasheet_url?: string | null
     images?: string[]
     variant_sku?: string
     variant_part_number?: string
@@ -515,6 +516,38 @@ export function ProductForm({ action, brands, categories, families = [], default
                   placeholder="Mô tả meta ngắn gọn 140-160 ký tự cho Google..."
                   className={`${inputCls} resize-none`}
                 />
+              </Field>
+            </div>
+          </div>
+
+          {/* Card: Tài liệu kỹ thuật / Datasheet online */}
+          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+            <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center gap-2">
+              <FileText className="w-4 h-4 text-blue-600" />
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Tài liệu kỹ thuật / Datasheet online
+              </h2>
+            </div>
+            <div className="p-6 space-y-4">
+              <Field
+                label="Link tài liệu online / Datasheet"
+                name="datasheet_url"
+                error={errors.datasheet_url?.[0]}
+                hint="Dán link tới trang web tài liệu hoặc file datasheet online chính hãng (VD: https://www.cisco.com/c/en/us/products/...)"
+              >
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                    <ExternalLink className="w-4 h-4" />
+                  </span>
+                  <input
+                    id="datasheet_url"
+                    name="datasheet_url"
+                    type="url"
+                    defaultValue={defaultValues.datasheet_url ?? ''}
+                    placeholder="https://www.cisco.com/c/en/us/products/..."
+                    className={`${inputCls} pl-10 font-mono text-xs`}
+                  />
+                </div>
               </Field>
             </div>
           </div>

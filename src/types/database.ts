@@ -84,6 +84,7 @@ export interface Product {
   is_active: boolean
   seo_title: string | null
   seo_description: string | null
+  datasheet_url: string | null
   created_at: Date
   updated_at: Date
 }

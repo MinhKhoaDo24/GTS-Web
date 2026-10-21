@@ -184,6 +184,7 @@ export function ProductEditTabs({
               is_featured: product.is_featured,
               seo_title: product.seo_title,
               seo_description: product.seo_description,
+              datasheet_url: product.datasheet_url,
               variant_sku: product.variants?.[0]?.sku ?? '',
               variant_part_number: product.variants?.[0]?.part_number ?? '',
               variant_specs_summary: product.variants?.[0]?.specifications_summary ?? '',

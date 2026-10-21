@@ -69,11 +69,12 @@ CREATE TABLE products (
     status VARCHAR(50),
     release_date DATE,
     eol_date DATE,
-    thumbnail VARCHAR(255),
+    thumbnail TEXT,
     is_featured BOOLEAN DEFAULT FALSE,
     is_active BOOLEAN DEFAULT TRUE,
-    seo_title VARCHAR(255),
-    seo_description VARCHAR(255),
+    seo_title TEXT,
+    seo_description TEXT,
+    datasheet_url TEXT,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -233,7 +234,7 @@ CREATE TABLE documents (
 CREATE TABLE product_images (
     id VARCHAR(255) PRIMARY KEY,
     product_id VARCHAR(255),
-    image_url VARCHAR(255),
+    image_url TEXT,
     image_path VARCHAR(255),
     image_type VARCHAR(100),
     alt_text VARCHAR(255),

@@ -208,6 +208,7 @@ export interface CreateProductInput {
   is_active?: boolean
   seo_title?: string | null
   seo_description?: string | null
+  datasheet_url?: string | null
 }
 
 /**
@@ -222,9 +223,9 @@ export async function createProduct(
     `INSERT INTO products (
       id, name, slug, model, short_description, description,
       product_type, status, brand_id, domain_id, family_id, category_id,
-      thumbnail, is_featured, is_active, seo_title, seo_description
+      thumbnail, is_featured, is_active, seo_title, seo_description, datasheet_url
     ) VALUES (
-      $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17
+      $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18
     )`,
     [
       id,
@@ -244,6 +245,7 @@ export async function createProduct(
       data.is_active ?? true,
       data.seo_title ?? null,
       data.seo_description ?? null,
+      data.datasheet_url ?? null,
     ]
   )
 
@@ -267,7 +269,7 @@ export async function updateProduct(
     'name', 'slug', 'model', 'short_description', 'description',
     'product_type', 'status', 'brand_id', 'domain_id', 'family_id',
     'category_id', 'thumbnail', 'is_featured', 'is_active',
-    'seo_title', 'seo_description',
+    'seo_title', 'seo_description', 'datasheet_url',
   ]
 
   for (const key of allowed) {
