@@ -41,41 +41,6 @@ export interface ProductCardProps {
 
 export type ProductItem = ProductCardProps['product']
 
-/** Helper render Lifecycle status badge phong cách Enterprise B2B */
-function LifecycleBadge({ status }: { status?: LifecycleStatus | string | null }) {
-  if (!status || status === 'active') {
-    return (
-      <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-none">
-        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-        Sẵn sàng / Active
-      </span>
-    )
-  }
-
-  if (status === 'end_of_sale') {
-    return (
-      <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-none">
-        <Clock className="w-3 h-3 text-amber-600" />
-        End of Sale
-      </span>
-    )
-  }
-
-  if (status === 'discontinued' || status === 'end_of_support') {
-    return (
-      <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-none">
-        <AlertCircle className="w-3 h-3 text-rose-600" />
-        Ngừng sản xuất
-      </span>
-    )
-  }
-
-  return (
-    <span className="inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-slate-600 bg-slate-100 border border-slate-300 px-2 py-0.5 rounded-none">
-      {status}
-    </span>
-  )
-}
 
 export function ProductCard({ product }: ProductCardProps) {
   const thumbnail = product.thumbnail || null
@@ -105,8 +70,6 @@ export function ProductCard({ product }: ProductCardProps) {
             Enterprise Tech
           </span>
         )}
-
-        <LifecycleBadge status={product.lifecycle_status} />
       </div>
 
       {/* Image Container - Phẳng, sắc nét, góc vuông */}

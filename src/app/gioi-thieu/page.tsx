@@ -87,11 +87,11 @@ const coreValues = [
 ]
 
 const partners = [
-  { name: 'Cisco Systems', level: 'Premier Partner' },
-  { name: 'Fortinet', level: 'Advanced Partner' },
-  { name: 'HPE Aruba Networking', level: 'Silver Partner' },
-  { name: 'Dell Technologies', level: 'Authorized Partner' },
-  { name: 'Ubiquiti / Ruijie', level: 'Official Distributor' },
+  { name: 'Cisco Systems' },
+  { name: 'Fortinet' },
+  { name: 'HPE Aruba Networking' },
+  { name: 'Dell Technologies' },
+  { name: 'Ubiquiti / Ruijie' },
 ]
 
 
@@ -181,7 +181,6 @@ export default async function AboutPage() {
                   {partners.map((partner) => (
                     <div key={partner.name} className="flex items-center justify-between gap-4 border-b border-white/10 pb-4 last:border-0 last:pb-0">
                       <span className="text-sm text-slate-300">{partner.name}</span>
-                      <span className="text-right text-xs font-bold text-emerald-400">{partner.level}</span>
                     </div>
                   ))}
                 </div>

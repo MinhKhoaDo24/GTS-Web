@@ -712,9 +712,6 @@ export default async function HomePage() {
               <Reveal key={svc.id} delay={idx * 90} className="h-full">
                 <div className="group bg-[#f6f7fc] hover:bg-white rounded-3xl p-7 border border-slate-200/90 hover:border-[#0077CC] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between h-full">
                   <div>
-                    <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0077CC] bg-blue-50 border border-blue-100 px-3 py-1 rounded-full inline-block mb-4">
-                      {svc.tag}
-                    </div>
                     <h3 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-[#0077CC] transition-colors mb-3 leading-snug">
                       {svc.title}
                     </h3>
@@ -775,9 +772,6 @@ export default async function HomePage() {
           <Reveal>
             <div className="bg-[#f6f7fc] rounded-3xl p-8 sm:p-14 border border-slate-200/90 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="max-w-2xl">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0077CC] block mb-2">
-                  HỢP TÁC DOANH NGHIỆP
-                </span>
                 <h3 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-snug">
                   Triển khai giải pháp hạ tầng phù hợp cho bài toán của bạn!
                 </h3>
