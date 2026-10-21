@@ -18,6 +18,7 @@ const inter = Inter({
 })
 import { query } from '@/lib/db'
 import type { Category, Brand, Domain, SiteSetting } from '@/types/database'
+import { buildCatalogFromDb } from '@/lib/catalogFromDb'
 
 export const metadata: Metadata = {
   title: {
@@ -41,22 +42,24 @@ export const metadata: Metadata = {
 
 async function getLayoutData() {
   try {
-    const [settingsArr, categories, brands, domains] = await Promise.all([
+    const [settingsArr, categories, brands, domains, catalogTaxonomy] = await Promise.all([
       query<SiteSetting>('SELECT key, value FROM site_settings'),
       query<Category>('SELECT id, name, slug, description FROM categories ORDER BY name ASC'),
       query<Brand>('SELECT id, name, slug, logo, website FROM brands ORDER BY name ASC'),
       query<Domain>('SELECT id, name, slug, description, image, icon, sort_order, is_active FROM domains WHERE is_active = true ORDER BY sort_order ASC, name ASC'),
+      buildCatalogFromDb(),
     ])
     const settings: Record<string, string> = Object.fromEntries(
       settingsArr.map((s) => [s.key, s.value ?? ''])
     )
-    return { settings, categories, brands, domains }
+    return { settings, categories, brands, domains, catalogTaxonomy }
   } catch {
     return {
       settings: {} as Record<string, string>,
       categories: [] as Category[],
       brands: [] as Brand[],
       domains: [] as Domain[],
+      catalogTaxonomy: [],
     }
   }
 }
@@ -66,12 +69,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const { settings, categories, brands, domains } = await getLayoutData()
+  const { settings, categories, brands, domains, catalogTaxonomy } = await getLayoutData()
 
   return (
     <html lang="vi" className={`${manrope.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col bg-[#F8FAFC] font-sans">
-        <PublicLayout settings={settings} categories={categories} brands={brands} domains={domains}>
+        <PublicLayout settings={settings} categories={categories} brands={brands} domains={domains} catalogTaxonomy={catalogTaxonomy}>
           {children}
         </PublicLayout>
       </body>

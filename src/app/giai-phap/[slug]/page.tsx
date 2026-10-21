@@ -1,26 +1,40 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import {
+  getSolutionBySlug,
+  getSolutionProducts,
+  getRelatedProductsForSolution,
+  getOtherSolutions,
+  type SolutionProductItem,
+} from '@/lib/dal/solutions'
 import { queryOne, query } from '@/lib/db'
-import type { Solution, SiteSetting, PageContent } from '@/types/database'
+import type { PageContent, SiteSetting } from '@/types/database'
 import { RichTextRenderer } from '@/components/RichTextRenderer'
 import {
   Wifi,
   Network,
-  Lock,
+  ShieldCheck,
   PhoneCall,
   Video,
   Server,
-  ShieldCheck,
+  Cpu,
   CheckCircle2,
   ArrowRight,
   ChevronRight,
   Home,
   Phone,
-  Send,
-  Cpu,
   Layers,
-  FileCheck2
+  FileCheck2,
+  Download,
+  Mail,
+  Clock,
+  Sparkles,
+  Package,
+  Wrench,
+  Shield,
+  HelpCircle
 } from 'lucide-react'
 
 export const revalidate = 3600
@@ -31,148 +45,48 @@ interface PageProps {
   }>
 }
 
-/** Fallback metadata & data cho các giải pháp cơ bản */
-const fallbackSolutionsData: Record<
-  string,
-  {
-    name: string
-    slug?: string
-    short_description: string
-    detail: string
-    architecture: string[]
-    benefits: string[]
+function getSolutionIcon(slug: string) {
+  switch (slug) {
+    case 'giai-phap-wifi':
+      return Wifi
+    case 'giai-phap-mang':
+      return Network
+    case 'giai-phap-bao-mat':
+      return ShieldCheck
+    case 'giai-phap-voip':
+      return PhoneCall
+    case 'giai-phap-hoi-nghi':
+      return Video
+    case 'giai-phap-server':
+      return Server
+    default:
+      return Cpu
   }
-> = {
-  'giai-phap-wifi': {
-    name: 'Giải Pháp WiFi Doanh Nghiệp Mật Độ Cao',
-    short_description: 'Phủ sóng WiFi 6/6E/7 roaming không gián đoạn cho văn phòng, khách sạn, nhà máy với mật độ hàng ngàn kết nối đồng thời.',
-    detail:
-      'Giải pháp mạng không dây (Wireless LAN) chuyên dụng của GTS được xây dựng trên các nền tảng Access Point chuẩn WiFi 6/6E/7 tiên tiến từ Cisco Catalyst, HPE Aruba và Ubiquiti UniFi. Hệ thống sử dụng công nghệ roaming thông minh 802.11r/k/v giúp thiết bị chuyển vùng giữa các Access Point mượt mà không bị ngắt kết nối cuộc gọi VoIP hay video call. Đồng thời hỗ trợ phân quyền truy cập thông minh qua cổng chào Captive Portal, cách ly mạng nội bộ và mạng khách an toàn tuyệt đối.',
-    architecture: [
-      'Access Point chuẩn WiFi 6/7 chịu tải cao từ 200 - 500+ client/AP',
-      'Hệ thống điều khiển tập trung Cloud Controller hoặc Hardware Controller dự phòng HA',
-      'Hạ tầng chuyển mạch Switch PoE+ / PoE++ chuẩn Multi-Gigabit 2.5G/5Gbps',
-      'Cổng xác thực Captive Portal phân quyền truy cập người dùng và khách hàng',
-    ],
-    benefits: [
-      'Phủ sóng không góc chết, tự động điều chỉnh kênh và công suất phát RF thông minh',
-      'Bảo mật chuẩn WPA3-Enterprise, chống giả mạo điểm phát Rogue AP',
-      'Báo cáo trực quan lưu lượng sử dụng và trải nghiệm người dùng theo thời gian thực',
-      'Tiết kiệm chi phí triển khai và dễ dàng mở rộng thêm Access Point khi cần',
-    ],
-  },
-  'giai-phap-mang': {
-    name: 'Giải Pháp Mạng Core / LAN / WAN Doanh Nghiệp Spine-Leaf',
-    short_description: 'Hạ tầng chuyển mạch tốc độ cao 10G/40G/100G với độ trễ cực thấp và dự phòng đường truyền High Availability.',
-    detail:
-      'Hạ tầng chuyển mạch (Switching) là xương sống của mọi hệ thống thông tin. GTS thiết kế mạng Core/Distribution theo kiến trúc 2 tầng hoặc Spine-Leaf hiện đại, sử dụng các dòng Switch Enterprise (Cisco Catalyst 9000, Ruijie Reyee, HPE Aruba CX). Toàn bộ hệ thống được trang bị tính năng ghép cụm Stacking / VSL / MLAG, dự phòng nguồn kép và đường truyền quang đa hướng, đảm bảo khi một tuyến cáp hay thiết bị gặp sự cố thì mạng vẫn hoạt động liền mạch với thời gian chuyển mạch dưới 50ms.',
-    architecture: [
-      'Lớp Core Switch tốc độ cổng quang 10G/40G/100G băng thông chuyển mạch terabit',
-      'Lớp Access Switch hỗ trợ cổng Gigabit, PoE+ cấp nguồn camera và Access Point',
-      'Kết nối dự phòng Stacking / LACP phân tải thông minh trên từng tuyến cáp',
-      'Hệ thống quản lý giám sát trạng thái mạng tự động cảnh báo sự cố',
-    ],
-    benefits: [
-      'Băng thông cực lớn, không nghẽn cổ chai khi lưu lượng dữ liệu truyền tải tăng vọt',
-      'Khả năng sẵn sàng 99.999% (Five Nines), không xảy ra Single Point of Failure',
-      'Phân chia VLAN bảo mật nghiêm ngặt giữa các phòng ban và máy chủ',
-      'Bảo hành chính hãng 3 năm kèm dịch vụ hỗ trợ kỹ thuật tại chỗ',
-    ],
-  },
-  'giai-phap-bao-mat': {
-    name: 'Giải Pháp Bảo Mật Mạng Firewall NGFW & Zero Trust',
-    short_description: 'Tường lửa thế hệ mới ngăn chặn mã độc Ransomware, lọc nội dung web, phòng chống xâm nhập IPS và kết nối VPN an toàn.',
-    detail:
-      'Trước các nguy cơ tấn công mạng ngày càng tinh vi, giải pháp an ninh của GTS kết hợp tường lửa thế hệ mới (Fortinet FortiGate, Sophos XGS) với kiến trúc bảo mật Zero Trust ("Không tin tưởng ai, luôn xác minh"). Tường lửa thực hiện kiểm tra sâu gói tin SSL/TLS mà không làm suy giảm hiệu năng, phát hiện và tiêu diệt mã độc tống tiền (Ransomware), ngăn chặn rò rỉ dữ liệu (DLP) và thiết lập kênh truyền VPN mã hóa chuẩn quân đội cho nhân sự làm việc từ xa.',
-    architecture: [
-      'Thiết bị Firewall Next-Gen (NGFW) cụm dự phòng High Availability (Active-Passive)',
-      'Công nghệ AI Sandboxing phân tích tệp lạ ngăn chặn tấn công Zero-day',
-      'Hệ thống phát hiện và ngăn chặn xâm nhập trái phép (IPS / IDS)',
-      'Hạ tầng VPN SSL / IPsec bảo mật đa yếu tố (MFA / 2FA) cho nhân sự làm việc từ xa',
-    ],
-    benefits: [
-      'Kiểm soát toàn diện các ứng dụng truy cập mạng (Facebook, YouTube, Torrent...)',
-      'Bảo vệ dữ liệu nhạy cảm của doanh nghiệp trước các cuộc tấn công đánh cắp dữ liệu',
-      'Đáp ứng đầy đủ các tiêu chuẩn kiểm toán an ninh thông tin ISO 27001 và ngân hàng',
-      'Báo cáo chi tiết các nguy cơ và lưu lượng tấn công theo chu kỳ hàng tuần/tháng',
-    ],
-  },
-  'giai-phap-voip': {
-    name: 'Giải Pháp Tổng Đài VoIP & Truyền Thông Hợp Nhất',
-    short_description: 'Tiết kiệm 60% cước viễn thông, gọi nội bộ miễn phí trên toàn quốc, tích hợp Softphone trên smartphone và ghi âm cuộc gọi.',
-    detail:
-      'GTS cung cấp hệ thống tổng đài IP PBX hiện đại từ Grandstream và Yeastar, thay thế hoàn toàn tổng đài analog cũ kỹ. Hệ thống cho phép doanh nghiệp kết nối không giới hạn các chi nhánh trên toàn quốc thông qua mạng Internet, mọi cuộc gọi nội bộ giữa các phòng ban đều hoàn toàn miễn phí. Hỗ trợ đầy đủ các tính năng thông minh: lời chào tự động IVR phân luồng cuộc gọi, ghi âm cuộc gọi chất lượng cao, hộp thư thoại gửi qua email và ứng dụng Softphone giúp nhân viên nghe gọi số cố định công ty ngay trên smartphone cá nhân.',
-    architecture: [
-      'Tổng đài IP PBX phần cứng chuyên dụng hoặc Cloud IP PBX linh hoạt',
-      'Điện thoại IP để bàn âm thanh HD Voice có cổng mạng Gigabit kèm PoE',
-      'Đầu số cố định Siptrunk từ các nhà mạng VNPT, Viettel, FPT Telecom',
-      'Ứng dụng Softphone cài đặt trên điện thoại di động iOS / Android và máy tính',
-    ],
-    benefits: [
-      'Giảm thiểu tối đa cước viễn thông hàng tháng của doanh nghiệp',
-      'Không bỏ lỡ cuộc gọi của khách hàng nhờ tính năng chuyển cuộc gọi thông minh',
-      'Nâng cao hình ảnh chuyên nghiệp của công ty với lời chào thương hiệu bài bản',
-      'Dễ dàng mở rộng thêm máy nhánh mới trong vài phút mà không cần kéo thêm dây điện thoại',
-    ],
-  },
-  'giai-phap-server': {
-    name: 'Giải Pháp Máy Chủ & Lưu Trữ Data Center HA',
-    slug: 'giai-phap-server',
-    short_description: 'Cụm máy chủ ảo hóa VMware / Proxmox kết hợp hệ thống lưu trữ SAN / NAS an toàn tuyệt đối và sao lưu tự động.',
-    detail:
-      'Giải pháp máy chủ và lưu trữ của GTS được thiết kế trên các nền tảng phần cứng máy chủ hàng đầu Dell PowerEdge và HPE ProLiant. Chúng tôi tối ưu hóa việc phân bổ tài nguyên phần cứng thông qua công nghệ ảo hóa, gom cụm máy chủ thành một khối tài nguyên thống nhất với khả năng tự động di chuyển máy ảo (vMotion) khi có sự cố phần cứng. Hệ thống lưu trữ mạng SAN/NAS sử dụng ổ cứng Enterprise với cơ chế RAID đa lớp và tự động sao lưu dự phòng (Backup & Disaster Recovery) đảm bảo an toàn tuyệt đối cho cơ sở dữ liệu doanh nghiệp.',
-    architecture: [
-      'Cụm máy chủ Rack 1U/2U cấu hình Dual CPU Intel Xeon / AMD EPYC, RAM ECC',
-      'Hệ thống lưu trữ SAN / NAS iSCSI / Fibre Channel tốc độ 16G/32G',
-      'Nền tảng ảo hóa VMware vSphere / Microsoft Hyper-V / Proxmox VE',
-      'Giải pháp sao lưu dữ liệu chuyên dụng (Veeam Backup & Replication)',
-    ],
-    benefits: [
-      'Tận dụng tối đa công suất phần cứng, tiết kiệm điện năng và diện tích tủ rack',
-      'Khôi phục hoạt động của hệ thống trong vòng vài phút khi có sự cố hỏng hóc',
-      'Dữ liệu được mã hóa và bảo vệ trước mã độc tống tiền Ransomware',
-      'Hỗ trợ quản trị từ xa chuyên sâu qua card quản lý độc lập iDRAC Enterprise / iLO',
-    ],
-  },
-  'giai-phap-hoi-nghi': {
-    name: 'Giải Pháp Phòng Họp Hội Nghị Truyền Hình Thông Minh',
-    slug: 'giai-phap-hoi-nghi',
-    short_description: 'Phòng họp trực tuyến 4K chuyên dụng cho Microsoft Teams, Zoom Rooms với camera tự động bắt người nói và micro lọc ồn.',
-    detail:
-      'GTS thiết kế và lắp đặt trọn gói hệ thống hội nghị truyền hình (Video Conference) cho các phòng họp từ nhỏ (Huddle room) đến hội trường lớn 50-100 người. Hệ thống tích hợp camera 4K Ultra HD góc rộng với công nghệ AI tự động nhận diện và phóng to người đang phát biểu (Auto-framing & Speaker Tracking), kết hợp hệ thống micro mảng đa hướng triệt tiêu tiếng vọng và tiếng ồn xung quanh. Tương thích hoàn hảo với các nền tảng họp trực tuyến hàng đầu: Microsoft Teams Rooms, Zoom Rooms, Cisco Webex, Google Meet.',
-    architecture: [
-      'Camera hội nghị truyền hình 4K công nghệ AI bắt khung hình tự động',
-      'Soundbar tích hợp micro mảng đa hướng và loa tái tạo giọng nói trung thực',
-      'Màn hình hiển thị chuyên dụng độ sáng cao hoạt động bền bỉ 16/7 hoặc 24/7',
-      'Bộ điều khiển cảm ứng đặt bàn (Touch Controller) thao tác 1 chạm bắt đầu cuộc họp',
-    ],
-    benefits: [
-      'Chất lượng hình ảnh và âm thanh sắc nét, xóa nhòa khoảng cách địa lý',
-      'Thao tác cực kỳ đơn giản, không mất thời gian đấu nối cáp phức tạp trước cuộc họp',
-      'Chia sẻ màn hình và tài liệu thuyết trình không dây mượt mà',
-      'Tối ưu chi phí đi lại và tăng tốc độ ra quyết định trong nội bộ doanh nghiệp',
-    ],
-  },
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params
   const slug = resolvedParams.slug
 
-  const solution = await queryOne<Solution>(
-    'SELECT name, short_description, seo_title, seo_description FROM solutions WHERE slug = $1 LIMIT 1',
+  const solution = await getSolutionBySlug(slug).catch(() => null)
+  if (solution) {
+    return {
+      title: solution.seo_title || `${solution.name} | Giải Pháp GTS`,
+      description:
+        solution.seo_description ||
+        solution.short_description ||
+        'Giải pháp hạ tầng mạng và an ninh doanh nghiệp chính hãng tại GTS.',
+    }
+  }
+
+  const page = await queryOne<PageContent>(
+    'SELECT title, seo_title, seo_description FROM pages WHERE slug = $1 LIMIT 1',
     [slug]
   ).catch(() => null)
 
-  const fallback = fallbackSolutionsData[slug]
-
   return {
-    title: solution?.seo_title || solution?.name || fallback?.name || 'Giải Pháp Doanh Nghiệp | GTS',
-    description:
-      solution?.seo_description ||
-      solution?.short_description ||
-      fallback?.short_description ||
-      'Giải pháp hạ tầng mạng và an ninh doanh nghiệp chính hãng tại GTS.',
+    title: page?.seo_title || page?.title || 'Giải Pháp Doanh Nghiệp | GTS',
+    description: page?.seo_description || 'Giải pháp hạ tầng công nghệ thông tin chuyên nghiệp từ GTS.',
   }
 }
 
@@ -180,24 +94,39 @@ export default async function SolutionDetailPage({ params }: PageProps) {
   const resolvedParams = await params
   const slug = resolvedParams.slug
 
-  // 1. Query từ bảng solutions
-  const [solution, page, settingsArr] = await Promise.all([
-    queryOne<Solution>(
-      'SELECT id, domain_id, name, slug, short_description, description, thumbnail, banner FROM solutions WHERE slug = $1 LIMIT 1',
-      [slug]
-    ).catch(() => null),
-    // 2. Query fallback từ bảng pages (nếu admin tạo trong CMS pages)
-    queryOne<PageContent>(
+  // 1. Query thông tin giải pháp từ database
+  const solution = await getSolutionBySlug(slug).catch(() => null)
+
+  // 2. Query fallback từ bảng pages (nếu admin lưu trong CMS pages)
+  let cmsPage: PageContent | null = null
+  if (!solution) {
+    cmsPage = await queryOne<PageContent>(
       'SELECT id, title, slug, content FROM pages WHERE slug = $1 LIMIT 1',
       [slug]
-    ).catch(() => null),
+    ).catch(() => null)
+  }
+
+  // Nếu không tìm thấy trong cả 2 bảng -> 404
+  if (!solution && !cmsPage) {
+    notFound()
+  }
+
+  // 3. Query các dữ liệu liên quan từ database:
+  // - Thiết bị trong solution_products
+  // - Thiết bị liên quan trong catalog sản phẩm
+  // - Các giải pháp khác
+  // - Cấu hình site_settings
+  const solutionId = solution?.id || ''
+  const [dbProducts, otherSolutions, settingsArr] = await Promise.all([
+    solutionId ? getSolutionProducts(solutionId).catch(() => []) : Promise.resolve([]),
+    getOtherSolutions(slug, 6).catch(() => []),
     query<SiteSetting>('SELECT key, value FROM site_settings').catch(() => []),
   ])
 
-  const fallback = fallbackSolutionsData[slug]
-
-  if (!solution && !page && !fallback) {
-    notFound()
+  // Nếu solution_products chưa có sản phẩm được gán, lấy sản phẩm liên quan từ catalog
+  let productsToDisplay: SolutionProductItem[] = dbProducts
+  if (productsToDisplay.length === 0) {
+    productsToDisplay = await getRelatedProductsForSolution(slug, 4).catch(() => [])
   }
 
   const settings: Record<string, string> = Object.fromEntries(
@@ -205,15 +134,17 @@ export default async function SolutionDetailPage({ params }: PageProps) {
   )
 
   const hotline = settings.hotline || '0901 234 567'
+  const contactEmail = settings.contact_email || 'contact@gts.vn'
 
-  const title = solution?.name || page?.title || fallback?.name || 'Giải pháp doanh nghiệp'
-  const shortDesc = solution?.short_description || fallback?.short_description || ''
-  const customContent = solution?.description || page?.content || null
+  const title = solution?.name || cmsPage?.title || 'Giải pháp doanh nghiệp'
+  const shortDesc = solution?.short_description || ''
+  const content = solution?.description || cmsPage?.content || ''
+  const Icon = getSolutionIcon(slug)
 
   return (
     <div className="bg-[#F8FAFC] py-8 sm:py-12 fade-in">
       <div className="layout-container">
-        {/* Breadcrumb */}
+        {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 mb-8 font-medium">
           <Link href="/" className="hover:text-[#0077CC] flex items-center gap-1 transition-colors">
             <Home className="w-3.5 h-3.5 text-slate-400" />
@@ -227,142 +158,340 @@ export default async function SolutionDetailPage({ params }: PageProps) {
           <span className="text-slate-900 font-bold truncate max-w-md">{title}</span>
         </nav>
 
-        {/* ── Header Banner ───────────────────────────────────────────────── */}
-        <div className="bg-gradient-to-r from-[#0F172A] via-[#0077CC] to-[#004A80] text-white rounded-3xl p-8 sm:p-12 mb-12 shadow-xl relative overflow-hidden">
-          <div className="max-w-3xl relative z-10">
-            <div className="inline-flex items-center gap-2 bg-white/15 text-blue-100 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-3 border border-white/20 backdrop-blur-sm">
-              <Layers className="w-4 h-4 text-emerald-400" />
+        {/* ── Solution Hero Banner ─────────────────────────────────────────── */}
+        <div className="relative bg-gradient-to-br from-[#0B1528] via-[#0F284E] to-[#004A80] text-white rounded-3xl p-8 sm:p-12 mb-12 shadow-2xl overflow-hidden border border-white/10">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="relative z-10 max-w-4xl">
+            <div className="inline-flex items-center gap-2 bg-white/10 text-cyan-300 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4 border border-white/15 backdrop-blur-sm">
+              <Icon className="w-4 h-4 text-cyan-400" />
               <span>Kiến trúc giải pháp tích hợp</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight mb-3">
+
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight leading-tight mb-4 text-white">
               {title}
             </h1>
+
             {shortDesc && (
-              <p className="text-sm sm:text-base text-blue-100 leading-relaxed max-w-2xl">
+              <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-3xl mb-8">
                 {shortDesc}
               </p>
             )}
-          </div>
-        </div>
 
-        {/* ── Main Layout: Content + Sidebar CTA ──────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-14">
-          {/* CỘT NỘI DUNG CHÍNH (8 cols) */}
-          <div className="lg:col-span-8 space-y-8">
-            {/* NẾU ADMIN ĐÃ NHẬP NỘI DUNG QUA BACKEND CMS: RENDER QUA RICHTEXT */}
-            {customContent ? (
-              <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs">
-                <RichTextRenderer content={customContent} />
-              </div>
-            ) : (
-              /* NẾU CHƯA CÓ NỘI DUNG TỪ DB: RENDER TEMPLATE DOANH NGHIỆP */
-              <div className="space-y-8">
-                {/* Giới thiệu chi tiết giải pháp */}
-                <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs space-y-4">
-                  <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-                    Tổng Quan Kiến Trúc Giải Pháp
-                  </h2>
-                  <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-                    {fallback?.detail}
-                  </p>
-                </div>
-
-                {/* Các thành phần kiến trúc */}
-                {fallback?.architecture && (
-                  <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs space-y-5">
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-                      Các Thành Phần Cấu Thành Hệ Thống
-                    </h2>
-                    <div className="space-y-3">
-                      {fallback.architecture.map((item, aIdx) => (
-                        <div key={aIdx} className="flex items-start gap-3.5 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
-                          <div className="w-7 h-7 rounded-xl bg-[#0077CC] text-white flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">
-                            {aIdx + 1}
-                          </div>
-                          <span className="text-xs sm:text-sm text-slate-800 font-semibold leading-relaxed">
-                            {item}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Lợi ích mang lại */}
-                {fallback?.benefits && (
-                  <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs space-y-4">
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900">
-                      Lợi Ích Cốt Lõi Mang Lại Cho Doanh Nghiệp
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                      {fallback.benefits.map((b, bIdx) => (
-                        <div key={bIdx} className="flex items-start gap-2.5 p-3 rounded-2xl bg-emerald-50/50 border border-emerald-100 text-xs sm:text-sm text-slate-800 font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                          <span>{b}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* CỘT SIDEBAR LIÊN HỆ & TƯ VẤN (4 cols) */}
-          <div className="lg:col-span-4 space-y-6">
-            {/* Box Đặt Lịch Tư Vấn PoC */}
-            <div className="bg-white rounded-3xl p-7 border border-slate-200/80 shadow-xs space-y-5">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#0077CC] pb-2 border-b border-slate-100">
-                <Send className="w-4 h-4" />
-                <span>Nhận hồ sơ thiết kế & Báo giá</span>
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Đội ngũ kỹ sư GTS sẵn sàng demo tính năng (PoC) và thiết kế sơ đồ topo mạng theo hiện trạng thực tế của quý doanh nghiệp.
-              </p>
-
+            {/* Quick Action Buttons in Hero */}
+            <div className="flex flex-wrap items-center gap-3.5 pt-4 border-t border-white/15">
               <Link
                 href={`/lien-he?solution=${encodeURIComponent(slug)}&type=quote`}
-                className="w-full bg-[#0077CC] hover:bg-[#004A80] text-white py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider text-center block transition-colors shadow-md"
+                className="bg-[#0077CC] hover:bg-[#004A80] text-white px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md hover:shadow-lg inline-flex items-center gap-2"
               >
-                Yêu cầu thiết kế giải pháp
+                <span>Yêu cầu báo giá giải pháp</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
 
               <a
                 href={`tel:${hotline.replace(/\s/g, '')}`}
-                className="w-full bg-[#0F172A] hover:bg-slate-800 text-white py-3.5 px-4 rounded-2xl font-bold text-xs text-center block transition-colors flex items-center justify-center gap-2"
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/20 px-5 py-3 rounded-xl font-bold text-xs transition-colors inline-flex items-center gap-2"
               >
-                <Phone className="w-4 h-4 text-amber-400" />
-                <span>Hotline: {hotline}</span>
+                <Phone className="w-3.5 h-3.5 text-amber-400" />
+                <span>Hotline kỹ thuật: {hotline}</span>
               </a>
             </div>
+          </div>
+        </div>
 
-            {/* Box Các Giải Pháp Khác */}
+        {/* ── Key Value Props Bar ─────────────────────────────────────────── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {[
+            { title: 'Chính Hãng 100%', desc: 'Đầy đủ CO/CQ từ nhà sản xuất', icon: Shield },
+            { title: 'Sẵn Sàng 99.999%', desc: 'Dự phòng High Availability', icon: Layers },
+            { title: 'Bảo Hành Tận Nơi', desc: 'Hỗ trợ kỹ thuật 24/7/365', icon: Clock },
+            { title: 'Tối Ưu Chi Phí TCO', desc: 'Dễ dàng nâng cấp và mở rộng', icon: Sparkles },
+          ].map((item, idx) => {
+            const ItemIcon = item.icon
+            return (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center gap-3.5"
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0077CC] flex items-center justify-center flex-shrink-0">
+                  <ItemIcon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-tight">
+                    {item.title}
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* ── Main Layout: Content + Sticky Sidebar ───────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+          {/* CỘT NỘI DUNG CHÍNH (8 cols) */}
+          <div className="lg:col-span-8 space-y-8">
+            {/* 1. NỘI DUNG CHI TIẾT GIẢI PHÁP TỪ DATABASE */}
+            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs">
+              <div className="flex items-center gap-2.5 text-xs font-black uppercase tracking-wider text-[#0077CC] pb-3 border-b border-slate-100 mb-6">
+                <FileCheck2 className="w-4 h-4" />
+                <span>Nội Dung Kiến Trúc & Chi Tiết Kỹ Thuật</span>
+              </div>
+
+              {content ? (
+                <div className="prose prose-slate max-w-none prose-headings:font-black prose-headings:text-slate-900 prose-h2:text-2xl prose-h3:text-lg prose-p:text-slate-700 prose-p:leading-relaxed prose-li:text-slate-700">
+                  <RichTextRenderer content={content} />
+                </div>
+              ) : (
+                <div className="text-slate-500 text-sm italic py-8 text-center">
+                  Nội dung chi tiết giải pháp đang được ban kỹ thuật cập nhật. Quý khách vui lòng liên hệ hotline để nhận tài liệu giải pháp hoàn chỉnh.
+                </div>
+              )}
+            </div>
+
+            {/* 2. HỆ SINH THÁI THIẾT BỊ CẤU THÀNH (Lấy trực tiếp từ database) */}
+            {productsToDisplay.length > 0 && (
+              <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-6">
+                  <div>
+                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#0077CC] mb-1">
+                      <Package className="w-4 h-4" />
+                      <span>Hệ Sinh Thái Thiết Bị & Bản Quyền Cấu Thành</span>
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-black text-slate-900">
+                      Thiết Bị Tiêu Biểu Trong Giải Pháp
+                    </h3>
+                  </div>
+                  <Link
+                    href="/san-pham"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[#0077CC] hover:underline"
+                  >
+                    <span>Xem kho sản phẩm</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {productsToDisplay.map((prod) => (
+                    <div
+                      key={prod.id || prod.product_slug}
+                      className="group border border-slate-200/90 hover:border-[#0077CC] rounded-2xl p-4 transition-all duration-200 flex flex-col justify-between bg-slate-50/50 hover:bg-white hover:shadow-md"
+                    >
+                      <div>
+                        {/* Thumbnail image */}
+                        <div className="relative w-full h-36 bg-white rounded-xl mb-3 flex items-center justify-center p-2 overflow-hidden border border-slate-100">
+                          {prod.product_thumbnail ? (
+                            <img
+                              src={prod.product_thumbnail}
+                              alt={prod.product_name}
+                              className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                            />
+                          ) : (
+                            <Package className="w-10 h-10 text-slate-300" />
+                          )}
+                        </div>
+
+                        {/* Brand & Role Tag */}
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          {prod.brand_name && (
+                            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                              {prod.brand_name}
+                            </span>
+                          )}
+                          {prod.role && (
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-[#0077CC] line-clamp-1">
+                              {prod.role}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Product Title */}
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-[#0077CC] transition-colors line-clamp-2 leading-snug mb-1">
+                          <Link href={`/san-pham/${prod.product_slug}`}>
+                            {prod.product_name}
+                          </Link>
+                        </h4>
+
+                        {prod.product_model && (
+                          <div className="text-xs text-slate-500 font-mono mb-2">
+                            Model: {prod.product_model}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Card Action */}
+                      <div className="pt-3 border-t border-slate-200/60 flex items-center justify-between gap-2">
+                        <Link
+                          href={`/san-pham/${prod.product_slug}`}
+                          className="text-xs font-bold text-slate-600 group-hover:text-[#0077CC] inline-flex items-center gap-1"
+                        >
+                          <span>Thông số kỹ thuật</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </Link>
+
+                        <Link
+                          href={`/lien-he?product=${encodeURIComponent(prod.product_slug)}&type=quote`}
+                          className="bg-[#0077CC] hover:bg-[#004A80] text-white px-2.5 py-1 rounded-lg text-[11px] font-bold transition-colors"
+                        >
+                          Báo giá
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 3. QUY TRÌNH TRIỂN KHAI & CAM KẾT CHẤT LƯỢNG DỊCH VỤ SLA */}
+            <div className="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200/80 shadow-xs space-y-6">
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#0077CC] pb-3 border-b border-slate-100">
+                <Wrench className="w-4 h-4" />
+                <span>Cam Kết Chất Lượng Kỹ Thuật & Hỗ Trợ Sau Triển Khai</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900 mb-1">Chứng nhận xuất xứ & chất lượng</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Cung cấp hồ sơ nghiệm thu đầy đủ CO/CQ, Packing List và giấy tờ ủy quyền chính hãng.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900 mb-1">Kho thiết bị dự phòng Spare Part</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Cam kết đổi mới thiết bị tương đương trong 2 - 4h khi phát sinh sự cố phần cứng khẩn cấp.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900 mb-1">Bàn giao hồ sơ hoàn công chi tiết</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Cung cấp sơ đồ Topo cáp, bảng phân bổ VLAN/IP, file backup cấu hình và tài liệu vận hành.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900 mb-1">Đào tạo chuyển giao công nghệ</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Hướng dẫn chuyên sâu cho đội ngũ quản trị IT nội bộ của quý doanh nghiệp làm chủ hệ thống.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CỘT SIDEBAR TƯ VẤN & CROSS-LINKS (4 cols) */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Box 1: Yêu Cầu Báo Giá & Tư Vấn Kỹ Thuật */}
+            <div className="bg-white rounded-3xl p-7 border border-slate-200/80 shadow-md space-y-5">
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#0077CC] pb-3 border-b border-slate-100">
+                <PhoneCall className="w-4 h-4" />
+                <span>Tư Vấn & Báo Giá Giải Pháp</span>
+              </div>
+
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Quý khách hàng cần tư vấn thiết kế, lập dự toán BOM hoặc nhận báo giá dự án giải pháp <strong className="text-slate-900">{title}</strong>? Đội ngũ chuyên gia GTS sẵn sàng phản hồi trong vòng 30 phút.
+              </p>
+
+              <div className="space-y-2.5">
+                <Link
+                  href={`/lien-he?solution=${encodeURIComponent(slug)}&type=quote`}
+                  className="w-full bg-[#0077CC] hover:bg-[#004A80] text-white py-3.5 px-4 rounded-2xl font-bold text-xs uppercase tracking-wider text-center block transition-all shadow-md hover:shadow-lg"
+                >
+                  Nhận báo giá dự án
+                </Link>
+
+                <a
+                  href={`tel:${hotline.replace(/\s/g, '')}`}
+                  className="w-full bg-[#0F172A] hover:bg-slate-800 text-white py-3.5 px-4 rounded-2xl font-bold text-xs text-center block transition-colors flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-4 h-4 text-amber-400" />
+                  <span>Hotline: {hotline}</span>
+                </a>
+              </div>
+
+              <div className="pt-4 border-t border-slate-100 text-[11px] text-slate-500 flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-slate-400" />
+                <span>Email kỹ thuật: {contactEmail}</span>
+              </div>
+            </div>
+
+            {/* Box 2: Danh Mục Các Giải Pháp Khác (Query 100% từ Database) */}
             <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
-              <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 pb-2.5 border-b border-slate-100 mb-3">
-                Các giải pháp doanh nghiệp khác
+              <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 pb-3 border-b border-slate-100 mb-3">
+                Các Giải Pháp Doanh Nghiệp Khác
               </h3>
               <div className="space-y-1">
-                {[
-                  { label: 'WiFi Doanh nghiệp mật độ cao', slug: 'giai-phap-wifi' },
-                  { label: 'Mạng Core / LAN / WAN 100G', slug: 'giai-phap-mang' },
-                  { label: 'Bảo mật Firewall NGFW & Zero Trust', slug: 'giai-phap-bao-mat' },
-                  { label: 'Tổng đài VoIP & Call Center', slug: 'giai-phap-voip' },
-                  { label: 'Máy chủ & Lưu trữ Data Center', slug: 'giai-phap-server' },
-                  { label: 'Hội nghị truyền hình thông minh', slug: 'giai-phap-hoi-nghi' },
-                ].map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/giai-phap/${item.slug}`}
-                    className={`flex items-center justify-between p-2.5 rounded-xl text-xs font-bold transition-colors ${
-                      item.slug === slug
-                        ? 'bg-blue-50 text-[#0077CC]'
-                        : 'text-slate-700 hover:bg-slate-50 hover:text-[#0077CC]'
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                    <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-                  </Link>
-                ))}
+                {otherSolutions.map((item) => {
+                  const OtherIcon = getSolutionIcon(item.slug)
+                  return (
+                    <Link
+                      key={item.id}
+                      href={`/giai-phap/${item.slug}`}
+                      className="group flex items-center justify-between p-3 rounded-xl text-xs font-bold transition-all text-slate-700 hover:bg-blue-50 hover:text-[#0077CC]"
+                    >
+                      <div className="flex items-center gap-2.5 line-clamp-1">
+                        <OtherIcon className="w-4 h-4 text-slate-400 group-hover:text-[#0077CC] flex-shrink-0 transition-colors" />
+                        <span className="truncate">{item.name}</span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#0077CC] group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Box 3: Dịch Vụ Đi Kèm */}
+            <div className="bg-gradient-to-br from-slate-900 to-[#0F284E] text-white rounded-3xl p-6 shadow-md space-y-4">
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-cyan-300 pb-2 border-b border-white/10">
+                <Layers className="w-4 h-4" />
+                <span>Dịch Vụ Đi Kèm Giải Pháp</span>
+              </div>
+
+              <div className="space-y-2.5 text-xs">
+                <Link
+                  href="/dich-vu/dich-vu-tu-van"
+                  className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                >
+                  <span>Tư vấn thiết kế & Khảo sát PoC</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                </Link>
+                <Link
+                  href="/dich-vu/dich-vu-trien-khai"
+                  className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                >
+                  <span>Triển khai lắp đặt & Cấu hình</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                </Link>
+                <Link
+                  href="/dich-vu/dich-vu-bao-tri"
+                  className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                >
+                  <span>Bảo trì & Hỗ trợ kỹ thuật 24/7</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                </Link>
+                <Link
+                  href="/dich-vu/dich-vu-spare-part"
+                  className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+                >
+                  <span>Dịch vụ ứng cứu Spare Part</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                </Link>
               </div>
             </div>
           </div>

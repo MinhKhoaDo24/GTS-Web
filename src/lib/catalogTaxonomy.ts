@@ -788,9 +788,13 @@ export function getCatalogTaxonomy(): CategoryCatalogItem[] {
 /**
  * Tìm Category theo slug
  */
-export function getCategoryBySlug(slug?: string | null): CategoryCatalogItem | undefined {
+export function getCategoryBySlug(
+  slug?: string | null,
+  customTaxonomy?: CategoryCatalogItem[]
+): CategoryCatalogItem | undefined {
   if (!slug) return undefined
-  return CATALOG_TAXONOMY.find((c) => c.slug.toLowerCase() === slug.toLowerCase())
+  const list = customTaxonomy || CATALOG_TAXONOMY
+  return list.find((c) => c.slug.toLowerCase() === slug.toLowerCase())
 }
 
 /**
@@ -798,12 +802,14 @@ export function getCategoryBySlug(slug?: string | null): CategoryCatalogItem | u
  */
 export function getBrandBySlug(
   brandSlug?: string | null,
-  categorySlug?: string | null
+  categorySlug?: string | null,
+  customTaxonomy?: CategoryCatalogItem[]
 ): BrandCatalogItem | undefined {
   if (!brandSlug) return undefined
+  const list = customTaxonomy || CATALOG_TAXONOMY
 
   if (categorySlug) {
-    const cat = getCategoryBySlug(categorySlug)
+    const cat = getCategoryBySlug(categorySlug, list)
     if (cat) {
       const found = cat.brands.find((b) => b.slug.toLowerCase() === brandSlug.toLowerCase())
       if (found) return found
@@ -811,7 +817,7 @@ export function getBrandBySlug(
   }
 
   // Nếu không chỉ định category hoặc không thấy trong category, tìm trên toàn bộ cây
-  for (const cat of CATALOG_TAXONOMY) {
+  for (const cat of list) {
     const found = cat.brands.find((b) => b.slug.toLowerCase() === brandSlug.toLowerCase())
     if (found) return found
   }
@@ -821,14 +827,18 @@ export function getBrandBySlug(
 /**
  * Tìm Series theo seriesSlug
  */
-export function getSeriesBySlug(seriesSlug?: string | null): {
+export function getSeriesBySlug(
+  seriesSlug?: string | null,
+  customTaxonomy?: CategoryCatalogItem[]
+): {
   series: ProductSeriesItem
   brand: BrandCatalogItem
   category: CategoryCatalogItem
 } | undefined {
   if (!seriesSlug) return undefined
+  const list = customTaxonomy || CATALOG_TAXONOMY
 
-  for (const cat of CATALOG_TAXONOMY) {
+  for (const cat of list) {
     for (const br of cat.brands) {
       const s = br.seriesList.find((item) => item.slug.toLowerCase() === seriesSlug.toLowerCase())
       if (s) {
@@ -842,9 +852,12 @@ export function getSeriesBySlug(seriesSlug?: string | null): {
 /**
  * Lấy danh sách tất cả các Hãng duy nhất trên hệ thống
  */
-export function getAllUniqueBrands(): { id: string; name: string; slug: string }[] {
+export function getAllUniqueBrands(
+  customTaxonomy?: CategoryCatalogItem[]
+): { id: string; name: string; slug: string }[] {
+  const list = customTaxonomy || CATALOG_TAXONOMY
   const map = new Map<string, { id: string; name: string; slug: string }>()
-  for (const cat of CATALOG_TAXONOMY) {
+  for (const cat of list) {
     for (const b of cat.brands) {
       if (!map.has(b.slug)) {
         map.set(b.slug, { id: b.id, name: b.name, slug: b.slug })

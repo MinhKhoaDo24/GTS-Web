@@ -6,15 +6,26 @@ interface RevealProps {
   children: ReactNode
   className?: string
   delay?: number
+  variant?: 'up' | 'fade'
 }
 
-export function Reveal({ children, className = '', delay = 0 }: RevealProps) {
+export function Reveal({
+  children,
+  className = '',
+  delay = 0,
+  variant = 'up',
+}: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const node = ref.current
     if (!node) return
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true)
+      return
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -25,20 +36,23 @@ export function Reveal({ children, className = '', delay = 0 }: RevealProps) {
           }
         })
       },
-      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
     )
 
     observer.observe(node)
     return () => observer.disconnect()
   }, [])
 
+  const variantClass = variant === 'fade' ? 'reveal-fade' : 'reveal'
+
   return (
     <div
       ref={ref}
-      className={`reveal ${visible ? 'is-visible' : ''} ${className}`}
+      className={`${variantClass} ${visible ? 'is-visible' : ''} ${className}`}
       style={{ animationDelay: `${delay}ms` }}
     >
       {children}
     </div>
   )
 }
+

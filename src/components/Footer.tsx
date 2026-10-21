@@ -49,9 +49,9 @@ export function Footer({ settings }: FooterProps) {
                 { href: '/san-pham?category=switch', label: 'Switch / Bộ chuyển mạch' },
                 { href: '/san-pham?category=wifi-access-point', label: 'WiFi / Access Point doanh nghiệp' },
                 { href: '/san-pham?category=router-firewall', label: 'Router & Firewall NGFW' },
-                { href: '/dich-vu-tu-van', label: 'Tư vấn thiết kế mạng LAN/WAN' },
-                { href: '/dich-vu-trien-khai', label: 'Triển khai & Cấu hình thiết bị' },
-                { href: '/dich-vu-bao-tri', label: 'Bảo trì & Ứng cứu sự cố' },
+                { href: '/dich-vu/dich-vu-tu-van', label: 'Tư vấn thiết kế mạng LAN/WAN' },
+                { href: '/dich-vu/dich-vu-trien-khai', label: 'Triển khai & Cấu hình thiết bị' },
+                { href: '/dich-vu/dich-vu-bao-tri', label: 'Bảo trì & Ứng cứu sự cố' },
               ].map(item => (
                 <li key={item.href}>
                   <Link href={item.href}

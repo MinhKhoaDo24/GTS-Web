@@ -141,6 +141,33 @@ const initialSolutions = [
     seo_title: 'Giải Pháp Phòng Họp Hội Nghị Truyền Hình Thông Minh | GTS',
     seo_description: 'Phòng họp trực tuyến 4K chuyên dụng cho Microsoft Teams, Zoom Rooms với camera tự động bắt người nói và micro lọc ồn.',
   },
+  {
+    id: 'sol-server',
+    name: 'Máy chủ & Lưu trữ Data Center',
+    slug: 'giai-phap-server',
+    short_description: 'Cụm máy chủ ảo hóa VMware / Proxmox kết hợp hệ thống lưu trữ SAN / NAS an toàn tuyệt đối và sao lưu dữ liệu tự động.',
+    description: `<h2>Tổng Quan Kiến Trúc Giải Pháp</h2>
+<p>Giải pháp máy chủ và lưu trữ của GTS được thiết kế trên các nền tảng phần cứng máy chủ hàng đầu Dell PowerEdge và HPE ProLiant. Chúng tôi tối ưu hóa việc phân bổ tài nguyên phần cứng thông qua công nghệ ảo hóa, gom cụm máy chủ thành một khối tài nguyên thống nhất với khả năng tự động di chuyển máy ảo (vMotion) khi có sự cố phần cứng. Hệ thống lưu trữ mạng SAN/NAS sử dụng ổ cứng Enterprise với cơ chế RAID đa lớp và tự động sao lưu dự phòng (Backup & Disaster Recovery) đảm bảo an toàn tuyệt đối cho cơ sở dữ liệu doanh nghiệp.</p>
+<h3>Các Thành Phần Cấu Thành Hệ Thống</h3>
+<ul>
+  <li>Cụm máy chủ Rack 1U/2U cấu hình Dual CPU Intel Xeon / AMD EPYC, RAM ECC</li>
+  <li>Hệ thống lưu trữ SAN / NAS iSCSI / Fibre Channel tốc độ 16G/32G</li>
+  <li>Nền tảng ảo hóa VMware vSphere / Microsoft Hyper-V / Proxmox VE</li>
+  <li>Giải pháp sao lưu dữ liệu chuyên dụng (Veeam Backup & Replication)</li>
+</ul>
+<h3>Lợi Ích Doanh Nghiệp Nhận Được</h3>
+<ul>
+  <li>Tận dụng tối đa công suất phần cứng, tiết kiệm điện năng và diện tích tủ rack</li>
+  <li>Khôi phục hoạt động của hệ thống trong vòng vài phút khi có sự cố hỏng hóc</li>
+  <li>Dữ liệu được mã hóa và bảo vệ trước mã độc tống tiền Ransomware</li>
+  <li>Hỗ trợ quản trị từ xa chuyên sâu qua card quản lý độc lập iDRAC Enterprise / iLO</li>
+</ul>`,
+    sort_order: 6,
+    is_featured: true,
+    is_active: true,
+    seo_title: 'Giải Pháp Máy Chủ & Lưu Trữ Data Center HA | GTS',
+    seo_description: 'Cụm máy chủ ảo hóa VMware / Proxmox kết hợp hệ thống lưu trữ SAN / NAS an toàn tuyệt đối và sao lưu dự phòng tự động.',
+  },
 ]
 
 async function seed() {
@@ -197,6 +224,37 @@ async function seed() {
         ]
       )
       console.log(`Đã tạo mới giải pháp: ${sol.name} (${sol.slug})`)
+    }
+  }
+
+  // Đồng bộ solution_products
+  const solProducts = [
+    { solId: 'sol-wifi', prodId: 'prod-1791539958330-0wjo8', role: 'Switch PoE+ Cấp Nguồn AP', sort: 1 },
+    { solId: 'sol-mang', prodId: 'prod-1791368273277-ellg0', role: 'Core / Distribution Switch Layer 3', sort: 1 },
+    { solId: 'sol-mang', prodId: 'prod-1791368154967-gsexu', role: 'Access Switch Enterprise', sort: 2 },
+    { solId: 'sol-mang', prodId: 'prod-1791369016315-bljdi', role: 'Router Định Tuyến WAN / SD-WAN', sort: 3 },
+    { solId: 'sol-bao-mat', prodId: 'prod-1791369016315-bljdi', role: 'Router Gateway VPN Mã Hóa Chuẩn Quân Đội', sort: 1 },
+    { solId: 'sol-hoi-nghi', prodId: 'prod-1792140906748-2qhhn', role: 'Thiết Bị Họp Trực Tuyến 4K All-In-One AI', sort: 1 },
+    { solId: 'sol-server', prodId: 'prod-1792145631529-0ntlw', role: 'Máy Chủ Ảo Hóa Enterprise Data Center', sort: 1 },
+  ]
+
+  for (const sp of solProducts) {
+    const prodExists = await pool.query('SELECT id FROM products WHERE id = $1', [sp.prodId])
+    if (prodExists.rows.length > 0) {
+      const spId = `sp-${sp.solId}-${sp.prodId}`
+      const existingSp = await pool.query('SELECT id FROM solution_products WHERE solution_id = $1 AND product_id = $2', [sp.solId, sp.prodId])
+      if (existingSp.rows.length === 0) {
+        await pool.query(
+          `INSERT INTO solution_products (id, solution_id, product_id, role, sort_order)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [spId, sp.solId, sp.prodId, sp.role, sp.sort]
+        )
+      } else {
+        await pool.query(
+          `UPDATE solution_products SET role = $1, sort_order = $2 WHERE id = $3`,
+          [sp.role, sp.sort, existingSp.rows[0].id]
+        )
+      }
     }
   }
 

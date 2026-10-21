@@ -49,6 +49,26 @@ const nextConfig: NextConfig = {
         destination: '/giai-phap/giai-phap-server',
         permanent: true,
       },
+      {
+        source: '/dich-vu-tu-van',
+        destination: '/dich-vu/dich-vu-tu-van',
+        permanent: true,
+      },
+      {
+        source: '/dich-vu-trien-khai',
+        destination: '/dich-vu/dich-vu-trien-khai',
+        permanent: true,
+      },
+      {
+        source: '/dich-vu-bao-tri',
+        destination: '/dich-vu/dich-vu-bao-tri',
+        permanent: true,
+      },
+      {
+        source: '/dich-vu-spare-part',
+        destination: '/dich-vu/dich-vu-spare-part',
+        permanent: true,
+      },
     ]
   },
 }

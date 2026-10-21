@@ -25,7 +25,6 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import type { Category, Brand, Domain } from '@/types/database'
 import {
-  CATALOG_TAXONOMY,
   CategoryCatalogItem,
   BrandCatalogItem,
   ProductSeriesItem,
@@ -39,6 +38,7 @@ interface ProductFiltersProps {
   categories?: Category[]
   brands?: Brand[]
   domains?: Domain[]
+  catalogTaxonomy?: CategoryCatalogItem[]
   currentCategory?: string
   currentBrand?: string
   currentSeries?: string
@@ -70,6 +70,7 @@ function getCategoryIcon(iconName: string) {
 }
 
 export function ProductFilters({
+  catalogTaxonomy,
   currentCategory = '',
   currentBrand = '',
   currentSeries = '',
@@ -80,6 +81,8 @@ export function ProductFilters({
   const searchParams = useSearchParams()
   const [keyword, setKeyword] = useState(searchQuery)
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false)
+
+  const taxonomy = catalogTaxonomy && catalogTaxonomy.length > 0 ? catalogTaxonomy : []
 
   useEffect(() => {
     setKeyword(searchQuery)
@@ -112,7 +115,7 @@ export function ProductFilters({
   }
 
   // Đối tượng Cấp 1 đang chọn
-  const activeCategoryObj = getCategoryBySlug(currentCategory)
+  const activeCategoryObj = getCategoryBySlug(currentCategory, taxonomy)
 
   // Danh sách các hãng hiển thị ở Cấp 2:
   // Nếu đã chọn Cấp 1 -> Lấy các hãng thuộc Cấp 1 đó.
@@ -120,33 +123,29 @@ export function ProductFilters({
   const availableBrands: { id: string; name: string; slug: string; tagline?: string }[] =
     activeCategoryObj
       ? activeCategoryObj.brands
-      : getAllUniqueBrands()
+      : getAllUniqueBrands(taxonomy)
 
   // Đối tượng Cấp 2 đang chọn
-  const activeBrandObj = getBrandBySlug(currentBrand, currentCategory)
+  const activeBrandObj = getBrandBySlug(currentBrand, currentCategory, taxonomy)
 
   // Danh sách dòng sản phẩm hiển thị ở Cấp 3:
-  // Nếu đã chọn Hãng + Loại -> Lấy series chính xác của cặp đó.
-  // Nếu chỉ chọn Hãng -> Lấy tổng hợp series của Hãng đó trên các loại.
   let availableSeries: ProductSeriesItem[] = []
   if (activeCategoryObj && activeBrandObj) {
     const brandInCat = activeCategoryObj.brands.find((b) => b.slug === currentBrand)
     availableSeries = brandInCat?.seriesList || []
   } else if (activeBrandObj) {
-    // Tập hợp series của brand này
-    for (const cat of CATALOG_TAXONOMY) {
+    for (const cat of taxonomy) {
       const b = cat.brands.find((item) => item.slug === currentBrand)
       if (b) availableSeries.push(...b.seriesList)
     }
   } else if (activeCategoryObj) {
-    // Tập hợp series của category này
     for (const b of activeCategoryObj.brands) {
       availableSeries.push(...b.seriesList)
     }
   }
 
   // Đối tượng Cấp 3 đang chọn
-  const activeSeriesInfo = getSeriesBySlug(currentSeries)
+  const activeSeriesInfo = getSeriesBySlug(currentSeries, taxonomy)
 
   const hasActiveFilters = Boolean(
     currentCategory || currentBrand || currentSeries || searchQuery
@@ -295,7 +294,7 @@ export function ProductFilters({
             {!currentCategory && <Check className="w-3.5 h-3.5 text-[#0077CC]" />}
           </button>
 
-          {CATALOG_TAXONOMY.map((cat) => {
+          {taxonomy.map((cat) => {
             const isSelected = cat.slug === currentCategory
             return (
               <button

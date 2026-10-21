@@ -153,6 +153,8 @@ export async function getAllSpecifications(): Promise<Specification[]> {
  * sang tầng 1 mà không cần sửa code ở bất kỳ nơi nào khác.
  */
 export async function getSpecsByCategoryId(categoryId: string): Promise<Specification[]> {
+  if (!categoryId) return []
+
   // Kiểm tra xem bảng category_specifications đã tồn tại chưa
   const tableExists = await queryOne<{ exists: boolean }>(
     `SELECT EXISTS (
@@ -162,29 +164,54 @@ export async function getSpecsByCategoryId(categoryId: string): Promise<Specific
      ) AS exists`
   )
 
-  let specIds: string[] | null = null
+  let specIds: string[] = []
 
-  if (tableExists?.exists && categoryId) {
-    // Tầng 1: lọc theo category mapping
+  // ─── Tầng 1: Lấy từ bảng category_specifications nếu có mapping ─────────────
+  if (tableExists?.exists) {
     const rows = await query<{ specification_id: string }>(
       `SELECT specification_id FROM category_specifications
-       WHERE category_id = $1 AND is_active = true`,
+       WHERE category_id = $1 AND is_active = true
+       ORDER BY sort_order ASC`,
       [categoryId]
     )
+
     if (rows.length > 0) {
       specIds = rows.map((r) => r.specification_id)
     }
   }
 
-  // Build WHERE clause
-  let whereClause = 's.is_active = true'
-  const queryParams: any[] = []
+  // ─── Tầng 2: Nếu category_specifications chưa có row cho category này ──────
+  // Tự động tìm nhóm thông số (specification_group) tương ứng với Category theo slug/name
+  if (specIds.length === 0) {
+    const matchedSpecs = await query<{ id: string }>(
+      `SELECT s.id 
+       FROM specifications s
+       JOIN specification_groups sg ON s.group_id = sg.id
+       JOIN categories c ON (
+         c.id = $1 
+         AND (
+           LOWER(TRIM(c.slug)) = LOWER(TRIM(sg.slug))
+           OR LOWER(TRIM(c.name)) = LOWER(TRIM(sg.name))
+           OR LOWER(REPLACE(c.slug, '-', '')) = LOWER(REPLACE(sg.slug, '-', ''))
+         )
+       )
+       WHERE s.is_active = true AND sg.is_active = true
+       ORDER BY s.sort_order ASC`,
+      [categoryId]
+    )
 
-  if (specIds && specIds.length > 0) {
-    const placeholders = specIds.map((_, i) => `$${i + 1}`).join(', ')
-    whereClause = `s.is_active = true AND s.id IN (${placeholders})`
-    queryParams.push(...specIds)
+    if (matchedSpecs.length > 0) {
+      specIds = matchedSpecs.map((s) => s.id)
+    }
   }
+
+  // Nếu category không có thông số kỹ thuật nào gắn liền → trả về mảng rỗng []
+  if (specIds.length === 0) {
+    return []
+  }
+
+  const placeholders = specIds.map((_, i) => `$${i + 1}`).join(', ')
+  const whereClause = `s.is_active = true AND s.id IN (${placeholders})`
 
   const specs = await query<Omit<Specification, 'options'>>(
     `SELECT
@@ -197,7 +224,7 @@ export async function getSpecsByCategoryId(categoryId: string): Promise<Specific
      LEFT JOIN specification_groups sg ON s.group_id = sg.id
      WHERE ${whereClause}
      ORDER BY sg.sort_order ASC, s.sort_order ASC`,
-    queryParams
+    specIds
   )
 
   if (specs.length === 0) return []
@@ -207,10 +234,10 @@ export async function getSpecsByCategoryId(categoryId: string): Promise<Specific
   const optionsMap: Record<string, SpecificationOption[]> = {}
 
   if (selectIds.length > 0) {
-    const placeholders = selectIds.map((_, i) => `$${i + 1}`).join(', ')
+    const optPlaceholders = selectIds.map((_, i) => `$${i + 1}`).join(', ')
     const opts = await query<SpecificationOption>(
       `SELECT * FROM specification_options
-       WHERE specification_id IN (${placeholders}) AND is_active = true
+       WHERE specification_id IN (${optPlaceholders}) AND is_active = true
        ORDER BY sort_order ASC`,
       selectIds
     )
@@ -467,20 +494,46 @@ export async function toggleSpecificationActive(id: string, is_active: boolean):
 // Bảng này không bắt buộc — hệ thống tự fallback nếu chưa có.
 
 export async function getCategorySpecMappings(categoryId: string): Promise<string[]> {
+  if (!categoryId) return []
+
   const exists = await queryOne<{ exists: boolean }>(
     `SELECT EXISTS (
        SELECT FROM information_schema.tables
        WHERE table_schema = 'public' AND table_name = 'category_specifications'
      ) AS exists`
   )
-  if (!exists?.exists) return []
 
-  const rows = await query<{ specification_id: string }>(
-    `SELECT specification_id FROM category_specifications
-     WHERE category_id = $1 AND is_active = true`,
+  if (exists?.exists) {
+    const rows = await query<{ specification_id: string }>(
+      `SELECT specification_id FROM category_specifications
+       WHERE category_id = $1 AND is_active = true
+       ORDER BY sort_order ASC`,
+      [categoryId]
+    )
+    if (rows.length > 0) {
+      return rows.map((r) => r.specification_id)
+    }
+  }
+
+  // Fallback: Nếu category_specifications chưa có row cho category này,
+  // lấy specs từ group có tên hoặc slug tương ứng
+  const matched = await query<{ id: string }>(
+    `SELECT s.id 
+     FROM specifications s
+     JOIN specification_groups sg ON s.group_id = sg.id
+     JOIN categories c ON (
+       c.id = $1 
+       AND (
+         LOWER(TRIM(c.slug)) = LOWER(TRIM(sg.slug))
+         OR LOWER(TRIM(c.name)) = LOWER(TRIM(sg.name))
+         OR LOWER(REPLACE(c.slug, '-', '')) = LOWER(REPLACE(sg.slug, '-', ''))
+       )
+     )
+     WHERE s.is_active = true AND sg.is_active = true
+     ORDER BY s.sort_order ASC`,
     [categoryId]
   )
-  return rows.map((r) => r.specification_id)
+  return matched.map((r) => r.id)
 }
 
 export async function setCategorySpecMappings(

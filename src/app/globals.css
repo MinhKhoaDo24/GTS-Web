@@ -212,23 +212,38 @@ body {
   animation-play-state: paused;
 }
 
-/* ── About page: scroll reveal ──────────────────────────────────────────── */
+/* ── Scroll reveal & fade-in animations ──────────────────────────────────── */
 @keyframes revealUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes revealFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .reveal {
   opacity: 0;
 }
 
+.reveal-fade {
+  opacity: 0;
+}
+
 .reveal.is-visible {
-  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: revealUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal-fade.is-visible {
+  animation: revealFade 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; }
-  .reveal.is-visible { animation: none; }
+  .reveal,
+  .reveal-fade { opacity: 1; }
+  .reveal.is-visible,
+  .reveal-fade.is-visible { animation: none; }
 }
 
 /* ── About page: animated tech grid & orbs ──────────────────────────────── */

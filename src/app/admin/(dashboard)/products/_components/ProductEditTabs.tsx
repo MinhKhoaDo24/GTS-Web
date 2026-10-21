@@ -23,7 +23,7 @@ interface ProductEditTabsProps {
   product: ProductDetail
   brands: Brand[]
   categories: CategoryWithMeta[]
-  families?: Array<{ id: string; name: string; brand_id?: string | null }>
+  families?: Array<{ id: string; name: string; brand_id?: string | null; domain_id?: string | null }>
   images: ProductImage[]
   variants: ProductVariant[]
   relations: RelatedProduct[]

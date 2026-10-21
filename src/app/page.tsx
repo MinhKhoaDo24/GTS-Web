@@ -5,6 +5,7 @@ import { query } from '@/lib/db'
 import type { Brand, SiteSetting, Customer, Partner } from '@/types/database'
 import { ProductCard, type ProductItem } from '@/components/ProductCard'
 import { ProjectsCarousel, type ProjectItem } from '@/components/ProjectsCarousel'
+import { Reveal } from '@/components/Reveal'
 import {
   CiscoLogo,
   FortinetLogo,
@@ -305,46 +306,66 @@ export default async function HomePage() {
 
   return (
     <div className="fade-in bg-white">
-      {/* ── 1. HERO BANNER (SOTATEK TECH COLOR: DEEP NAVY #061e52 TO #1539ce) ──── */}
-      <section className="relative bg-gradient-to-br from-[#061e52] via-[#0b2875] to-[#1539ce] text-white overflow-hidden">
+      {/* ── 1. HERO BANNER VỚI ẢNH NỀN DATACENTER (BANNER.WEBP) ──── */}
+      <section className="relative bg-[#061e52] text-white overflow-hidden">
+        {/* Ảnh nền banner datacenter */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <Image
+            src="/pic/banner.webp"
+            alt="Hạ tầng thiết bị mạng & phần cứng doanh nghiệp GTS"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          {/* Lớp phủ gradient nhẹ hơn để ảnh server racks sáng rõ và đẹp mắt hơn */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#061e52]/75 via-[#061e52]/55 to-[#0b2875]/68" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#061e52] via-transparent to-black/40" />
+        </div>
+
         {/* Glow hiệu ứng công nghệ */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#0077CC] rounded-full blur-[120px]" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#0EA5E9] rounded-full blur-[140px]" />
         </div>
 
-        <div className="relative layout-container py-12 sm:py-14 lg:py-20 flex justify-center">
-          <div className="py-12 sm:py-16 lg:py-20 px-36 flex flex-col items-center">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.15] tracking-tight mb-6 text-center">
-              Hạ tầng thiết bị mạng{' '}
-              <span className="text-[#38bdf8] drop-shadow-sm">doanh nghiệp</span>{' '}
-              chính hãng & chuyên sâu
-            </h1>
+        <div className="relative z-10 layout-container py-12 sm:py-16 lg:py-24 flex justify-center">
+          <div className="py-8 sm:py-12 lg:py-14 px-4 sm:px-12 flex flex-col items-center">
+            <Reveal delay={80}>
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.15] tracking-tight mb-6 text-center drop-shadow-lg">
+                Hạ tầng thiết bị mạng & phần cứng doanh nghiệp{' '}
+                <span className="text-[#38bdf8] drop-shadow-md">chính hãng & chuyên sâu</span>{' '}
+              </h1>
+            </Reveal>
 
-            <p className="text-base sm:text-xl text-blue-100/90 leading-relaxed mb-10 max-w-2xl">
-              GTS cung cấp thiết bị phần cứng chính hãng, đầy đủ CO/CQ và dịch vụ triển khai trọn gói — từ Switch Core, Router, Firewall NGFW đến WiFi 6/7 và Server lưu trữ.
-            </p>
+            <Reveal delay={180}>
+              <p className="text-base sm:text-xl text-blue-100/90 leading-relaxed mb-10 max-w-2xl text-center drop-shadow">
+                GTS cung cấp thiết bị phần cứng chính hãng, đầy đủ CO/CQ và dịch vụ triển khai trọn gói — từ Switch Core, Router, Firewall NGFW đến WiFi 6/7 và Server lưu trữ.
+              </p>
+            </Reveal>
 
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/san-pham"
-                className="inline-flex items-center gap-2.5 bg-[#0077CC] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-base transition-all hover:shadow-xl hover:-translate-y-0.5"
-              >
-                <span>Xem Danh mục thiết bị</span>
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="/lien-he"
-                className="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-2xl font-bold text-base transition-all backdrop-blur-md"
-              >
-                <span>Liên hệ</span>
-              </Link>
-            </div>
+            <Reveal delay={280}>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Link
+                  href="/san-pham"
+                  className="inline-flex items-center gap-2.5 bg-[#0077CC] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-base transition-all hover:shadow-xl hover:-translate-y-0.5 shadow-lg shadow-[#0077CC]/30"
+                >
+                  <span>Xem Danh mục thiết bị</span>
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                <Link
+                  href="/lien-he"
+                  className="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-2xl font-bold text-base transition-all backdrop-blur-md"
+                >
+                  <span>Liên hệ</span>
+                </Link>
+              </div>
+            </Reveal>
           </div>
         </div>
 
         {/* Stats bar phía dưới hero banner */}
-        <div className="border-t border-white/15 bg-black/20 backdrop-blur-md">
+        <div className="relative z-10 border-t border-white/15 bg-black/30 backdrop-blur-md">
           <div className="layout-container py-6">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
               {[
@@ -352,11 +373,13 @@ export default async function HomePage() {
                 { value: '200+', label: 'Dự án doanh nghiệp triển khai' },
                 { value: '15+', label: 'Hãng công nghệ đối tác chiến lược' },
                 { value: '24/7 SLA', label: 'Hỗ trợ kỹ thuật' },
-              ].map((stat) => (
-                <div key={stat.label} className="p-1">
-                  <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">{stat.value}</div>
-                  <div className="text-xs sm:text-sm text-blue-200/90 mt-1 font-medium">{stat.label}</div>
-                </div>
+              ].map((stat, idx) => (
+                <Reveal key={stat.label} delay={300 + idx * 80}>
+                  <div className="p-1">
+                    <div className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-sm">{stat.value}</div>
+                    <div className="text-xs sm:text-sm text-blue-200/90 mt-1 font-medium">{stat.label}</div>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -367,61 +390,66 @@ export default async function HomePage() {
       <section className="py-12 sm:py-16 bg-white border-b border-slate-200/80">
         <div className="layout-container">
           {/* Header căn giữa chuẩn SotaTek */}
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
-              DANH MỤC SẢN PHẨM
-            </p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-2">
-              Hệ Thống Thiết Bị Hạ Tầng Mạng & Phần Cứng Doanh Nghiệp
-            </h2>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Thiết bị chính hãng đáp ứng mọi tiêu chuẩn kỹ thuật, từ mạng văn phòng đến trung tâm dữ liệu Enterprise.
-            </p>
-          </div>
+          <Reveal>
+            <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
+                DANH MỤC SẢN PHẨM
+              </p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-2">
+                Hệ Thống Thiết Bị Hạ Tầng Mạng & Phần Cứng Doanh Nghiệp
+              </h2>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Thiết bị chính hãng đáp ứng mọi tiêu chuẩn kỹ thuật, từ mạng văn phòng đến trung tâm dữ liệu Enterprise.
+              </p>
+            </div>
+          </Reveal>
 
           {/* Lưới 8 Card Danh Mục Thiết Bị (ảnh thật minh họa từng nhóm) */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-            {hardwareCategories.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#0077CC] hover:shadow-lg transition-all duration-300 flex flex-col"
-              >
-                {/* Ảnh thật của thiết bị tiêu biểu trong nhóm */}
-                <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-[#f6f7fc] to-[#eef1f8] border-b border-slate-200/70">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                    className="object-contain p-2 mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute top-2 right-2 text-[9px] font-mono font-bold uppercase tracking-wide text-white bg-[#0077CC] px-2 py-0.5 rounded-full">
-                    {item.badge}
-                  </span>
-                </div>
+            {hardwareCategories.map((item, idx) => (
+              <Reveal key={item.id} delay={idx * 60}>
+                <Link
+                  href={item.href}
+                  className="group bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-[#0077CC] hover:shadow-lg transition-all duration-300 flex flex-col h-full"
+                >
+                  {/* Ảnh thật của thiết bị tiêu biểu trong nhóm */}
+                  <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-[#f6f7fc] to-[#eef1f8] border-b border-slate-200/70">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 1024px) 50vw, 25vw"
+                      className="object-contain p-2 mix-blend-multiply group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span className="absolute top-2 right-2 text-[9px] font-mono font-bold uppercase tracking-wide text-white bg-[#0077CC] px-2 py-0.5 rounded-full">
+                      {item.badge}
+                    </span>
+                  </div>
 
-                {/* Nội dung card gọn */}
-                <div className="p-3.5 flex items-center justify-between gap-2">
-                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-[#0077CC] transition-colors leading-snug line-clamp-2">
-                    {item.title}
-                  </h3>
-                  <ArrowRight className="w-4 h-4 flex-shrink-0 text-slate-300 group-hover:text-[#0077CC] group-hover:translate-x-1 transition-all" />
-                </div>
-              </Link>
+                  {/* Nội dung card gọn */}
+                  <div className="p-3.5 flex items-center justify-between gap-2 flex-1">
+                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-[#0077CC] transition-colors leading-snug line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <ArrowRight className="w-4 h-4 flex-shrink-0 text-slate-300 group-hover:text-[#0077CC] group-hover:translate-x-1 transition-all" />
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
 
           {/* Banner phụ dẫn sang catalogue đầy đủ */}
-          <div className="mt-8 text-center">
-            <Link
-              href="/san-pham"
-              className="inline-flex items-center gap-2 text-sm font-bold text-[#0077CC] hover:text-[#0256b8] transition-colors"
-            >
-              <span>Xem toàn bộ danh mục sản phẩm & giải pháp phần cứng</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <Reveal delay={200}>
+            <div className="mt-8 text-center">
+              <Link
+                href="/san-pham"
+                className="inline-flex items-center gap-2 text-sm font-bold text-[#0077CC] hover:text-[#0256b8] transition-colors"
+              >
+                <span>Xem toàn bộ danh mục sản phẩm & giải pháp phần cứng</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -429,93 +457,99 @@ export default async function HomePage() {
       <section className="py-16 sm:py-20 bg-[#f6f7fc] border-b border-slate-200/80 overflow-hidden">
         <div className="layout-container">
           {/* HEADER ĐỐI TÁC, KHÁCH HÀNG Ở CHÍNH GIỮA */}
-          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2.5">
-              ĐỐI TÁC CHIẾN LƯỢC & KHÁCH HÀNG TIÊU BIỂU
-            </p>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-4">
-              Đồng Hành Cùng Các Doanh Nghiệp & Hãng Công Nghệ Hàng Đầu
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              GTS tự hào là đối tác cung cấp thiết bị và giải pháp hạ tầng CNTT tin cậy của hơn 200+ tổ chức, ngân hàng, nhà máy sản xuất và tập đoàn lớn tại Việt Nam.
-            </p>
-          </div>
+          <Reveal>
+            <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2.5">
+                ĐỐI TÁC CHIẾN LƯỢC & KHÁCH HÀNG TIÊU BIỂU
+              </p>
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight mb-4">
+                Đồng Hành Cùng Các Doanh Nghiệp & Hãng Công Nghệ Hàng Đầu
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                GTS tự hào là đối tác cung cấp thiết bị và giải pháp hạ tầng CNTT tin cậy của hơn 200+ tổ chức, ngân hàng, nhà máy sản xuất và tập đoàn lớn tại Việt Nam.
+              </p>
+            </div>
+          </Reveal>
 
           {/* DẢI 1: LOGO ĐỐI TÁC CÔNG NGHỆ (CHỈ HIỆN LOGO HOẶC LOGO TỪ DB) */}
-          <div className="mb-6">
-            <div className="text-center mb-3">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
-                Hãng công nghệ & Thiết bị phần cứng
-              </span>
-            </div>
+          <Reveal delay={150}>
+            <div className="mb-6">
+              <div className="text-center mb-3">
+                <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Hãng công nghệ & Thiết bị phần cứng
+                </span>
+              </div>
 
-            <div className="overflow-hidden mask-linear-gradient py-2">
-              <div className="animate-marquee items-center gap-4 sm:gap-6">
-                {marqueePartners.map((item, idx) => {
-                  const LogoComp = 'Logo' in item ? item.Logo : undefined
-                  return (
-                    <div
-                      key={idx}
-                      className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#0077CC] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
-                      title={item.name}
-                    >
-                      {item.logo ? (
-                        <img
-                          src={item.logo}
-                          alt={item.name}
-                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain transition-all duration-200"
-                        />
-                      ) : LogoComp ? (
-                        <LogoComp className="h-8 sm:h-9 max-w-[150px] transition-all duration-200" />
-                      ) : (
-                        <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
-                          {item.name}
-                        </span>
-                      )}
-                    </div>
-                  )
-                })}
+              <div className="overflow-hidden mask-linear-gradient py-2">
+                <div className="animate-marquee items-center gap-4 sm:gap-6">
+                  {marqueePartners.map((item, idx) => {
+                    const LogoComp = 'Logo' in item ? item.Logo : undefined
+                    return (
+                      <div
+                        key={idx}
+                        className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#0077CC] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
+                        title={item.name}
+                      >
+                        {item.logo ? (
+                          <img
+                            src={item.logo}
+                            alt={item.name}
+                            className="max-h-9 sm:max-h-11 max-w-[140px] object-contain transition-all duration-200"
+                          />
+                        ) : LogoComp ? (
+                          <LogoComp className="h-8 sm:h-9 max-w-[150px] transition-all duration-200" />
+                        ) : (
+                          <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
+                            {item.name}
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* DẢI 2: LOGO KHÁCH HÀNG DOANH NGHIỆP (CHỈ HIỆN LOGO - CHẠY NGƯỢC CHIỀU) */}
-          <div>
-            <div className="text-center mb-3">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
-                Khách hàng doanh nghiệp, ngân hàng & tập đoàn
-              </span>
-            </div>
+          <Reveal delay={250}>
+            <div>
+              <div className="text-center mb-3">
+                <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Khách hàng doanh nghiệp, ngân hàng & tập đoàn
+                </span>
+              </div>
 
-            <div className="overflow-hidden mask-linear-gradient py-2">
-              <div className="animate-marquee-reverse items-center gap-4 sm:gap-6">
-                {marqueeCustomers.map((item, idx) => {
-                  const LogoComp = 'Logo' in item ? item.Logo : undefined
-                  return (
-                    <div
-                      key={idx}
-                      className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#0077CC] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
-                      title={item.name}
-                    >
-                      {item.logo ? (
-                        <img
-                          src={item.logo}
-                          alt={item.name}
-                          className="max-h-9 sm:max-h-11 max-w-[140px] object-contain transition-all duration-200"
-                        />
-                      ) : LogoComp ? (
-                        <LogoComp className="h-8 sm:h-9 max-w-[150px] transition-all duration-200" />
-                      ) : (
-                        <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
-                          {item.name}
-                        </span>
-                      )}
-                    </div>
-                  )
-                })}
+              <div className="overflow-hidden mask-linear-gradient py-2">
+                <div className="animate-marquee-reverse items-center gap-4 sm:gap-6">
+                  {marqueeCustomers.map((item, idx) => {
+                    const LogoComp = 'Logo' in item ? item.Logo : undefined
+                    return (
+                      <div
+                        key={idx}
+                        className="flex-shrink-0 h-16 sm:h-20 w-44 sm:w-52 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:border-[#0077CC] hover:shadow-md transition-all duration-300 flex items-center justify-center p-4 group"
+                        title={item.name}
+                      >
+                        {item.logo ? (
+                          <img
+                            src={item.logo}
+                            alt={item.name}
+                            className="max-h-9 sm:max-h-11 max-w-[140px] object-contain transition-all duration-200"
+                          />
+                        ) : LogoComp ? (
+                          <LogoComp className="h-8 sm:h-9 max-w-[150px] transition-all duration-200" />
+                        ) : (
+                          <span className="font-black text-sm sm:text-base text-slate-700 group-hover:text-[#0077CC] tracking-wider uppercase transition-colors text-center px-2">
+                            {item.name}
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -525,71 +559,75 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Cột trái: Khối hình ảnh phối cảnh hạ tầng */}
             <div className="lg:col-span-5">
-              <div className="relative">
-                <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-gradient-to-br from-[#061e52] via-[#0b2875] to-[#1539ce] p-8 sm:p-10 text-white min-h-[440px] flex flex-col justify-between">
-                  <div>
-                    <div className="inline-flex items-center gap-2 bg-white/10 text-blue-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/20 mb-6 backdrop-blur-sm">
-                      <Server className="w-3.5 h-3.5 text-[#38bdf8]" />
-                      <span>Trung Tâm Hạ Tầng & Kho Thiết Bị GTS</span>
+              <Reveal delay={100} className="h-full">
+                <div className="relative">
+                  <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-200/90 bg-gradient-to-br from-[#061e52] via-[#0b2875] to-[#1539ce] p-8 sm:p-10 text-white min-h-[440px] flex flex-col justify-between">
+                    <div>
+                      <div className="inline-flex items-center gap-2 bg-white/10 text-blue-200 text-xs font-bold px-3.5 py-1.5 rounded-full border border-white/20 mb-6 backdrop-blur-sm">
+                        <Server className="w-3.5 h-3.5 text-[#38bdf8]" />
+                        <span>Trung Tâm Hạ Tầng & Kho Thiết Bị GTS</span>
+                      </div>
+
+                      <h3 className="text-2xl sm:text-3xl font-black leading-tight mb-4">
+                        Hơn 10 Năm Tiên Phong Cung Ứng Phần Cứng Doanh Nghiệp
+                      </h3>
+
+                      <p className="text-blue-100/90 text-sm leading-relaxed">
+                        Sở hữu kho thiết bị sẵn sàng tại Hà Nội và TP. Hồ Chí Minh với đầy đủ chủng loại Switch Core, Access, NGFW và Server lưu trữ.
+                      </p>
                     </div>
 
-                    <h3 className="text-2xl sm:text-3xl font-black leading-tight mb-4">
-                      Hơn 10 Năm Tiên Phong Cung Ứng Phần Cứng Doanh Nghiệp
-                    </h3>
-
-                    <p className="text-blue-100/90 text-sm leading-relaxed">
-                      Sở hữu kho thiết bị sẵn sàng tại Hà Nội và TP. Hồ Chí Minh với đầy đủ chủng loại Switch Core, Access, NGFW và Server lưu trữ.
-                    </p>
-                  </div>
-
-                  <div className="pt-6 border-t border-white/15 grid grid-cols-2 gap-4">
-                    <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
-                      <div className="text-2xl font-black text-[#4ade80]">100%</div>
-                      <div className="text-xs text-blue-100 font-medium mt-0.5">CO/CQ Chính Hãng</div>
-                    </div>
-                    <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
-                      <div className="text-2xl font-black text-amber-300">24/7</div>
-                      <div className="text-xs text-blue-100 font-medium mt-0.5">SLA Kỹ Thuật</div>
+                    <div className="pt-6 border-t border-white/15 grid grid-cols-2 gap-4">
+                      <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
+                        <div className="text-2xl font-black text-[#4ade80]">100%</div>
+                        <div className="text-xs text-blue-100 font-medium mt-0.5">CO/CQ Chính Hãng</div>
+                      </div>
+                      <div className="bg-white/10 rounded-2xl p-4 backdrop-blur-sm border border-white/10">
+                        <div className="text-2xl font-black text-amber-300">24/7</div>
+                        <div className="text-xs text-blue-100 font-medium mt-0.5">SLA Kỹ Thuật</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             </div>
 
             {/* Cột phải: Đoạn văn Tổng quan & Nút tìm hiểu thêm */}
             <div className="lg:col-span-7">
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2.5">
-                TỔNG QUAN VỀ GTS
-              </p>
-
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-6">
-                Đơn Vị Cung Cấp Dịch Vụ Công Nghệ & Giải Pháp Hạ Tầng Mạng Doanh Nghiệp
-              </h2>
-
-              <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed text-justify mb-8">
-                <p>
-                  <strong>GTS (Global Technology Solutions)</strong> là đơn vị phân phối và tích hợp hệ thống phần cứng CNTT chuyên sâu cho doanh nghiệp và tổ chức trong các lĩnh vực tài chính - ngân hàng, sản xuất công nghiệp, y tế và viễn thông. Với đội ngũ kỹ sư giàu kinh nghiệm thực chiến và quy trình triển khai chuẩn quốc tế, GTS được khách hàng tin cậy trong việc tư vấn, cung cấp và vận hành các hệ thống mạng có yêu cầu cao nhất về tính ổn định và bảo mật.
+              <Reveal delay={200}>
+                <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2.5">
+                  TỔNG QUAN VỀ GTS
                 </p>
-                <p>
-                  Bên cạnh dịch vụ cung ứng thiết bị phần cứng theo dự án, GTS cung cấp mô hình hợp tác linh hoạt như dịch vụ bảo trì định kỳ SLA, cho thuê kho thiết bị dự phòng (Spare Part) và dịch vụ ủy quyền bảo hành RMA, giúp doanh nghiệp hoàn toàn yên tâm tập trung phát triển kinh doanh.
-                </p>
-              </div>
 
-              <div className="flex flex-wrap items-center gap-4">
-                <Link
-                  href="/gioi-thieu"
-                  className="inline-flex items-center gap-2 bg-[#0077CC] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
-                >
-                  <span>Tìm hiểu thêm về GTS</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/dich-vu"
-                  className="inline-flex items-center gap-2 bg-[#f6f7fc] hover:bg-slate-200 text-slate-800 px-7 py-4 rounded-2xl font-bold text-sm transition-all border border-slate-200"
-                >
-                  <span>Xem năng lực dịch vụ</span>
-                </Link>
-              </div>
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-6">
+                  Đơn Vị Cung Cấp Dịch Vụ Công Nghệ & Giải Pháp Hạ Tầng Mạng Doanh Nghiệp
+                </h2>
+
+                <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed text-justify mb-8">
+                  <p>
+                    <strong>GTS (Global Technology Solutions)</strong> là đơn vị phân phối và tích hợp hệ thống phần cứng CNTT chuyên sâu cho doanh nghiệp và tổ chức trong các lĩnh vực tài chính - ngân hàng, sản xuất công nghiệp, y tế và viễn thông. Với đội ngũ kỹ sư giàu kinh nghiệm thực chiến và quy trình triển khai chuẩn quốc tế, GTS được khách hàng tin cậy trong việc tư vấn, cung cấp và vận hành các hệ thống mạng có yêu cầu cao nhất về tính ổn định và bảo mật.
+                  </p>
+                  <p>
+                    Bên cạnh dịch vụ cung ứng thiết bị phần cứng theo dự án, GTS cung cấp mô hình hợp tác linh hoạt như dịch vụ bảo trì định kỳ SLA, cho thuê kho thiết bị dự phòng (Spare Part) và dịch vụ ủy quyền bảo hành RMA, giúp doanh nghiệp hoàn toàn yên tâm tập trung phát triển kinh doanh.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4">
+                  <Link
+                    href="/gioi-thieu"
+                    className="inline-flex items-center gap-2 bg-[#0077CC] hover:bg-[#0256b8] text-white px-8 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    <span>Tìm hiểu thêm về GTS</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link
+                    href="/dich-vu"
+                    className="inline-flex items-center gap-2 bg-[#f6f7fc] hover:bg-slate-200 text-slate-800 px-7 py-4 rounded-2xl font-bold text-sm transition-all border border-slate-200"
+                  >
+                    <span>Xem năng lực dịch vụ</span>
+                  </Link>
+                </div>
+              </Reveal>
             </div>
           </div>
         </div>
@@ -599,29 +637,33 @@ export default async function HomePage() {
       {featuredProducts.length > 0 && (
         <section className="py-20 sm:py-24 bg-[#f6f7fc] border-y border-slate-200/80">
           <div className="layout-container">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16">
-              <div className="max-w-2xl">
-                <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
-                  SẢN PHẨM NỔI BẬT
-                </p>
-                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-                  Thiết Bị Hạ Tầng Mạng & Phần Cứng Nổi Bật
-                </h2>
-                <p className="text-slate-600 mt-2 text-sm sm:text-base">
-                  Switch Core/Access, Firewall NGFW, WiFi 6/7 và Server được doanh nghiệp lựa chọn nhiều nhất.
-                </p>
+            <Reveal>
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16">
+                <div className="max-w-2xl">
+                  <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
+                    SẢN PHẨM NỔI BẬT
+                  </p>
+                  <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    Thiết Bị Hạ Tầng Mạng & Phần Cứng Nổi Bật
+                  </h2>
+                  <p className="text-slate-600 mt-2 text-sm sm:text-base">
+                    Switch Core/Access, Firewall NGFW, WiFi 6/7 và Server được doanh nghiệp lựa chọn nhiều nhất.
+                  </p>
+                </div>
+                <Link
+                  href="/san-pham"
+                  className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sm text-[#0077CC] font-bold hover:gap-3 transition-all"
+                >
+                  Xem toàn bộ sản phẩm <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
-              <Link
-                href="/san-pham"
-                className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sm text-[#0077CC] font-bold hover:gap-3 transition-all"
-              >
-                Xem toàn bộ sản phẩm <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            </Reveal>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {featuredProducts.map((product, idx) => (
+                <Reveal key={product.id} delay={idx * 75}>
+                  <ProductCard product={product} />
+                </Reveal>
               ))}
             </div>
 
@@ -640,64 +682,65 @@ export default async function HomePage() {
       {/* ── 6. KHỐI DỊCH VỤ DOANH NGHIỆP (HOMENEW-SERVICE SOTATEK STYLE) ───────── */}
       <section className="py-20 sm:py-28 bg-white">
         <div className="layout-container">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16">
-            <div>
-              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
-                DỊCH VỤ DOANH NGHIỆP
-              </p>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-                Giải Pháp Kỹ Thuật Toàn Diện Cho Vận Hành Doanh Nghiệp
-              </h2>
-              <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-2xl">
-                Đồng hành cùng khách hàng từ khâu tư vấn thiết kế, thi công triển khai đến bảo trì.
-              </p>
-            </div>
+          <Reveal>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16">
+              <div>
+                <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0077CC] mb-2">
+                  DỊCH VỤ DOANH NGHIỆP
+                </p>
+                <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                  Giải Pháp Kỹ Thuật Toàn Diện Cho Vận Hành Doanh Nghiệp
+                </h2>
+                <p className="text-slate-600 text-sm sm:text-base mt-2 max-w-2xl">
+                  Đồng hành cùng khách hàng từ khâu tư vấn thiết kế, thi công triển khai đến bảo trì.
+                </p>
+              </div>
 
-            <Link
-              href="/dich-vu"
-              className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-bold text-[#0077CC] hover:text-[#0256b8] transition-all"
-            >
-              <span>Xem tất cả dịch vụ</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+              <Link
+                href="/dich-vu"
+                className="mt-4 md:mt-0 inline-flex items-center gap-2 text-sm font-bold text-[#0077CC] hover:text-[#0256b8] transition-all"
+              >
+                <span>Xem tất cả dịch vụ</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </Reveal>
 
           {/* Lưới 4 Card Dịch Vụ */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredServices.map((svc) => (
-              <div
-                key={svc.id}
-                className="group bg-[#f6f7fc] hover:bg-white rounded-3xl p-7 border border-slate-200/90 hover:border-[#0077CC] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0077CC] bg-blue-50 border border-blue-100 px-3 py-1 rounded-full inline-block mb-4">
-                    {svc.tag}
+            {featuredServices.map((svc, idx) => (
+              <Reveal key={svc.id} delay={idx * 90} className="h-full">
+                <div className="group bg-[#f6f7fc] hover:bg-white rounded-3xl p-7 border border-slate-200/90 hover:border-[#0077CC] hover:shadow-2xl transition-all duration-300 flex flex-col justify-between h-full">
+                  <div>
+                    <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#0077CC] bg-blue-50 border border-blue-100 px-3 py-1 rounded-full inline-block mb-4">
+                      {svc.tag}
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-[#0077CC] transition-colors mb-3 leading-snug">
+                      {svc.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed mb-6">
+                      {svc.desc}
+                    </p>
+
+                    <ul className="space-y-2 mb-6">
+                      {svc.points.map((pt, pIdx) => (
+                        <li key={pIdx} className="flex items-start gap-2 text-xs text-slate-700">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 flex-shrink-0" />
+                          <span>{pt}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 group-hover:text-[#0077CC] transition-colors mb-3 leading-snug">
-                    {svc.title}
-                  </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed mb-6">
-                    {svc.desc}
-                  </p>
 
-                  <ul className="space-y-2 mb-6">
-                    {svc.points.map((pt, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 mt-0.5 flex-shrink-0" />
-                        <span>{pt}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <Link
+                    href={svc.href}
+                    className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-bold text-[#0077CC] group-hover:text-[#0256b8]"
+                  >
+                    <span>Xem chi tiết dịch vụ</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                  </Link>
                 </div>
-
-                <Link
-                  href={svc.href}
-                  className="pt-4 border-t border-slate-200/80 flex items-center justify-between text-xs font-bold text-[#0077CC] group-hover:text-[#0256b8]"
-                >
-                  <span>Xem chi tiết dịch vụ</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                </Link>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -706,55 +749,61 @@ export default async function HomePage() {
       {/* ── 8. KHỐI DỰ ÁN TIÊU BIỂU (nguồn: HSNL GTS 2026) ──── */}
       <section className="py-16 sm:py-20 bg-[#061e52] text-white">
         <div className="layout-container">
-          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-            <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#38bdf8] mb-2">
-              DỰ ÁN TIÊU BIỂU
-            </p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight mb-3">
-              Từ Bài Toán Doanh Nghiệp Đến Triển Khai Thực Tế
-            </h2>
-            <p className="text-blue-100/80 text-sm">
-              Kinh nghiệm cung cấp, triển khai và bảo hành hệ thống hạ tầng mạng cho các tập đoàn, ngân hàng và công ty hàng đầu.
-            </p>
-          </div>
+          <Reveal>
+            <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+              <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#38bdf8] mb-2">
+                DỰ ÁN TIÊU BIỂU
+              </p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight mb-3">
+                Từ Bài Toán Doanh Nghiệp Đến Triển Khai Thực Tế
+              </h2>
+              <p className="text-blue-100/80 text-sm">
+                Kinh nghiệm cung cấp, triển khai và bảo hành hệ thống hạ tầng mạng cho các tập đoàn, ngân hàng và công ty hàng đầu.
+              </p>
+            </div>
+          </Reveal>
 
-          <ProjectsCarousel projects={featuredProjects} />
+          <Reveal delay={150}>
+            <ProjectsCarousel projects={featuredProjects} />
+          </Reveal>
         </div>
       </section>
 
       {/* ── 9. BANNER "LET'S TALK" (SOTATEK STYLE) ───────────────────────────── */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="layout-container">
-          <div className="bg-[#f6f7fc] rounded-3xl p-8 sm:p-14 border border-slate-200/90 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-2xl">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0077CC] block mb-2">
-                HỢP TÁC DOANH NGHIỆP
-              </span>
-              <h3 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-snug">
-                Triển khai giải pháp hạ tầng phù hợp cho bài toán của bạn!
-              </h3>
-              <p className="text-slate-600 text-sm sm:text-base mt-2">
-                Kỹ sư GTS luôn sẵn sàng khảo sát tại công trình và lên phương án kỹ thuật miễn phí.
-              </p>
+          <Reveal>
+            <div className="bg-[#f6f7fc] rounded-3xl p-8 sm:p-14 border border-slate-200/90 flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="max-w-2xl">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#0077CC] block mb-2">
+                  HỢP TÁC DOANH NGHIỆP
+                </span>
+                <h3 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-snug">
+                  Triển khai giải pháp hạ tầng phù hợp cho bài toán của bạn!
+                </h3>
+                <p className="text-slate-600 text-sm sm:text-base mt-2">
+                  Kỹ sư GTS luôn sẵn sàng khảo sát tại công trình và lên phương án kỹ thuật miễn phí.
+                </p>
+              </div>
+              
+              <div className="flex flex-wrap items-center gap-4 flex-shrink-0">
+                <a
+                  href={`tel:${hotline.replace(/\s/g, '')}`}
+                  className="inline-flex items-center gap-2.5 bg-[#0077CC] hover:bg-[#0256b8] text-white px-7 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg"
+                >
+                  <PhoneCall className="w-4 h-4" />
+                  <span>Hotline: {hotline}</span>
+                </a>
+                <Link
+                  href="/lien-he?type=quote"
+                  className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl font-bold text-sm transition-all shadow-sm"
+                >
+                  <span>Gửi yêu cầu dự án</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
-            
-            <div className="flex flex-wrap items-center gap-4 flex-shrink-0">
-              <a
-                href={`tel:${hotline.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2.5 bg-[#0077CC] hover:bg-[#0256b8] text-white px-7 py-4 rounded-2xl font-bold text-sm transition-all shadow-md hover:shadow-lg"
-              >
-                <PhoneCall className="w-4 h-4" />
-                <span>Hotline: {hotline}</span>
-              </a>
-              <Link
-                href="/lien-he?type=quote"
-                className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl font-bold text-sm transition-all shadow-sm"
-              >
-                <span>Gửi yêu cầu dự án</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </div>

@@ -16,8 +16,8 @@ import { DynamicProductSpecs } from './DynamicProductSpecs'
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 interface Brand { id: string; name: string }
-interface Category { id: string; name: string; parent_id?: string | null }
-interface Family { id: string; name: string; brand_id?: string | null }
+interface Category { id: string; name: string; parent_id?: string | null; domain_id?: string | null }
+interface Family { id: string; name: string; brand_id?: string | null; domain_id?: string | null }
 
 interface ProductFormProps {
   action: (prev: any, formData: FormData) => Promise<any>
@@ -29,6 +29,7 @@ interface ProductFormProps {
     name?: string
     slug?: string
     model?: string | null
+
     brand_id?: string
     family_id?: string | null
     category_id?: string
@@ -87,8 +88,9 @@ export function ProductForm({ action, brands, categories, families = [], default
 
   const [name, setName] = useState(defaultValues.name ?? '')
   const [slug, setSlug] = useState(defaultValues.slug ?? '')
-  const [selectedBrandId, setSelectedBrandId] = useState(defaultValues.brand_id ?? '')
   const [selectedCategoryId, setSelectedCategoryId] = useState(defaultValues.category_id ?? '')
+  const [selectedBrandId, setSelectedBrandId] = useState(defaultValues.brand_id ?? '')
+  const [selectedFamilyId, setSelectedFamilyId] = useState(defaultValues.family_id ?? '')
   const [slugManual, setSlugManual] = useState(Boolean(defaultValues.slug))
   const [description, setDescription] = useState(defaultValues.description ?? '')
   const [isActive, setIsActive] = useState(defaultValues.is_active ?? true)
@@ -101,7 +103,40 @@ export function ProductForm({ action, brands, categories, families = [], default
         : []
   )
 
+  // ─── Cascading Filter Logic ────────────────────────────────────────────
+
+  // Derive domain_id from the selected category
   const selectedCategory = categories.find((c) => c.id === selectedCategoryId)
+  const derivedDomainId = selectedCategory?.domain_id ?? ''
+
+  // Brands that have at least one family in the category's domain
+  const filteredBrands = derivedDomainId
+    ? brands.filter((b) =>
+        families.some((f) => f.brand_id === b.id && f.domain_id === derivedDomainId)
+      )
+    : brands
+
+  // Families matching both domain (from category) AND brand
+  const filteredFamilies = families.filter((f) => {
+    if (derivedDomainId && f.domain_id && f.domain_id !== derivedDomainId) return false
+    if (selectedBrandId && f.brand_id && f.brand_id !== selectedBrandId) return false
+    return true
+  })
+
+  // ─── Cascade Reset Handlers ────────────────────────────────────────────
+
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategoryId(categoryId)
+    // Reset brand & family when category changes (domain may change)
+    setSelectedBrandId('')
+    setSelectedFamilyId('')
+  }
+
+  const handleBrandChange = (brandId: string) => {
+    setSelectedBrandId(brandId)
+    // Reset family when brand changes
+    setSelectedFamilyId('')
+  }
 
   useEffect(() => {
     if (state?.success === false && state.errors?._root) {
@@ -277,70 +312,118 @@ export function ProductForm({ action, brands, categories, families = [], default
                 />
               </Field>
 
-              {/* Brand, Family & Category in 3 cols */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <Field label="Hãng sản xuất" name="brand_id" required error={errors.brand_id?.[0]}>
-                  <div className="relative">
-                    <select
-                      id="brand_id"
-                      name="brand_id"
-                      value={selectedBrandId}
-                      onChange={(e) => setSelectedBrandId(e.target.value)}
-                      className={selectCls}
-                      required
-                    >
-                      <option value="">— Chọn thương hiệu —</option>
-                      {brands.map((b) => (
-                        <option key={b.id} value={b.id}>
-                          {b.name}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  </div>
-                </Field>
+              {/* Cascading Selectors: Danh mục → Hãng → Dòng sản phẩm */}
+              <div className="bg-gradient-to-r from-blue-50/50 to-indigo-50/30 border border-blue-100/80 rounded-xl p-4 space-y-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <Layers className="w-3.5 h-3.5 text-blue-600" />
+                  <span className="text-[11px] font-bold text-blue-700 uppercase tracking-wider">Phân loại sản phẩm</span>
+                  <span className="text-[10px] text-blue-500 font-medium">Chọn theo thứ tự: Danh mục → Hãng → Dòng SP</span>
+                </div>
 
-                <Field label="Dòng sản phẩm" name="family_id">
+                {/* Hidden input for domain_id (derived from category) */}
+                <input type="hidden" name="domain_id" value={derivedDomainId} />
+
+                {/* Row 1: Danh mục & Hãng */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field label="① Danh mục thiết bị" name="category_id" required error={errors.category_id?.[0]}>
+                    <div className="relative">
+                      <select
+                        id="category_id"
+                        name="category_id"
+                        value={selectedCategoryId}
+                        onChange={(e) => handleCategoryChange(e.target.value)}
+                        className={selectCls}
+                        required
+                      >
+                        <option value="">— Chọn danh mục thiết bị —</option>
+                        {categories.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.parent_id ? `↳ ${c.name}` : c.name}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  </Field>
+
+                  <Field label="② Hãng sản xuất" name="brand_id" required error={errors.brand_id?.[0]}>
+                    <div className="relative">
+                      <select
+                        id="brand_id"
+                        name="brand_id"
+                        value={selectedBrandId}
+                        onChange={(e) => handleBrandChange(e.target.value)}
+                        className={`${selectCls} ${!selectedCategoryId ? 'opacity-60 cursor-not-allowed' : ''}`}
+                        required
+                        disabled={!selectedCategoryId}
+                      >
+                        <option value="">
+                          {!selectedCategoryId ? '← Chọn danh mục trước' : '— Chọn hãng sản xuất —'}
+                        </option>
+                        {filteredBrands.map((b) => (
+                          <option key={b.id} value={b.id}>
+                            {b.name}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  </Field>
+                </div>
+
+                {/* Row 2: Dòng sản phẩm */}
+                <Field label="③ Dòng sản phẩm" name="family_id">
                   <div className="relative">
                     <select
                       id="family_id"
                       name="family_id"
-                      defaultValue={defaultValues.family_id ?? ''}
-                      className={selectCls}
+                      value={selectedFamilyId}
+                      onChange={(e) => setSelectedFamilyId(e.target.value)}
+                      className={`${selectCls} ${!selectedBrandId ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      disabled={!selectedBrandId}
                     >
-                      <option value="">— Chưa phân dòng —</option>
-                      {families
-                        .filter((f) => !selectedBrandId || !f.brand_id || f.brand_id === selectedBrandId)
-                        .map((f) => (
-                          <option key={f.id} value={f.id}>
-                            {f.name}
-                          </option>
-                        ))}
-                    </select>
-                    <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  </div>
-                </Field>
-
-                <Field label="Danh mục sản phẩm" name="category_id" required error={errors.category_id?.[0]}>
-                  <div className="relative">
-                    <select
-                      id="category_id"
-                      name="category_id"
-                      value={selectedCategoryId}
-                      onChange={(e) => setSelectedCategoryId(e.target.value)}
-                      className={selectCls}
-                      required
-                    >
-                      <option value="">— Chọn nhóm danh mục —</option>
-                      {categories.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {c.parent_id ? `↳ ${c.name}` : c.name}
+                      <option value="">
+                        {!selectedCategoryId
+                          ? '← Chọn danh mục trước'
+                          : !selectedBrandId
+                            ? '← Chọn hãng trước'
+                            : '— Chọn dòng sản phẩm —'}
+                      </option>
+                      {filteredFamilies.map((f) => (
+                        <option key={f.id} value={f.id}>
+                          {f.name}
                         </option>
                       ))}
                     </select>
                     <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                   </div>
                 </Field>
+
+                {/* Selection Summary */}
+                {selectedCategoryId && (
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                    <span className="text-[10px] text-slate-500 font-medium">Đang chọn:</span>
+                    <span className="text-[10px] font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">
+                      {selectedCategory?.name}
+                    </span>
+                    {selectedBrandId && (
+                      <>
+                        <span className="text-[10px] text-slate-400">→</span>
+                        <span className="text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full">
+                          {filteredBrands.find(b => b.id === selectedBrandId)?.name}
+                        </span>
+                      </>
+                    )}
+                    {selectedFamilyId && (
+                      <>
+                        <span className="text-[10px] text-slate-400">→</span>
+                        <span className="text-[10px] font-bold text-violet-700 bg-violet-100 px-2 py-0.5 rounded-full">
+                          {filteredFamilies.find(f => f.id === selectedFamilyId)?.name}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Product Type */}

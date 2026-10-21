@@ -49,6 +49,98 @@ export async function getSolutionById(id: string): Promise<Solution | null> {
   return queryOne<Solution>('SELECT * FROM solutions WHERE id = $1', [id])
 }
 
+export async function getSolutionBySlug(slug: string): Promise<Solution | null> {
+  return queryOne<Solution>(
+    'SELECT * FROM solutions WHERE slug = $1 AND is_active = true LIMIT 1',
+    [slug]
+  )
+}
+
+export async function getAllActiveSolutions(): Promise<Solution[]> {
+  return query<Solution>(
+    'SELECT * FROM solutions WHERE is_active = true ORDER BY sort_order ASC, created_at ASC'
+  )
+}
+
+export interface SolutionProductItem {
+  id: string
+  solution_id: string
+  product_id: string
+  role: string | null
+  notes: string | null
+  sort_order: number
+  product_name: string
+  product_slug: string
+  product_model: string | null
+  product_thumbnail: string | null
+  product_short_desc: string | null
+  brand_name: string | null
+}
+
+export async function getSolutionProducts(solutionId: string): Promise<SolutionProductItem[]> {
+  return query<SolutionProductItem>(
+    `SELECT 
+       sp.id, sp.solution_id, sp.product_id, sp.role, sp.notes, sp.sort_order,
+       p.name AS product_name, p.slug AS product_slug, p.model AS product_model,
+       p.thumbnail AS product_thumbnail, p.short_description AS product_short_desc,
+       b.name AS brand_name
+     FROM solution_products sp
+     JOIN products p ON p.id = sp.product_id
+     LEFT JOIN brands b ON b.id = p.brand_id
+     WHERE sp.solution_id = $1 AND p.is_active = true
+     ORDER BY sp.sort_order ASC, sp.id ASC`,
+    [solutionId]
+  )
+}
+
+export async function getOtherSolutions(currentSlug: string, limit = 6): Promise<Solution[]> {
+  return query<Solution>(
+    `SELECT id, domain_id, name, slug, short_description, thumbnail, banner, sort_order, is_featured, is_active
+     FROM solutions 
+     WHERE is_active = true AND slug != $1 
+     ORDER BY sort_order ASC 
+     LIMIT $2`,
+    [currentSlug, limit]
+  )
+}
+
+export async function getRelatedProductsForSolution(solutionSlug: string, limit = 4): Promise<SolutionProductItem[]> {
+  const categoryKeywords: Record<string, string[]> = {
+    'giai-phap-wifi': ['access-points', 'switch'],
+    'giai-phap-mang': ['switch', 'router'],
+    'giai-phap-bao-mat': ['firewall', 'router'],
+    'giai-phap-voip': ['collaboration-endpoints', 'switch', 'router'],
+    'giai-phap-hoi-nghi': ['collaboration-endpoints'],
+    'giai-phap-server': ['server', 'storage'],
+  }
+
+  const slugs = categoryKeywords[solutionSlug] || ['switch', 'router', 'server']
+  const placeholders = slugs.map((_, i) => `$${i + 1}`).join(', ')
+
+  return query<SolutionProductItem>(
+    `SELECT 
+       p.id AS id,
+       '' AS solution_id,
+       p.id AS product_id,
+       c.name AS role,
+       NULL AS notes,
+       0 AS sort_order,
+       p.name AS product_name,
+       p.slug AS product_slug,
+       p.model AS product_model,
+       p.thumbnail AS product_thumbnail,
+       p.short_description AS product_short_desc,
+       b.name AS brand_name
+     FROM products p
+     JOIN categories c ON c.id = p.category_id
+     LEFT JOIN brands b ON b.id = p.brand_id
+     WHERE p.is_active = true AND c.slug IN (${placeholders})
+     ORDER BY p.is_featured DESC, p.created_at DESC
+     LIMIT $${slugs.length + 1}`,
+    [...slugs, limit]
+  )
+}
+
 export interface CreateSolutionInput {
   name: string
   slug: string
