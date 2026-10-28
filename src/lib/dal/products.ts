@@ -275,7 +275,9 @@ export async function updateProduct(
   for (const key of allowed) {
     if (key in data) {
       fields.push(`${key} = $${idx++}`)
-      values.push((data as any)[key])
+      // Normalize undefined to null for nullable fields sent to PostgreSQL
+      const val = (data as any)[key]
+      values.push(val === undefined ? null : val)
     }
   }
 
