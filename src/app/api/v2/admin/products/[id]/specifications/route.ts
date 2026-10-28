@@ -56,6 +56,8 @@ export async function POST(req: NextRequest, { params }: Params) {
     // Revalidate paths for admin and public product page
     revalidatePath('/admin/products')
     revalidatePath(`/admin/products/${productId}`)
+    revalidatePath('/san-pham')
+    revalidatePath('/')
     const p = await queryOne<{ slug: string }>('SELECT slug FROM products WHERE id = $1', [productId])
     if (p?.slug) {
       revalidatePath(`/san-pham/${p.slug}`)

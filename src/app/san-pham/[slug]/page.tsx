@@ -345,15 +345,46 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   </p>
                 </div>
 
-                {/* Specs Summary / Short Description */}
-                {(product.short_description || product.specs_summary) && (
+                {/* Specs Summary / Key Specifications / Short Description */}
+                {(product.short_description || product.specs_summary || specsRows.length > 0) && (
                   <div className="mb-6">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-                      Đặc điểm kỹ thuật chính:
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50/60 p-3.5 border border-slate-200 rounded-none">
-                      {product.short_description || product.specs_summary}
-                    </p>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                        Đặc điểm &amp; Thông số kỹ thuật chính:
+                      </h3>
+                      {specsRows.length > 6 && (
+                        <a
+                          href="#specs-table"
+                          className="text-[11px] font-semibold text-[#0077CC] hover:underline"
+                        >
+                          Xem tất cả {specsRows.length} thông số ↓
+                        </a>
+                      )}
+                    </div>
+
+                    {specsRows.length > 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+                        {specsRows.slice(0, 6).map((sp, idx) => (
+                          <div
+                            key={idx}
+                            className="bg-slate-50/80 border border-slate-200 p-2.5 rounded-none"
+                          >
+                            <div className="text-[11px] text-slate-500 truncate font-medium" title={sp.spec_name}>
+                              {sp.spec_name}
+                            </div>
+                            <div className="font-mono font-bold text-xs text-slate-900 truncate mt-0.5" title={formatSpecValue(sp)}>
+                              {formatSpecValue(sp)}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {(product.short_description || product.specs_summary) && (
+                      <p className="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50/60 p-3.5 border border-slate-200 rounded-none">
+                        {product.short_description || product.specs_summary}
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
@@ -450,6 +481,73 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 </p>
               )}
             </div>
+
+            {/* ── Bảng thông số kỹ thuật đầy đủ (nhóm theo group) ────── */}
+            {specsRows.length > 0 && (() => {
+              const specGroups: Record<string, typeof specsRows[0][]> = {}
+              for (const sp of specsRows) {
+                const g = sp.group_name || 'Thông số khác'
+                if (!specGroups[g]) specGroups[g] = []
+                specGroups[g].push(sp)
+              }
+              const groupNames = Object.keys(specGroups)
+              return (
+                <div id="specs-table" className="bg-white border border-slate-200 p-6 sm:p-8 rounded-none">
+                  <div className="flex items-center gap-2.5 mb-6 pb-3 border-b border-slate-200">
+                    <Settings className="w-5 h-5 text-[#0077CC]" />
+                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 uppercase tracking-wide">
+                      Bảng thông số kỹ thuật chi tiết
+                    </h2>
+                    <span className="ml-auto text-[11px] font-mono font-bold text-slate-400 bg-slate-100 px-2 py-0.5">
+                      {specsRows.length} thông số
+                    </span>
+                  </div>
+                  <div className="space-y-6">
+                    {groupNames.map((grpName) => (
+                      <div key={grpName}>
+                        {groupNames.length > 1 && (
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="w-1 h-3.5 bg-[#0077CC] rounded-full shrink-0" />
+                            <h3 className="text-[11px] font-bold text-slate-600 uppercase tracking-widest">
+                              {grpName}
+                            </h3>
+                          </div>
+                        )}
+                        <div className="overflow-hidden border border-slate-100">
+                          <table className="w-full text-xs">
+                            <tbody>
+                              {specGroups[grpName].map((sp, i) => (
+                                <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50/70'}>
+                                  <td className="py-2.5 px-4 text-slate-500 font-medium border-r border-slate-100 w-[45%]">
+                                    {sp.spec_name}
+                                  </td>
+                                  <td className="py-2.5 px-4 text-slate-900 font-mono font-bold">
+                                    {formatSpecValue(sp)}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {product.datasheet_url && (
+                    <div className="mt-5 pt-4 border-t border-slate-100">
+                      <a
+                        href={product.datasheet_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0077CC] hover:underline"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Xem Datasheet / Tài liệu kỹ thuật đầy đủ</span>
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )
+            })()}
           </div>
 
           {/* Specifications Sidebar - 4 cols */}
@@ -464,14 +562,24 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
               {specsRows.length > 0 ? (
                 <div className="divide-y divide-slate-100 text-xs">
-                  {specsRows.map((sp, idx) => (
-                    <div key={idx} className="py-2.5 flex justify-between gap-2">
+                  {specsRows.slice(0, 8).map((sp, i) => (
+                    <div key={i} className="py-2.5 flex justify-between gap-2">
                       <span className="text-slate-500 font-medium">{sp.spec_name}</span>
                       <span className="text-slate-900 font-mono font-bold text-right shrink-0">
                         {formatSpecValue(sp)}
                       </span>
                     </div>
                   ))}
+                  {specsRows.length > 8 && (
+                    <div className="pt-2.5">
+                      <a
+                        href="#specs-table"
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#0077CC] hover:underline"
+                      >
+                        <span>Xem đầy đủ {specsRows.length} thông số ↓</span>
+                      </a>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="space-y-3 py-2 text-xs">

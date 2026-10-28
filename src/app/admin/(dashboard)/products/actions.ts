@@ -142,6 +142,8 @@ export async function createProductAction(
 
     revalidatePath('/admin/products')
     revalidatePath(`/san-pham/${parsed.data.slug}`)
+    revalidatePath('/san-pham')
+    revalidatePath('/')
   } catch (e: any) {
     return {
       success: false,
@@ -247,6 +249,8 @@ export async function updateProductAction(
     revalidatePath('/admin/products')
     revalidatePath(`/admin/products/${id}`)
     revalidatePath(`/san-pham/${parsed.data.slug}`)
+    revalidatePath('/san-pham')
+    revalidatePath('/')
   } catch (e: any) {
     return {
       success: false,

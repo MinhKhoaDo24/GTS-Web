@@ -358,6 +358,61 @@ export async function upsertProductSpecifications(
       )
     }
   }
+
+  // Tự động đồng bộ hóa danh sách thông số vào specifications_summary của product_variants
+  try {
+    const activeSpecs = await query<{
+      spec_name: string
+      data_type: string
+      value_text: string | null
+      value_number: number | null
+      value_boolean: boolean | null
+      min_value: number | null
+      max_value: number | null
+      unit: string | null
+      unit_override: string | null
+    }>(
+      `SELECT s.name as spec_name, s.data_type, ps.value_text, ps.value_number,
+              ps.value_boolean, ps.min_value, ps.max_value, s.unit, ps.unit_override
+       FROM product_specifications ps
+       JOIN specifications s ON ps.specification_id = s.id
+       WHERE ps.product_id = $1
+       ORDER BY s.sort_order ASC`,
+      [productId]
+    )
+
+    if (activeSpecs.length > 0) {
+      const parts: string[] = []
+      for (const sp of activeSpecs) {
+        const u = sp.unit_override || sp.unit || ''
+        const uStr = u ? ` ${u}` : ''
+        let val = ''
+        if (sp.value_boolean !== null && sp.value_boolean !== undefined) {
+          val = sp.value_boolean ? 'Có' : 'Không'
+        } else if (sp.min_value !== null || sp.max_value !== null) {
+          if (sp.min_value !== null && sp.max_value !== null) val = `${sp.min_value} - ${sp.max_value}${uStr}`
+          else if (sp.min_value !== null) val = `≥ ${sp.min_value}${uStr}`
+          else if (sp.max_value !== null) val = `≤ ${sp.max_value}${uStr}`
+        } else if (sp.value_number !== null && sp.value_number !== undefined) {
+          val = `${sp.value_number}${uStr}`
+        } else if (sp.value_text) {
+          val = `${sp.value_text}${uStr}`
+        }
+        if (val) {
+          parts.push(`${sp.spec_name}: ${val}`)
+        }
+      }
+      if (parts.length > 0) {
+        const summary = parts.join(' • ')
+        await query(
+          `UPDATE product_variants SET specifications_summary = $1 WHERE product_id = $2`,
+          [summary, productId]
+        )
+      }
+    }
+  } catch (err) {
+    console.error('Lỗi khi đồng bộ specifications_summary:', err)
+  }
 }
 
 /**

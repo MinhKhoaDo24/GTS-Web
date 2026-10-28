@@ -52,9 +52,9 @@ export function ProductCard({ product }: ProductCardProps) {
       .split(/[,;\n•|]+/)
       .map((s) => s.trim())
       .filter(Boolean)
-      .slice(0, 3)
+      .slice(0, 4)
   } else if (product.specs && product.specs.length > 0) {
-    specBullets = product.specs.slice(0, 3).map((s) => `${s.name}: ${s.value}`)
+    specBullets = product.specs.slice(0, 4).map((s) => `${s.name}: ${s.value}`)
   }
 
   return (
@@ -116,7 +116,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </h3>
 
         {/* Technical Specs Bullets (B2B highlight) */}
-        <div className="mt-3 pt-3 border-t border-slate-100 min-h-[4.5rem]">
+        <div className="mt-3 pt-3 border-t border-slate-100 min-h-[5.5rem]">
           {specBullets.length > 0 ? (
             <ul className="space-y-1">
               {specBullets.map((spec, idx) => (

@@ -117,7 +117,14 @@ export default async function ProductCatalogPage({ searchParams }: PageProps) {
         f.slug as series_slug, f.name as series_name,
         (SELECT pv.part_number FROM product_variants pv WHERE pv.product_id = p.id AND pv.is_active = true ORDER BY pv.id ASC LIMIT 1) as part_number,
         (SELECT pv.sku FROM product_variants pv WHERE pv.product_id = p.id AND pv.is_active = true ORDER BY pv.id ASC LIMIT 1) as sku,
-        (SELECT pv.specifications_summary FROM product_variants pv WHERE pv.product_id = p.id AND pv.is_active = true ORDER BY pv.id ASC LIMIT 1) as specs_summary,
+        COALESCE(
+             (SELECT string_agg(s.name || ': ' || COALESCE(ps.value_text, ps.value_number::text || COALESCE(' ' || ps.unit_override, ' ' || s.unit, ''), CASE WHEN ps.value_boolean = true THEN 'Có' WHEN ps.value_boolean = false THEN 'Không' ELSE NULL END, ps.min_value::text || ' - ' || ps.max_value::text || COALESCE(' ' || ps.unit_override, ' ' || s.unit, ''), ''), ' • ')
+              FROM product_specifications ps
+              JOIN specifications s ON ps.specification_id = s.id
+              WHERE ps.product_id = p.id
+              AND (ps.value_text IS NOT NULL OR ps.value_number IS NOT NULL OR ps.value_boolean IS NOT NULL OR ps.min_value IS NOT NULL)),
+             (SELECT pv.specifications_summary FROM product_variants pv WHERE pv.product_id = p.id AND pv.is_active = true ORDER BY pv.id ASC LIMIT 1)
+           ) as specs_summary,
         (SELECT pl.status FROM product_lifecycle pl WHERE pl.product_id = p.id LIMIT 1) as lifecycle_status
       FROM products p
       JOIN brands b ON p.brand_id = b.id
