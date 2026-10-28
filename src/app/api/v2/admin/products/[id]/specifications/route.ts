@@ -13,6 +13,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
+import { queryOne } from '@/lib/db'
 import {
   getProductSpecifications,
   upsertProductSpecifications,
@@ -50,6 +52,14 @@ export async function POST(req: NextRequest, { params }: Params) {
     }
 
     await upsertProductSpecifications(productId, specs)
+
+    // Revalidate paths for admin and public product page
+    revalidatePath('/admin/products')
+    revalidatePath(`/admin/products/${productId}`)
+    const p = await queryOne<{ slug: string }>('SELECT slug FROM products WHERE id = $1', [productId])
+    if (p?.slug) {
+      revalidatePath(`/san-pham/${p.slug}`)
+    }
 
     return NextResponse.json({ success: true, saved: specs.length })
   } catch (e) {

@@ -1,13 +1,14 @@
-import { getProductFamilies, getBrands } from '@/lib/dal'
+import { getProductFamilies, getBrands, getDomains } from '@/lib/dal'
 import { FamiliesClient } from './_components/FamiliesClient'
 
 export const dynamic = 'force-dynamic'
 export const metadata = { title: 'Quản lý Dòng sản phẩm - GTS Admin' }
 
 export default async function AdminProductFamiliesPage() {
-  const [families, brands] = await Promise.all([
+  const [families, brands, domains] = await Promise.all([
     getProductFamilies(),
     getBrands(),
+    getDomains(),
   ])
 
   return (
@@ -15,6 +16,7 @@ export default async function AdminProductFamiliesPage() {
       <FamiliesClient
         initialFamilies={families}
         brands={brands as any[]}
+        domains={domains as any[]}
       />
     </div>
   )

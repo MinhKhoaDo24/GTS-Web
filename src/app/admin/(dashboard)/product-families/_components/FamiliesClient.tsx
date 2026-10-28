@@ -20,18 +20,26 @@ interface BrandOption {
   logo?: string | null
 }
 
+interface DomainOption {
+  id: string
+  name: string
+  slug: string
+}
+
 interface FamiliesClientProps {
   initialFamilies: ProductFamilyItem[]
   brands: BrandOption[]
+  domains: DomainOption[]
 }
 
-export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps) {
+export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesClientProps) {
   const router = useRouter()
   const { success, error } = useToast()
   const [isPending, startTransition] = useTransition()
 
   const [search, setSearch] = useState('')
   const [selectedBrand, setSelectedBrand] = useState<string>('all')
+  const [selectedDomain, setSelectedDomain] = useState<string>('all')
   const [deleteTarget, setDeleteTarget] = useState<ProductFamilyItem | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [editingFamily, setEditingFamily] = useState<ProductFamilyItem | null>(null)
@@ -40,6 +48,7 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
   const [name, setName] = useState('')
   const [slug, setSlug] = useState('')
   const [brandId, setBrandId] = useState('')
+  const [domainId, setDomainId] = useState('')
   const [image, setImage] = useState('')
   const [description, setDescription] = useState('')
   const [sortOrder, setSortOrder] = useState('0')
@@ -52,6 +61,7 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
     setName('')
     setSlug('')
     setBrandId(brands[0]?.id || '')
+    setDomainId('')
     setImage('')
     setDescription('')
     setSortOrder('0')
@@ -65,6 +75,7 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
     setName(f.name)
     setSlug(f.slug)
     setBrandId(f.brand_id || '')
+    setDomainId(f.domain_id || '')
     setImage(f.image || '')
     setDescription(f.description || '')
     setSortOrder(String(f.sort_order ?? 0))
@@ -113,6 +124,7 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
     formData.append('name', name.trim())
     formData.append('slug', slug.trim())
     formData.append('brand_id', brandId)
+    formData.append('domain_id', domainId)
     formData.append('image', image.trim())
     formData.append('description', description.trim())
     formData.append('sort_order', sortOrder)
@@ -162,8 +174,9 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
       (f.description && f.description.toLowerCase().includes(q))
 
     const matchesBrand = selectedBrand === 'all' || f.brand_id === selectedBrand
+    const matchesDomain = selectedDomain === 'all' || f.domain_id === selectedDomain
 
-    return matchesSearch && matchesBrand
+    return matchesSearch && matchesBrand && matchesDomain
   })
 
   return (
@@ -233,6 +246,22 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
               ))}
             </select>
           </div>
+
+          {/* Domain Filter */}
+          <div className="relative w-full sm:w-56">
+            <select
+              value={selectedDomain}
+              onChange={(e) => setSelectedDomain(e.target.value)}
+              className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all cursor-pointer"
+            >
+              <option value="all">Tất cả danh mục</option>
+              {domains.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="text-xs text-slate-500 font-medium self-end sm:self-auto">
@@ -248,11 +277,11 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
           </div>
           <h3 className="text-sm font-bold text-slate-800">Không tìm thấy dòng sản phẩm nào</h3>
           <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-            {search || selectedBrand !== 'all'
-              ? 'Thử thay đổi bộ lọc tìm kiếm hoặc hãng sản xuất.'
+            {search || selectedBrand !== 'all' || selectedDomain !== 'all'
+              ? 'Thử thay đổi bộ lọc tìm kiếm, thương hiệu hoặc danh mục.'
               : 'Chưa có dòng sản phẩm nào được tạo. Hãy nhấn "Thêm dòng sản phẩm" để bắt đầu.'}
           </p>
-          {!search && selectedBrand === 'all' && (
+          {!search && selectedBrand === 'all' && selectedDomain === 'all' && (
             <button
               onClick={openCreateModal}
               className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-xs font-semibold rounded-xl hover:bg-blue-700 transition-colors"
@@ -478,6 +507,29 @@ export function FamiliesClient({ initialFamilies, brands }: FamiliesClientProps)
                     </option>
                   ))}
                 </select>
+              </div>
+
+              {/* Domain Select */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Danh mục sản phẩm <span className="text-rose-500">*</span>
+                </label>
+                <select
+                  value={domainId}
+                  onChange={(e) => setDomainId(e.target.value)}
+                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all"
+                  required
+                >
+                  <option value="">— Chọn danh mục sản phẩm —</option>
+                  {domains.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-[11px] text-slate-400 mt-1">
+                  Gán danh mục giúp lọc đúng dòng sản phẩm khi thêm sản phẩm mới
+                </p>
               </div>
 
               {/* Image */}

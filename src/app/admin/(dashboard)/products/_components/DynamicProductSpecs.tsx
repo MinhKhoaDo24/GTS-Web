@@ -488,6 +488,17 @@ export function DynamicProductSpecs({
           unit_override: v.unit_override ?? null,
           notes: v.notes ?? null,
         })
+      } else {
+        validPayloadList.push({
+          specification_id: spec.id,
+          value_number: null,
+          value_text: null,
+          value_boolean: null,
+          min_value: null,
+          max_value: null,
+          unit_override: null,
+          notes: null,
+        })
       }
     })
 

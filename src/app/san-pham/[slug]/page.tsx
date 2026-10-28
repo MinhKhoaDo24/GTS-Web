@@ -63,6 +63,46 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
+function formatSpecValue(sp: {
+  data_type?: string
+  value_text: string | null
+  value_number: number | null
+  value_boolean: boolean | null
+  min_value: number | null
+  max_value: number | null
+  unit?: string | null
+  unit_override?: string | null
+}): string {
+  const unit = sp.unit_override || sp.unit || ''
+  const unitSuffix = unit ? ` ${unit}` : ''
+
+  if (sp.value_boolean !== null && sp.value_boolean !== undefined) {
+    return sp.value_boolean ? 'Có' : 'Không'
+  }
+
+  if (sp.min_value !== null || sp.max_value !== null) {
+    if (sp.min_value !== null && sp.max_value !== null) {
+      return `${sp.min_value} - ${sp.max_value}${unitSuffix}`
+    }
+    if (sp.min_value !== null) {
+      return `≥ ${sp.min_value}${unitSuffix}`
+    }
+    if (sp.max_value !== null) {
+      return `≤ ${sp.max_value}${unitSuffix}`
+    }
+  }
+
+  if (sp.value_number !== null && sp.value_number !== undefined) {
+    return `${sp.value_number}${unitSuffix}`
+  }
+
+  if (sp.value_text) {
+    return `${sp.value_text}${unitSuffix}`
+  }
+
+  return '—'
+}
+
 export default async function ProductDetailPage({ params }: PageProps) {
   const resolvedParams = await params
 
@@ -131,20 +171,27 @@ export default async function ProductDetailPage({ params }: PageProps) {
   // Tải thông số kỹ thuật chi tiết từ product_specifications join specifications
   const specsRows = await query<{
     spec_name: string
+    data_type: string
     value_text: string | null
     value_number: number | null
+    value_boolean: boolean | null
+    min_value: number | null
+    max_value: number | null
     unit: string | null
     unit_override: string | null
-    group_name: string
+    group_name: string | null
   }>(
     `SELECT 
-       s.name as spec_name, ps.value_text, ps.value_number, s.unit, ps.unit_override,
+       s.name as spec_name, s.data_type,
+       ps.value_text, ps.value_number, ps.value_boolean,
+       ps.min_value, ps.max_value,
+       s.unit, ps.unit_override,
        sg.name as group_name
      FROM product_specifications ps
      JOIN specifications s ON ps.specification_id = s.id
-     JOIN specification_groups sg ON s.group_id = sg.id
+     LEFT JOIN specification_groups sg ON s.group_id = sg.id
      WHERE ps.product_id = $1
-     ORDER BY sg.sort_order ASC, s.sort_order ASC`,
+     ORDER BY COALESCE(sg.sort_order, 999) ASC, s.sort_order ASC`,
     [rawProduct.id]
   ).catch(() => [])
 
@@ -420,9 +467,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   {specsRows.map((sp, idx) => (
                     <div key={idx} className="py-2.5 flex justify-between gap-2">
                       <span className="text-slate-500 font-medium">{sp.spec_name}</span>
-                      <span className="text-slate-900 font-mono font-bold text-right">
-                        {sp.value_text || sp.value_number}{' '}
-                        {sp.unit_override || sp.unit || ''}
+                      <span className="text-slate-900 font-mono font-bold text-right shrink-0">
+                        {formatSpecValue(sp)}
                       </span>
                     </div>
                   ))}

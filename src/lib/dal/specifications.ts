@@ -293,7 +293,9 @@ export async function upsertProductSpecifications(
       (values.value_number !== null && values.value_number !== undefined) ||
       (values.value_text !== null && values.value_text !== undefined && values.value_text !== '') ||
       (values.value_boolean !== null && values.value_boolean !== undefined) ||
-      (values.value_json !== null && values.value_json !== undefined)
+      (values.value_json !== null && values.value_json !== undefined) ||
+      (values.min_value !== null && values.min_value !== undefined) ||
+      (values.max_value !== null && values.max_value !== undefined)
 
     // Kiểm tra bản ghi đã tồn tại
     const existing = await queryOne<{ id: string }>(
