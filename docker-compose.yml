@@ -4,15 +4,18 @@ services:
     container_name: gts-postgres
     restart: always
     environment:
-      POSTGRES_USER: gts_user
-      POSTGRES_PASSWORD: gts_password_2024
-      POSTGRES_DB: gts_db
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${POSTGRES_USER:-gts_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-gts_db}
+    # Không expose port 5432 ra ngoài host (chỉ kết nối nội bộ giữa containers)
+    expose:
+      - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Tự động chạy các file SQL khi khởi tạo DB lần đầu (01_schema → 02_indexes → 03_triggers → 04_migration)
+      - ./db:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U gts_user -d gts_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gts_user} -d ${POSTGRES_DB:-gts_db}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -26,9 +29,10 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=postgresql://gts_user:gts_password_2024@postgres:5432/gts_db?schema=public
-      - NEXTAUTH_SECRET=gts-hardware-secret-b2b-production-key-2024
-      - NEXTAUTH_URL=http://localhost:3000
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
     depends_on:
       postgres:
         condition: service_healthy
