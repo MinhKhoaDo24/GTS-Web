@@ -55,11 +55,11 @@ function createPool(): Pool {
     // Đóng idle connection nhanh hơn trên serverless
     idleTimeoutMillis: isServerless() ? 10000 : 30000,
 
-    // Timeout kết nối — Supabase cần đủ thời gian cho SSL handshake
+    // Timeout kết nối
     connectionTimeoutMillis: 10000,
 
-    // SSL: bắt buộc với Supabase, tắt với local
-    ssl: isDirect ? false : { rejectUnauthorized: false },
+    // SSL: 
+    ssl: false,
 
     // Quan trọng với Supabase Transaction Pooler:
     // Không dùng prepared statements vì pooler không cache chúng

@@ -14,7 +14,9 @@ export function middleware(request: NextRequest) {
 
     if (!token) {
       const loginUrl = new URL('/admin/login', request.url)
-      loginUrl.searchParams.set('callbackUrl', encodeURI(request.url))
+      // Dùng relative path để tránh lộ IP/port nội bộ (0.0.0.0:3000)
+      const returnTo = pathname + (request.nextUrl.search || '')
+      loginUrl.searchParams.set('callbackUrl', returnTo)
       return NextResponse.redirect(loginUrl)
     }
   }

@@ -8,7 +8,12 @@ import { Lock, Mail, AlertCircle, Loader2 } from 'lucide-react'
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/admin'
+  const rawCallback = searchParams.get('callbackUrl') || '/admin'
+  // Đảm bảo callbackUrl là relative path hoặc an toàn, tránh lỗi 0.0.0.0
+  const callbackUrl =
+    rawCallback.includes('0.0.0.0') || rawCallback.startsWith('http')
+      ? (rawCallback.startsWith('https://gts.net.vn') ? rawCallback : '/admin')
+      : (rawCallback.startsWith('/') ? rawCallback : '/admin')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
