@@ -281,10 +281,44 @@ export async function getProductSpecifications(productId: string): Promise<Produ
  * - Nếu đã có: UPDATE
  * - Nếu chưa có: INSERT
  */
+let schemaFixed = false
+
+async function fixProductSpecsSchema() {
+  if (schemaFixed) return
+  try {
+    // 1. Thêm cột updated_at & created_at vào product_specifications nếu chưa có
+    await query(`
+      ALTER TABLE product_specifications ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP;
+      ALTER TABLE product_specifications ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP;
+      DROP TRIGGER IF EXISTS trg_updated_at_product_specifications ON product_specifications;
+    `).catch(() => {})
+
+    // 2. Bảo vệ hàm fn_set_updated_at không bao giờ văng lỗi 42703 (record "new" has no field "updated_at")
+    await query(`
+      CREATE OR REPLACE FUNCTION fn_set_updated_at()
+      RETURNS TRIGGER LANGUAGE plpgsql AS $
+      BEGIN
+          BEGIN
+              NEW.updated_at = NOW();
+          EXCEPTION WHEN OTHERS THEN
+              NULL;
+          END;
+          RETURN NEW;
+      END;
+      $;
+    `).catch(() => {})
+
+    schemaFixed = true
+  } catch (err) {
+    console.error('Lỗi khi fix schema product_specifications:', err)
+  }
+}
+
 export async function upsertProductSpecifications(
   productId: string,
   specs: SpecInputValue[]
 ): Promise<void> {
+  await fixProductSpecsSchema()
   for (const spec of specs) {
     const { specification_id, ...values } = spec
 

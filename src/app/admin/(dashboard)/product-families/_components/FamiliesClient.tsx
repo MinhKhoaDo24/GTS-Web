@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation'
 import {
   Plus, Edit2, Trash2, Layers, Search, X, Loader2,
   Package, Tag, Image as ImageIcon, CheckCircle2,
-  AlertCircle, Upload, ArrowUpDown
+  AlertCircle, Upload, ArrowUpDown,
+  ChevronDown
 } from 'lucide-react'
 import { useToast } from '@/components/admin/ui/Toast'
 import { ConfirmDialog } from '@/components/admin/ui/ConfirmDialog'
@@ -20,6 +21,13 @@ interface BrandOption {
   logo?: string | null
 }
 
+interface CategoryOption {
+  id: string
+  name: string
+  slug?: string
+  domain_id?: string | null
+}
+
 interface DomainOption {
   id: string
   name: string
@@ -29,10 +37,11 @@ interface DomainOption {
 interface FamiliesClientProps {
   initialFamilies: ProductFamilyItem[]
   brands: BrandOption[]
-  domains: DomainOption[]
+  categories?: CategoryOption[]
+  domains?: DomainOption[]
 }
 
-export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesClientProps) {
+export function FamiliesClient({ initialFamilies, brands, categories = [], domains = [] }: FamiliesClientProps) {
   const router = useRouter()
   const { success, error } = useToast()
   const [isPending, startTransition] = useTransition()
@@ -40,6 +49,7 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
   const [search, setSearch] = useState('')
   const [selectedBrand, setSelectedBrand] = useState<string>('all')
   const [selectedDomain, setSelectedDomain] = useState<string>('all')
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [deleteTarget, setDeleteTarget] = useState<ProductFamilyItem | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [editingFamily, setEditingFamily] = useState<ProductFamilyItem | null>(null)
@@ -48,6 +58,7 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
   const [name, setName] = useState('')
   const [slug, setSlug] = useState('')
   const [brandId, setBrandId] = useState('')
+  const [categoryId, setCategoryId] = useState('')
   const [domainId, setDomainId] = useState('')
   const [image, setImage] = useState('')
   const [description, setDescription] = useState('')
@@ -61,7 +72,9 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
     setName('')
     setSlug('')
     setBrandId(brands[0]?.id || '')
-    setDomainId('')
+    const firstCat = categories[0]
+    setCategoryId(firstCat?.id || '')
+    setDomainId(firstCat?.domain_id || '')
     setImage('')
     setDescription('')
     setSortOrder('0')
@@ -75,6 +88,7 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
     setName(f.name)
     setSlug(f.slug)
     setBrandId(f.brand_id || '')
+    setCategoryId(f.category_id || '')
     setDomainId(f.domain_id || '')
     setImage(f.image || '')
     setDescription(f.description || '')
@@ -124,6 +138,7 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
     formData.append('name', name.trim())
     formData.append('slug', slug.trim())
     formData.append('brand_id', brandId)
+    formData.append('category_id', categoryId)
     formData.append('domain_id', domainId)
     formData.append('image', image.trim())
     formData.append('description', description.trim())
@@ -175,8 +190,9 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
 
     const matchesBrand = selectedBrand === 'all' || f.brand_id === selectedBrand
     const matchesDomain = selectedDomain === 'all' || f.domain_id === selectedDomain
+    const matchesCategory = selectedCategory === 'all' || f.category_id === selectedCategory
 
-    return matchesSearch && matchesBrand && matchesDomain
+    return matchesSearch && matchesBrand && matchesDomain && matchesCategory
   })
 
   return (
@@ -247,20 +263,21 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
             </select>
           </div>
 
-          {/* Domain Filter */}
+          {/* Category Filter */}
           <div className="relative w-full sm:w-56">
             <select
-              value={selectedDomain}
-              onChange={(e) => setSelectedDomain(e.target.value)}
-              className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all cursor-pointer"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full pl-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-700 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all cursor-pointer appearance-none"
             >
-              <option value="all">Tất cả danh mục</option>
-              {domains.map((d) => (
-                <option key={d.id} value={d.id}>
-                  {d.name}
+              <option value="all">Tất cả danh mục thiết bị ({categories.length})</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
                 </option>
               ))}
             </select>
+            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
           </div>
         </div>
 
@@ -509,26 +526,36 @@ export function FamiliesClient({ initialFamilies, brands, domains }: FamiliesCli
                 </select>
               </div>
 
-              {/* Domain Select */}
+              {/* Category Select (Danh mục thiết bị) */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
-                  Danh mục sản phẩm <span className="text-rose-500">*</span>
+                  Danh mục thiết bị <span className="text-rose-500">*</span>
                 </label>
-                <select
-                  value={domainId}
-                  onChange={(e) => setDomainId(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all"
-                  required
-                >
-                  <option value="">— Chọn danh mục sản phẩm —</option>
-                  {domains.map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {d.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={categoryId}
+                    onChange={(e) => {
+                      const cid = e.target.value
+                      setCategoryId(cid)
+                      const matched = categories.find((c) => c.id === cid)
+                      if (matched?.domain_id) {
+                        setDomainId(matched.domain_id)
+                      }
+                    }}
+                    className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-slate-200 bg-white text-slate-800 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all appearance-none cursor-pointer pr-9"
+                    required
+                  >
+                    <option value="">— Chọn danh mục thiết bị —</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                </div>
                 <p className="text-[11px] text-slate-400 mt-1">
-                  Gán danh mục giúp lọc đúng dòng sản phẩm khi thêm sản phẩm mới
+                  Gán danh mục thiết bị giúp phân loại và tự động lọc đúng dòng sản phẩm khi thêm sản phẩm mới
                 </p>
               </div>
 

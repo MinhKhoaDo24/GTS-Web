@@ -7,6 +7,8 @@ export interface ProductFamilyItem {
   id: string
   brand_id: string | null
   domain_id: string | null
+  category_id?: string | null
+  category_name?: string | null
   name: string
   slug: string
   description: string | null
@@ -24,6 +26,7 @@ export interface CreateProductFamilyInput {
   slug: string
   brand_id?: string | null
   domain_id?: string | null
+  category_id?: string | null
   description?: string | null
   image?: string | null
   sort_order?: number
@@ -61,6 +64,7 @@ export async function getProductFamilies(params: {
        pf.id,
        pf.brand_id,
        pf.domain_id,
+       pf.category_id,
        pf.name,
        pf.slug,
        pf.description,
@@ -70,9 +74,11 @@ export async function getProductFamilies(params: {
        b.name AS brand_name,
        b.slug AS brand_slug,
        b.logo AS brand_logo,
+       c.name AS category_name,
        (SELECT COUNT(*)::int FROM products p WHERE p.family_id = pf.id) AS product_count
      FROM product_families pf
      LEFT JOIN brands b ON pf.brand_id = b.id
+     LEFT JOIN categories c ON pf.category_id = c.id
      ${where}
      ORDER BY pf.sort_order ASC, pf.name ASC`,
     values
@@ -97,20 +103,23 @@ export async function getProductFamilyById(id: string): Promise<ProductFamilyIte
        (SELECT COUNT(*)::int FROM products p WHERE p.family_id = pf.id) AS product_count
      FROM product_families pf
      LEFT JOIN brands b ON pf.brand_id = b.id
+     LEFT JOIN categories c ON pf.category_id = c.id
      WHERE pf.id = $1`,
     [id]
   )
 }
 
 export async function createProductFamily(data: CreateProductFamilyInput): Promise<{ id: string }> {
+  await query('ALTER TABLE product_families ADD COLUMN IF NOT EXISTS category_id VARCHAR(255)').catch(() => {})
   const id = `fam-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`
   await query(
-    `INSERT INTO product_families (id, brand_id, domain_id, name, slug, description, image, sort_order, is_active)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    `INSERT INTO product_families (id, brand_id, domain_id, category_id, name, slug, description, image, sort_order, is_active)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
     [
       id,
       data.brand_id || null,
       data.domain_id || null,
+      data.category_id || null,
       data.name,
       data.slug,
       data.description || null,
@@ -130,7 +139,7 @@ export async function updateProductFamily(
   const values: any[] = []
   let idx = 1
 
-  const allowedCols = ['brand_id', 'domain_id', 'name', 'slug', 'description', 'image', 'sort_order', 'is_active']
+  const allowedCols = ['brand_id', 'domain_id', 'category_id', 'name', 'slug', 'description', 'image', 'sort_order', 'is_active']
 
   for (const [k, v] of Object.entries(data)) {
     if (allowedCols.includes(k)) {

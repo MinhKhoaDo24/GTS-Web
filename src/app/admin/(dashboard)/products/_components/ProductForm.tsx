@@ -17,7 +17,7 @@ import { DynamicProductSpecs } from './DynamicProductSpecs'
 
 interface Brand { id: string; name: string }
 interface Category { id: string; name: string; parent_id?: string | null; domain_id?: string | null }
-interface Family { id: string; name: string; brand_id?: string | null; domain_id?: string | null }
+interface Family { id: string; name: string; brand_id?: string | null; domain_id?: string | null; category_id?: string | null }
 
 interface ProductFormProps {
   action: (prev: any, formData: FormData) => Promise<any>
@@ -110,16 +110,21 @@ export function ProductForm({ action, brands, categories, families = [], default
   const selectedCategory = categories.find((c) => c.id === selectedCategoryId)
   const derivedDomainId = selectedCategory?.domain_id ?? ''
 
-  // Brands that have at least one family in the category's domain
-  const filteredBrands = derivedDomainId
+  // Brands that have at least one family in the selected category
+  const filteredBrands = selectedCategoryId
     ? brands.filter((b) =>
-        families.some((f) => f.brand_id === b.id && f.domain_id === derivedDomainId)
+        families.some((f) =>
+          f.brand_id === b.id &&
+          (!f.category_id || f.category_id === selectedCategoryId) &&
+          (!derivedDomainId || !f.domain_id || f.domain_id === derivedDomainId)
+        )
       )
     : brands
 
-  // Families matching both domain (from category) AND brand
+  // Families matching both category/domain AND brand
   const filteredFamilies = families.filter((f) => {
-    if (derivedDomainId && f.domain_id && f.domain_id !== derivedDomainId) return false
+    if (selectedCategoryId && f.category_id && f.category_id !== selectedCategoryId) return false
+    if (derivedDomainId && f.domain_id && f.domain_id !== derivedDomainId && !f.category_id) return false
     if (selectedBrandId && f.brand_id && f.brand_id !== selectedBrandId) return false
     return true
   })
